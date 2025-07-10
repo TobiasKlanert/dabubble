@@ -27,12 +27,12 @@
             </div>
             <div class="login-buttons">
                 <button class="button-primary-style">Anmelden</button>
-                <button class="button-secondary-style">Gäste-Login</button>
+                <button class="button-secondary-style" [routerLink]="'/main'">Gäste-Login</button>
             </div>
         </div>
         <div class="legal flex-sb">
-            <a class="link-style" href="">Impressum</a>
-            <a class="link-style" href="">Datenschutz</a>
+            <a class="link-style" [routerLink]="'/imprint'">Impressum</a>
+            <a class="link-style" [routerLink]="'/privacy-policy'">Datenschutz</a>
         </div>
     </div>
 </div>
