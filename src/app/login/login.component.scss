@@ -141,6 +141,7 @@
 
   .intro-logo-img {
     position: relative;
+    z-index: 10;
     animation:
       logo-slide-left 1s ease 1s forwards,
       logo-fly-up-left 1s ease-in-out 3s forwards;
