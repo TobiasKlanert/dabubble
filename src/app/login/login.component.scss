@@ -28,7 +28,8 @@
     position: absolute;
     right: 0;
     top: 0;
-    text-align: end;
+    text-align: center;
+
     span {
         margin-bottom: 10px;
     }
@@ -43,12 +44,39 @@
     height: 100%;
     padding: 60px 50px;
     border-radius: $dialog-border-radius;
-    gap: 24px;
+    gap: 32px;
     margin-bottom: 48px;
 }
 
+.input-email {
+    background-image: url('/assets/img/input-mail.png');
+    background-repeat: no-repeat;
+    background-size: 24px 24px;
+    padding-left: 80px;
+    background-position: 32px center;
+}
+
+.input-email:focus {
+    background-image: url('/assets/img/input-mail-hover.png');
+}
+
+.input-password {
+    background-image: url('/assets/img/input-password.png');
+    background-repeat: no-repeat;
+    background-size: 24px 24px;
+    padding-left: 80px;
+    background-position: 32px center;
+}
+
+.input-password:focus {
+    background-image: url('/assets/img/input-password-hover.png');
+}
+
 .reset-password-link {
-    padding: 0;
+    &:hover {
+        background-color: #ECEEFE;
+        border: 1px solid #ECEEFE;
+    }
 }
 
 .seperator-div {
@@ -60,15 +88,25 @@
     }
 }
 
-.google-link {
+.google-login {
     background-color: $background-color;
     width: 100%;
     height: 60px;
     border-radius: 100px;
+    &:hover {
+        border: 1px solid #797EF3;
+    }
+
     img {
         height: 38px;
         width: 38px;
         margin-right: 20px;
+    }
+
+    a {
+        &:hover {
+            border: 1px solid transparent;
+        }
     }
 }
 

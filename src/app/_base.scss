@@ -4,6 +4,12 @@
     text-decoration: none;
     color: #797EF3;
     cursor: pointer;
+    padding: 5px 15px;
+    border: 1px solid transparent;
+    border-radius: 50px;
+    &:hover {
+        border: 1px solid black;
+    }
 }
 
 .headline-style {
@@ -19,6 +25,7 @@
     border: 1px solid $input-bg-blue;
     border-radius: 100px;
     width: 100%;
+
     &:hover {
         border: 1px solid black;
     }
@@ -37,6 +44,7 @@
     padding: 12px 25px;
     border-radius: 25px;
     cursor: pointer;
+
     &:hover {
         background-color: $btn-primary-hover;
         border: 1px solid $btn-primary-hover;
@@ -50,6 +58,7 @@
     padding: 12px 25px;
     border-radius: 25px;
     cursor: pointer;
+
     &:hover {
         color: #ffffff;
         background-color: $btn-secondary-hover;
