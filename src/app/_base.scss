@@ -1,0 +1,44 @@
+@import './variables';
+
+.link-style {
+    text-decoration: none;
+    color: #797EF3;
+    padding: 15px 10px;
+}
+
+.headline-style {
+    color: $headline-color;
+    font-size: 2.556rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.input-blue-style {
+    background: $input-bg-primary;
+    padding: 18px 32px;
+    border: none;
+    border-radius: 100px;
+    width: 100%;
+}
+
+.seperator-style {
+    background-color: #000000;
+    height: 1px;
+    width: 100%;
+}
+
+.button-blue-style {
+    background-color: $btn-primary-default;
+    color: #ffffff;
+    border: 1px solid $btn-primary-default;
+    padding: 12px 25px;
+    border-radius: 25px;
+}
+
+.button-white-style {
+    background-color: transparent;
+    border: 1px solid $btn-primary-default;
+    color: $btn-primary-default;
+    padding: 12px 25px;
+    border-radius: 25px;
+}

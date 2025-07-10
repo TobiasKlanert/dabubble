@@ -1,0 +1,75 @@
+@import './../variables';
+@import './../base';
+
+.login-wrapper {
+    height: 100%;
+    width: 100%;
+    padding: 75px;
+    background-color: $background-color;
+}
+
+.login-content {
+    max-width: 1920px;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.logo {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 242px;
+    height: 70px;
+}
+
+.create-account {
+    position: absolute;
+    right: 0;
+    top: 0;
+    text-align: end;
+}
+
+.login-dialog {
+    margin-top: 156px;
+    background-color: #ffffff;
+    max-width: 606px;
+    width: 100%;
+    max-height: 769px;
+    height: 100%;
+    padding: 60px 50px;
+    border-radius: $dialog-border-radius;
+    gap: 24px;
+    margin-bottom: 48px;
+}
+
+.reset-password-link {
+    padding: 0;
+}
+
+.seperator-div {
+    width: 100%;
+
+    span {
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+}
+
+.google-link {
+    background-color: $background-color;
+    width: 100%;
+    border-radius: 100px;
+    img {
+        height: 38px;
+        width: 38px;
+    }
+}
+
+.login-buttons {
+    display: flex;
+    justify-content: space-between;
+    height: 49px;
+    max-width: 320px;
+    width: 100%;
+}
