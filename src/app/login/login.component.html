@@ -8,14 +8,14 @@
         <img class="logo" src="/assets/img/logo-with-text.png" alt="">
         <div class="create-account flex-column">
             <span>Neu bei DABubble?</span>
-            <a class="link-style" href="">Konto erstellen</a>
+            <a class="link-style" [routerLink]="'/registration'">Konto erstellen</a>
         </div>
         <div class="login-dialog flex-column flex-center text-center">
             <h2 class="headline-style">Anmeldung</h2>
             <span class="fs20">Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit verwendest.</span>
             <input class="input-email input-blue-style" type="email" placeholder="beispiel@email.com">
             <input class="input-password input-blue-style" type="password" placeholder="Passwort">
-            <a class="reset-password-link link-style" href="">Passwort vergessen?</a>
+            <a class="reset-password-link link-style" [routerLink]="'/reset-password'">Passwort vergessen?</a>
             <div class="seperator-div flex-row flex-center">
                 <div class="seperator-style"></div>
                 <span>ODER</span>
