@@ -1,5 +1,6 @@
 @import './../variables';
 @import './../base';
+@import './../fonts';
 
 .login-wrapper {
     height: 100%;
@@ -28,6 +29,9 @@
     right: 0;
     top: 0;
     text-align: end;
+    span {
+        margin-bottom: 10px;
+    }
 }
 
 .login-dialog {
@@ -59,10 +63,12 @@
 .google-link {
     background-color: $background-color;
     width: 100%;
+    height: 60px;
     border-radius: 100px;
     img {
         height: 38px;
         width: 38px;
+        margin-right: 20px;
     }
 }
 
@@ -72,4 +78,10 @@
     height: 49px;
     max-width: 320px;
     width: 100%;
+}
+
+.legal {
+    width: 270px;
+    display: flex;
+    justify-content: space-between;
 }

@@ -3,7 +3,7 @@
 .link-style {
     text-decoration: none;
     color: #797EF3;
-    padding: 15px 10px;
+    cursor: pointer;
 }
 
 .headline-style {
@@ -14,25 +14,33 @@
 }
 
 .input-blue-style {
-    background: $input-bg-primary;
+    background: $input-bg-blue;
     padding: 18px 32px;
-    border: none;
+    border: 1px solid $input-bg-blue;
     border-radius: 100px;
     width: 100%;
+    &:hover {
+        border: 1px solid black;
+    }
 }
 
 .seperator-style {
-    background-color: #000000;
+    background-color: #ADB0D9;
     height: 1px;
     width: 100%;
 }
 
-.button-blue-style {
+.button-primary-style {
     background-color: $btn-primary-default;
     color: #ffffff;
     border: 1px solid $btn-primary-default;
     padding: 12px 25px;
     border-radius: 25px;
+    cursor: pointer;
+    &:hover {
+        background-color: $btn-primary-hover;
+        border: 1px solid $btn-primary-hover;
+    }
 }
 
 .button-white-style {
@@ -41,4 +49,9 @@
     color: $btn-primary-default;
     padding: 12px 25px;
     border-radius: 25px;
+    cursor: pointer;
+    &:hover {
+        color: #ffffff;
+        background-color: $btn-secondary-hover;
+    }
 }
