@@ -1,0 +1,70 @@
+@import "./../base";
+@import "./../fonts";
+
+header {
+  padding: 25px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.search-form {
+  width: 989px;
+  height: 70px;
+  border-radius: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  opacity: 1;
+  padding: 17.5px 45px;
+  background: #fff;
+  position: relative;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  text-align: left;
+  font-size: 24px;
+  font-weight: 400;
+  background: transparent;
+}
+
+.search-button {
+  background: none;
+  border: none;
+  position: absolute;
+  right: 45px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0;
+  display: flex;
+  align-items: center;
+
+  img {
+    width: 35px;
+    height: 35px;
+  }
+}
+
+.profile-button {
+  background: none;
+  border: none;
+  @include dFlex($g: 20px);
+  p {
+    font-size: 32px;
+    font-weight: 700;
+  }
+}
+
+.profile-picture {
+  width: 70px;
+  height: 70px;
+  border-radius: 100%;
+}
+
+.open-menu {
+  width: 30px;
+  height: 30px;
+}

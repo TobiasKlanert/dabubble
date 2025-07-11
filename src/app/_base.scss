@@ -1,84 +1,92 @@
-@import './variables';
+@import "./variables";
 
 @mixin input-background($icon, $icon-hover) {
-    background-image: url($icon);
-    background-repeat: no-repeat;
-    background-size: 24px 24px;
-    padding-left: 80px;
-    background-position: 32px center;
+  background-image: url($icon);
+  background-repeat: no-repeat;
+  background-size: 24px 24px;
+  padding-left: 80px;
+  background-position: 32px center;
 
-    &:focus {
-        background-image: url($icon-hover);
-    }
+  &:focus {
+    background-image: url($icon-hover);
+  }
+}
+
+@mixin dFlex($fd: row, $jc: center, $ai: center, $g: 0) {
+  display: flex;
+  flex-direction: $fd;
+  justify-content: $jc;
+  align-items: $ai;
+  gap: $g;
 }
 
 .link-style {
-    text-decoration: none;
-    color: #797EF3;
-    cursor: pointer;
-    padding: 5px 15px;
-    border: 1px solid transparent;
-    border-radius: 50px;
-    &:hover {
-        border: 1px solid black;
-    }
+  text-decoration: none;
+  color: #797ef3;
+  cursor: pointer;
+  padding: 5px 15px;
+  border: 1px solid transparent;
+  border-radius: 50px;
+  &:hover {
+    border: 1px solid black;
+  }
 }
 
 .text-link-style {
-    text-decoration: none;
-    color: #797EF3;
-    cursor: pointer;
+  text-decoration: none;
+  color: #797ef3;
+  cursor: pointer;
 }
 
 .headline-style {
-    color: $headline-color;
-    font-size: 2.556rem;
-    font-weight: 700;
-    margin: 0;
+  color: $headline-color;
+  font-size: 2.556rem;
+  font-weight: 700;
+  margin: 0;
 }
 
 .input-blue-style {
-    background: $input-bg-blue;
-    padding: 18px 32px;
-    border: 1px solid $input-bg-blue;
-    border-radius: 100px;
-    width: 100%;
+  background: $input-bg-blue;
+  padding: 18px 32px;
+  border: 1px solid $input-bg-blue;
+  border-radius: 100px;
+  width: 100%;
 
-    &:hover {
-        border: 1px solid black;
-    }
+  &:hover {
+    border: 1px solid black;
+  }
 }
 
 .seperator-style {
-    background-color: #ADB0D9;
-    height: 1px;
-    width: 100%;
+  background-color: #adb0d9;
+  height: 1px;
+  width: 100%;
 }
 
 .button-primary-style {
-    background-color: $btn-primary-default;
-    color: #ffffff;
-    border: 1px solid $btn-primary-default;
-    padding: 12px 25px;
-    border-radius: 25px;
-    cursor: pointer;
+  background-color: $btn-primary-default;
+  color: #ffffff;
+  border: 1px solid $btn-primary-default;
+  padding: 12px 25px;
+  border-radius: 25px;
+  cursor: pointer;
 
-    &:hover {
-        background-color: $btn-primary-hover;
-        border: 1px solid $btn-primary-hover;
-    }
+  &:hover {
+    background-color: $btn-primary-hover;
+    border: 1px solid $btn-primary-hover;
+  }
 }
 
 .button-secondary-style {
-    background-color: transparent;
-    border: 1px solid $btn-primary-default;
-    color: $btn-primary-default;
-    padding: 12px 25px;
-    border-radius: 25px;
-    cursor: pointer;
+  background-color: transparent;
+  border: 1px solid $btn-primary-default;
+  color: $btn-primary-default;
+  padding: 12px 25px;
+  border-radius: 25px;
+  cursor: pointer;
 
-    &:hover {
-        color: #ffffff;
-        background-color: $btn-secondary-hover;
-    }
+  &:hover {
+    color: #ffffff;
+    background-color: $btn-secondary-hover;
+  }
 }

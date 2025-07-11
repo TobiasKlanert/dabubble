@@ -1,1 +1,28 @@
-<p>main works!</p>
+<header>
+  <img src="./assets/img/logo-with-text.svg" alt="DABubble Logo" />
+  <form
+    (submit)="onSearch(searchInput.value, searchInput, $event)"
+    class="search-form"
+  >
+    <input
+      #searchInput
+      name="searchInput"
+      type="text"
+      class="search-input"
+      placeholder="Devspace durchsuchen"
+    />
+    <button
+      type="button"
+      class="search-button"
+      (click)="onSearch(searchInput.value, searchInput)"
+      aria-label="Suche starten"
+    >
+      <img src="./assets/img/search-grey.svg" alt="Suche" />
+    </button>
+  </form>
+  <button class="profile-button">
+    <p>Max Mustermann</p>
+    <img class="profile-picture" src="./assets/img/user1.png" alt="Profilbild">
+    <img class="open-menu" src="./assets/img/arrow_down.svg" alt="Menü öffnen">
+  </button>
+</header>
