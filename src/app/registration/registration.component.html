@@ -1,1 +1,24 @@
-<p>registration works!</p>
+<div class="registration-wrapper flex-center">
+    <div class="registration-content flex-center flex-column">
+        <img class="logo" src="/assets/img/logo-with-text.png" alt="">
+        <div class="registration-dialog flex-column flex-center text-center">
+            <a class="arrow-back" [routerLink]="'/'"><img src="/assets/img/arrow-back.png" alt=""></a>
+            <h2 class="headline-style">Konto erstellen</h2>
+            <span class="fs20">Mit deinem Namen und deiner E-Mail-Adresse hast du dein neues DABubble-Konto.</span>
+            <input class="input-name input-blue-style" type="text" placeholder="Name und Nachname">
+            <input class="input-email input-blue-style" type="email" placeholder="beispiel@email.com">
+            <input class="input-password input-blue-style" type="password" placeholder="Passwort">
+            <div class="checkbox-privacy-policy flex-start">
+                <input type="checkbox">
+                <span>Ich stimme der <a class="text-link-style" href="">Datenschutzerklärung</a> zu.</span>
+            </div>
+            <div class="button-wrapper flex-end">
+                <button class="button-primary-style">Weiter</button>
+            </div>
+        </div>
+        <div class="legal flex-sb">
+            <a class="link-style" [routerLink]="'/imprint'">Impressum</a>
+            <a class="link-style" [routerLink]="'/privacy-policy'">Datenschutz</a>
+        </div>
+    </div>
+</div>

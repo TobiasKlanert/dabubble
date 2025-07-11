@@ -48,27 +48,11 @@
 }
 
 .input-email {
-    background-image: url('/assets/img/input-mail.png');
-    background-repeat: no-repeat;
-    background-size: 24px 24px;
-    padding-left: 80px;
-    background-position: 32px center;
-}
-
-.input-email:focus {
-    background-image: url('/assets/img/input-mail-hover.png');
+    @include input-background('/assets/img/input-mail.png', '/assets/img/input-mail-hover.png');
 }
 
 .input-password {
-    background-image: url('/assets/img/input-password.png');
-    background-repeat: no-repeat;
-    background-size: 24px 24px;
-    padding-left: 80px;
-    background-position: 32px center;
-}
-
-.input-password:focus {
-    background-image: url('/assets/img/input-password-hover.png');
+    @include input-background('/assets/img/input-password.png', '/assets/img/input-password-hover.png');
 }
 
 .reset-password-link {

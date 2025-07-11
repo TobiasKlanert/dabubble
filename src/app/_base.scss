@@ -1,5 +1,17 @@
 @import './variables';
 
+@mixin input-background($icon, $icon-hover) {
+    background-image: url($icon);
+    background-repeat: no-repeat;
+    background-size: 24px 24px;
+    padding-left: 80px;
+    background-position: 32px center;
+
+    &:focus {
+        background-image: url($icon-hover);
+    }
+}
+
 .link-style {
     text-decoration: none;
     color: #797EF3;
@@ -10,6 +22,12 @@
     &:hover {
         border: 1px solid black;
     }
+}
+
+.text-link-style {
+    text-decoration: none;
+    color: #797EF3;
+    cursor: pointer;
 }
 
 .headline-style {
