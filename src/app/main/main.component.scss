@@ -30,6 +30,7 @@ header {
 
   .right-column {
     width: calc(25% - 9px);
+    @include dFlex($jc: flex-end);
   }
 
   .search-form {
