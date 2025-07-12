@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { DevspaceComponent } from './devspace/devspace.component';
 import { ChatComponent } from './chat/chat.component';
 import { ThreadsComponent } from './threads/threads.component';
+import { UploadService } from '../services/upload.service';
 
 @Component({
   selector: 'app-main',
@@ -11,6 +12,8 @@ import { ThreadsComponent } from './threads/threads.component';
   styleUrl: './main.component.scss',
 })
 export class MainComponent {
+  constructor(public uploadService: UploadService) {}
+
   onSearch(value: any, inputRef?: HTMLInputElement, event?: Event): void {
     if (event) {
       event.preventDefault();
