@@ -20,8 +20,8 @@
                     placeholder="beispiel@email.com">
                 <div class="error-space">
                     <div *ngIf="form.get('email')?.invalid && form.get('email')?.touched">
-                        <div class="error-message" *ngIf="form.get('email')?.errors?.['required']">E-Mail ist erforderlich</div>
-                        <div class="error-message" *ngIf="form.get('email')?.errors?.['email']">Ungültige E-Mail-Adresse</div>
+                        <div class="error-message" *ngIf="form.get('email')?.errors?.['required']">Bitte geben Sie eine Email-Adresse ein</div>
+                        <div class="error-message" *ngIf="form.get('email')?.errors?.['email']">Ihre Emailadresse ist leider ungültig</div>
                     </div>
                 </div>
                 <input class="input-password input-blue-style" formControlName="password" type="password" name="password" placeholder="Passwort">

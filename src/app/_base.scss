@@ -77,6 +77,12 @@
   }
 }
 
+.button-primary-style:disabled {
+  background-color: $btn-primary-disabled;
+  border: 1px solid $btn-primary-disabled;
+  cursor: default;
+}
+
 .button-secondary-style {
   background-color: transparent;
   border: 1px solid $btn-primary-default;
@@ -89,4 +95,10 @@
     color: #ffffff;
     background-color: $btn-secondary-hover;
   }
+}
+
+.button-secondary-style:disabled {
+  background-color: $btn-secondary-disabled;
+  border: 1px solid $btn-secondary-disabled;
+  cursor: default;
 }

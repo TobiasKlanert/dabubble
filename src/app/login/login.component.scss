@@ -44,6 +44,9 @@
     padding: 60px 50px;
     border-radius: $dialog-border-radius;
     margin-bottom: 48px;
+    h2 {
+        margin-bottom: 32px;
+    }
 }
 
 form {
