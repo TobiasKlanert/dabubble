@@ -11,17 +11,35 @@
             <a class="link-style" [routerLink]="'/registration'">Konto erstellen</a>
         </div>
         <div class="login-dialog flex-column flex-center text-center">
-            <h2 class="headline-style">Anmeldung</h2>
-            <span class="fs20">Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit verwendest.</span>
-            <input class="input-email input-blue-style" type="email" placeholder="beispiel@email.com">
-            <input class="input-password input-blue-style" type="password" placeholder="Passwort">
-            <a class="reset-password-link link-style" [routerLink]="'/reset-password'">Passwort vergessen?</a>
-            <div class="seperator-div flex-row flex-center">
+            <h2 class="headline-style mb32">Anmeldung</h2>
+            <span class="fs20 mb32">Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit verwendest.</span>
+
+
+            <form [formGroup]="form">
+                <input class="input-email input-blue-style" formControlName="email" type="email" name="email"
+                    placeholder="beispiel@email.com">
+                <div class="error-space">
+                    <div *ngIf="form.get('email')?.invalid && form.get('email')?.touched">
+                        <div class="error-message" *ngIf="form.get('email')?.errors?.['required']">E-Mail ist erforderlich</div>
+                        <div class="error-message" *ngIf="form.get('email')?.errors?.['email']">Ungültige E-Mail-Adresse</div>
+                    </div>
+                </div>
+                <input class="input-password input-blue-style" formControlName="password" type="password" name="password" placeholder="Passwort">
+                <div class="error-space">
+                    <div *ngIf="form.get('password')?.invalid && form.get('password')?.touched">
+                        <div class="error-message" *ngIf="form.get('password')?.errors?.['required']">Passwort ist erforderlich</div>
+                        <div class="error-message" *ngIf="form.get('password')?.errors?.['minlength']">Mindestens 6 Zeichen</div>
+                    </div>
+                </div>
+            </form>
+
+            <a class="reset-password-link link-style mb32" [routerLink]="'/reset-password'">Passwort vergessen?</a>
+            <div class="seperator-div flex-row flex-center mb32">
                 <div class="seperator-style"></div>
                 <span>ODER</span>
                 <div class="seperator-style"></div>
             </div>
-            <div class="google-login flex-center">
+            <div class="google-login flex-center mb32">
                 <img src="./assets/img/google-logo.png" alt="">
                 <a class="link-style">Anmelden mit Google</a>
             </div>

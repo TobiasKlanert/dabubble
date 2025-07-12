@@ -43,8 +43,22 @@
     height: 100%;
     padding: 60px 50px;
     border-radius: $dialog-border-radius;
-    gap: 32px;
     margin-bottom: 48px;
+}
+
+form {
+    width: 100%;
+}
+
+.error-space {
+    height: 25px;
+    width: 100%;
+    text-align: start;
+    color: #ED1E79;
+    margin-bottom: 15px;
+    .error-message {
+        font-size: 14px;
+    }
 }
 
 .input-email {
