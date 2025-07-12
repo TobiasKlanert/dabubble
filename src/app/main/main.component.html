@@ -1,43 +1,49 @@
 <div class="main-wrapper flex-center">
   <div class="main-content flex-center flex-column">
     <header>
-      <img src="./assets/img/logo-with-text.svg" alt="DABubble Logo" />
-      <form
-        (submit)="onSearch(searchInput.value, searchInput, $event)"
-        class="search-form"
-      >
-        <input
-          #searchInput
-          name="searchInput"
-          type="text"
-          class="search-input"
-          placeholder="Devspace durchsuchen"
-        />
-        <button
-          type="button"
-          class="search-button"
-          (click)="onSearch(searchInput.value, searchInput)"
-          aria-label="Suche starten"
+      <div class="left-column">
+        <img src="./assets/img/logo-with-text.svg" alt="DABubble Logo" />
+      </div>
+      <div class="center-column">
+        <form
+          (submit)="onSearch(searchInput.value, searchInput, $event)"
+          class="search-form"
         >
-          <img src="./assets/img/search-grey.svg" alt="Suche" />
-        </button>
-      </form>
-      <button class="profile-button">
-        <p>Max Mustermann</p>
-        <div class="profile-picture-container">
-          <img
-            class="profile-picture"
-            src="./assets/img/user1.png"
-            alt="Profilbild"
+          <input
+            #searchInput
+            name="searchInput"
+            type="text"
+            class="search-input"
+            placeholder="Devspace durchsuchen"
           />
-          <span class="online-marker"></span>
-        </div>
-        <img
-          class="open-menu"
-          src="./assets/img/arrow_down.svg"
-          alt="Menü öffnen"
-        />
-      </button>
+          <button
+            type="button"
+            class="search-button"
+            (click)="onSearch(searchInput.value, searchInput)"
+            aria-label="Suche starten"
+          >
+            <img src="./assets/img/search-grey.svg" alt="Suche" />
+          </button>
+        </form>
+      </div>
+      <div class="right-column">
+        <button class="profile-button">
+          <p>Max Mustermann</p>
+          <div class="profile-picture-container">
+            <img
+              class="profile-picture"
+              src="./assets/img/user1.png"
+              alt="Profilbild"
+            />
+            <span class="online-marker"></span>
+          </div>
+          <img
+            class="open-menu"
+            src="./assets/img/arrow_down.svg"
+            alt="Menü öffnen"
+          />
+        </button>
+      </div>
     </header>
     <main>
       <aside class="devspace">
