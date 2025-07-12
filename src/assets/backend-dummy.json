@@ -1,0 +1,65 @@
+{
+  "users": {
+    "1": {
+      "name": "Max Mustermann",
+      "email": "max.mustermann@test.de",
+      "profilePictureUrl": "url",
+      "joinedAt": "2025-07-02T13:00:00Z",
+      "channels": ["2"],
+      "chats": ["1"]
+    },
+    "12": {
+      "name": "Marie Mustermann",
+      "email": "marie.mustermann@test.de",
+      "profilePictureUrl": "url",
+      "joinedAt": "2025-07-02T13:00:00Z",
+      "channels": ["2"],
+      "chats": ["1"]
+    }
+  },
+  "channels": {
+    "2": {
+      "name": "TestChannel",
+      "createdAt": "2025-07-02T13:00:00Z",
+      "members": ["1", "12"],
+      "messages": {
+        "msgId": {
+          "senderId": "1",
+          "text": "Hello world",
+          "createdAt": "2025-07-02T13:00:00Z",
+          "editedAt": "2025-07-02T13:00:00Z",
+          "threadCount": "1",
+          "threads": {
+            "3": {
+              "senderId": "12",
+              "text": "Hello back",
+              "createdAt": "2025-07-02T13:00:00Z",
+              "editedAt": "2025-07-02T13:00:00Z",
+              "reactions": {
+                "👍": ["12"],
+                "🎉": ["1"]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "chats": {
+    "4": {
+      "createdAt": "2025-07-02T13:00:00Z",
+      "members": ["1", "12"],
+      "messages": {
+        "msgId": {
+          "senderId": "1",
+          "text": "Hello Chat",
+          "createdAt": "2025-07-02T13:00:00Z",
+          "editedAt": "2025-07-02T13:00:00Z",
+          "reactions": {
+            "👀": ["1"]
+          }
+        }
+      }
+    }
+  }
+}
