@@ -2,11 +2,23 @@
 @import "./../fonts";
 @import "./../variables";
 
+.main-wrapper {
+  height: 100%;
+  width: 100%;
+}
+
+.main-content {
+  max-width: 1920px;
+  width: 100%;
+  height: 100vh;
+}
+
 header {
-  padding: 25px 50px;
+  padding: 25px 50px 0 50px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
 
   .search-form {
     width: 989px;
@@ -90,5 +102,34 @@ header {
 }
 
 main {
-  @include dFlex($g: 50px);
+  @include dFlex($ai: flex-start, $g: 50px);
+  width: 100%;
+  height: 100%;
+  max-width: 1920px;
+  padding: 20px;
+
+  aside {
+    height: 100%;
+    max-height: 940px;
+    padding: 32px 30px;
+    background-color: #fff;
+    border-radius: 30px;
+  }
+
+  .devspace {
+    width: 19%;
+  }
+
+  .threads {
+    width: 25%;
+  }
+
+  section {
+    width: 52%;
+    height: 100%;
+    max-height: 940px;
+    padding: 25px 45px;
+    background-color: #fff;
+    border-radius: 30px;
+  }
 }
