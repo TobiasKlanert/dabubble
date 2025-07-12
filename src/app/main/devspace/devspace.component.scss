@@ -1,0 +1,11 @@
+@import "../../base";
+@import "../../fonts";
+@import "../../variables";
+
+header {
+    @include dFlex($jc: space-between);
+
+    .logo-container {
+        @include dFlex($g: 15px);
+    }
+}

@@ -1,65 +1,82 @@
+@import "./app/variables";
+
 * {
-    box-sizing: border-box;
-    font-family: 'Nunito';
-    font-size: 18px;
+  box-sizing: border-box;
+  font-family: 'Nunito';
+  font-size: 18px;
 }
 
 body {
-    margin: 0;
-    background-color: #ECEEFE;
+  margin: 0;
+  background-color: $background-color;
 }
 
 button {
-    cursor: pointer;
+  cursor: pointer;
+}
+
+.headline {
+  font-size: 24px;
+  font-weight: 700;
+  color: #000000;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+
+  &:hover {
+    background-color: $background-color;
+  }
 }
 
 .flex-center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .flex-start {
-    display: flex;
-    justify-content: flex-start;
+  display: flex;
+  justify-content: flex-start;
 }
 
 .flex-end {
-    display: flex;
-    justify-content: flex-end;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .flex-column {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .flex-row {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .flex-sb {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .text-center {
-    text-align: center;
+  text-align: center;
 }
 
 .fs18 {
-    font-size: 18px;
+  font-size: 18px;
 }
 
 .fs20 {
-    font-size: 20px;
+  font-size: 20px;
 }
 
 .fs24 {
-    font-size: 24px
+  font-size: 24px;
 }
 
 .fs46 {
-    font-size: 46px;
+  font-size: 46px;
 }
