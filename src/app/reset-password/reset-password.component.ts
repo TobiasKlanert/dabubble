@@ -23,6 +23,12 @@ export class ResetPasswordComponent {
   form = this.fb.group({
     password: ['', [Validators.required, Validators.minLength(6)]],
     passwordRepeat: ['', [Validators.required, Validators.minLength(6)]],
+  }, { validators: this.passwordMatchValidator });
 
-  })
+  passwordMatchValidator(group: AbstractControl): ValidationErrors | null {
+    const password = group.get('password')?.value;
+    const passwordRepeat = group.get('passwordRepeat')?.value;
+    return password === passwordRepeat ? null : { passwordMismatch: true };
+  }
+
 }
