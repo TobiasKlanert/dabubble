@@ -5,9 +5,10 @@ import { ImprintComponent } from './imprint/imprint.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { RequestPasswordComponent } from './request-password/request-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 export const routes: Routes = [
-    { path: '', component: RequestPasswordComponent },
+    { path: '', component: ResetPasswordComponent },
     { path: 'main', component: MainComponent },
     { path: 'imprint', component: ImprintComponent },
     { path: 'privacy-policy', component: PrivacyPolicyComponent },
