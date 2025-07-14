@@ -64,10 +64,10 @@
     text-align: start;
     color: #ED1E79;
     margin-bottom: 15px;
+}
 
-    .error-message {
-        font-size: 14px;
-    }
+.error-message {
+    font-size: 14px;
 }
 
 .input-email {
@@ -273,6 +273,7 @@
 
     .seperator-div {
         margin-bottom: 15px;
+
         span {
             margin-bottom: 0;
         }
@@ -335,5 +336,9 @@
         button {
             padding: 5px 12px;
         }
+    }
+
+    .error-message {
+        font-size: 12px;
     }
 }
