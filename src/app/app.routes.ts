@@ -8,7 +8,7 @@ import { RequestPasswordComponent } from './request-password/request-password.co
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 export const routes: Routes = [
-    { path: '', component: LoginComponent },
+    { path: '', component: RegistrationComponent },
     { path: 'main', component: MainComponent },
     { path: 'imprint', component: ImprintComponent },
     { path: 'privacy-policy', component: PrivacyPolicyComponent },

@@ -34,6 +34,7 @@
     padding: 40px 53px;
     border-radius: $dialog-border-radius;
     margin-bottom: 48px;
+
     h2 {
         margin-bottom: 32px;
     }
@@ -49,9 +50,10 @@ form {
     text-align: start;
     color: #ED1E79;
     margin-bottom: 15px;
-    .error-message {
-        font-size: 14px;
-    }
+}
+
+.error-message {
+    font-size: 14px;
 }
 
 .input-name {
@@ -84,4 +86,97 @@ form {
 
 .legal {
     width: 270px;
+}
+
+
+/// responsive Design ///
+
+
+@media (max-width: 640px) {
+    .registration-wrapper {
+        padding: 16px;
+    }
+
+    .logo {
+        position: unset;
+        height: 56px;
+        width: 204px;
+    }
+
+    .registration-content {
+        margin-top: 32px;
+    }
+
+    .registration-dialog {
+        padding: 20px;
+        margin-top: 32px;
+        height: auto;
+        margin-bottom: 32px;
+
+        h2 {
+            font-size: 32px;
+            margin-left: 40px;
+            margin-right: 40px;
+            margin-bottom: 15px;
+        }
+
+        span {
+            font-size: 17px;
+            margin-bottom: 15px;
+        }
+
+        a {
+            font-size: 17px;
+        }
+    }
+
+    .reset-password-link {
+        margin-bottom: 20px;
+    }
+
+    .seperator-div {
+        margin-bottom: 15px;
+
+        span {
+            margin-bottom: 0;
+        }
+    }
+
+    .error-space {
+        height: 15px;
+        font-size: 14px;
+    }
+
+    .arrow-back {
+        top: 20px;
+        left: 20px;
+    }
+
+    .input-name {
+        padding-left: 64px;
+    }
+
+    .input-email {
+        padding-left: 64px;
+    }
+
+    .input-password {
+        padding-left: 64px;
+    }
+
+    .checkbox-privacy-policy {
+        span {
+            margin-bottom: 0;
+        }
+    }
+
+    .legal {
+        display: none;
+    }
+}
+
+@media (max-width: 380px) {
+    .error-message {
+        font-size: 12px;
+    }
 }
