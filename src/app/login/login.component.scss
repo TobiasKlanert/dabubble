@@ -34,6 +34,10 @@
     }
 }
 
+.create-account-responsive {
+    display: none;
+}
+
 .login-dialog {
     margin-top: 81px;
     background-color: #ffffff;
@@ -103,7 +107,7 @@
     img {
         height: 38px;
         width: 38px;
-        margin-right: 20px;
+        margin-right: 5px;
     }
 
     a {
@@ -221,5 +225,115 @@
 
     100% {
         opacity: 0;
+    }
+}
+
+@media (max-width: 640px) {
+    .login-wrapper {
+        padding: 16px;
+    }
+
+    .logo {
+        position: unset;
+        height: 56px;
+        width: 204px;
+    }
+
+    .login-content {
+        margin-top: 32px;
+        margin-bottom: 32px;
+    }
+
+    .login-dialog {
+        padding: 20px;
+        margin-top: 32px;
+        height: auto;
+        margin-bottom: 30px;
+
+        h2 {
+            font-size: 32px;
+            margin-left: 40px;
+            margin-right: 40px;
+            margin-bottom: 15px;
+        }
+
+        span {
+            font-size: 17px;
+            margin-bottom: 15px;
+        }
+
+        a {
+            font-size: 17px;
+        }
+    }
+
+    .reset-password-link {
+        margin-bottom: 20px;
+    }
+
+    .seperator-div {
+        margin-bottom: 15px;
+        span {
+            margin-bottom: 0;
+        }
+    }
+
+    .error-space {
+        height: 15px;
+        font-size: 14px;
+    }
+
+    .input-email {
+        padding-left: 64px;
+    }
+
+    .input-password {
+        padding-left: 64px;
+    }
+
+    .google-login {
+        height: 50px;
+        margin-right: 0px;
+        font-size: 17px;
+        margin-bottom: 20px;
+    }
+
+    .create-account {
+        display: none;
+    }
+
+    .create-account-responsive {
+        display: flex;
+    }
+
+    .legal {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .google-login {
+        img {
+            margin-right: 8px;
+        }
+
+        a {
+            white-space: nowrap;
+            padding: 5px 0px;
+        }
+    }
+
+    .login-buttons {
+        button {
+            font-size: 17px;
+        }
+    }
+}
+
+@media (max-width: 380px) {
+    .login-buttons {
+        button {
+            padding: 5px 12px;
+        }
     }
 }

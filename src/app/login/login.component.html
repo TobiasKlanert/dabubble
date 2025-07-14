@@ -14,7 +14,6 @@
             <h2 class="headline-style mb32">Anmeldung</h2>
             <span class="fs20 mb32">Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit verwendest.</span>
 
-
             <form [formGroup]="form">
                 <input class="input-email input-blue-style" formControlName="email" type="email" name="email"
                     placeholder="beispiel@email.com">
@@ -47,6 +46,10 @@
                 <button class="button-primary-style">Anmelden</button>
                 <button class="button-secondary-style" [routerLink]="'/main'">Gäste-Login</button>
             </div>
+        </div>
+        <div class="create-account-responsive flex-column">
+            <span>Neu bei DABubble?</span>
+            <a class="link-style" [routerLink]="'/registration'">Konto erstellen</a>
         </div>
         <div class="legal flex-sb">
             <a class="link-style" [routerLink]="'/imprint'">Impressum</a>
