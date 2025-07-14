@@ -1,0 +1,31 @@
+<div class="choose-avatar-wrapper flex-center flex-column">
+    <div class="choose-avatar-content flex-center flex-column">
+        <img class="logo" src="/assets/img/logo-with-text.png" alt="">
+        <div class="choose-avatar-dialog flex-column flex-center text-center">
+            <a class="arrow-back" [routerLink]="'/'"><img src="/assets/img/arrow-back.png" alt=""></a>
+            <h2 class="headline-style mb32">Wähle deinen Avatar</h2>
+            <div class="avatar-container flex-column flex-center">
+                <img class="default-user-image" src="/assets/img/default-user.png" alt="">
+                <h3>""Username""</h3>
+                <div class="span-wrapper">
+                    <span>Aus der Liste wählen</span>
+                </div>
+                <div class="avatar-list flex-row">
+                    <img class="avatar-image" src="/assets/img/user1.png" alt="">
+                    <img class="avatar-image" src="/assets/img/user2.png" alt="">
+                    <img class="avatar-image" src="/assets/img/user3.png" alt="">
+                    <img class="avatar-image" src="/assets/img/user4.png" alt="">
+                    <img class="avatar-image" src="/assets/img/user5.png" alt="">
+                    <img class="avatar-image" src="/assets/img/user6.png" alt="">
+                </div>
+                <div class="button-wrapper flex-end">
+                    <button class="button-primary-style">Weiter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="legal flex-sb">
+        <a class="link-style" [routerLink]="'/imprint'">Impressum</a>
+        <a class="link-style" [routerLink]="'/privacy-policy'">Datenschutz</a>
+    </div>
+</div>
