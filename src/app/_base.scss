@@ -27,6 +27,7 @@
   padding: 5px 15px;
   border: 1px solid transparent;
   border-radius: 50px;
+
   &:hover {
     border: 1px solid black;
   }
@@ -54,6 +55,10 @@
 
   &:hover {
     border: 1px solid black;
+  }
+
+  @media (max-width: 360px) {
+    font-size: 14px;
   }
 }
 
