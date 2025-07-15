@@ -1,8 +1,9 @@
 @import "./app/variables";
+@import "./app/base";
 
 * {
   box-sizing: border-box;
-  font-family: 'Nunito';
+  font-family: "Nunito";
   font-size: 18px;
 }
 
@@ -11,7 +12,8 @@ body {
   background-color: $background-color;
 }
 
-button {
+button,
+details {
   cursor: pointer;
 }
 
@@ -19,15 +21,6 @@ button {
   font-size: 24px;
   font-weight: 700;
   color: #000000;
-}
-
-.icon-button {
-  background: none;
-  border: none;
-
-  &:hover {
-    background-color: $background-color;
-  }
 }
 
 .flex-center {

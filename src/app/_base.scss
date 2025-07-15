@@ -20,6 +20,29 @@
   gap: $g;
 }
 
+@mixin icon-button($w: 40px, $h: 40px) {
+  @include dFlex();
+  width: $w;
+  height: $h;
+  background: none;
+  border: none;
+
+  svg {
+    display: block;
+  }
+
+  &:hover {
+    background-color: $background-color;
+    border-radius: 50%;
+    transition: background 0.2s;
+
+    svg path {
+      fill: $purple-3;
+      transition: fill 0.2s;
+    }
+  }
+}
+
 .link-style {
   text-decoration: none;
   color: #797ef3;

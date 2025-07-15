@@ -2,10 +2,144 @@
 @import "../../fonts";
 @import "../../variables";
 
-header {
-    @include dFlex($jc: space-between);
+article {
+  @include dFlex($fd: column, $jc: flex-start, $ai: flex-start, $g: 25px);
 
-    .logo-container {
-        @include dFlex($g: 15px);
+  > * {
+    width: 100%;
+  }
+}
+
+header {
+  @include dFlex($jc: space-between);
+
+  .logo-container {
+    @include dFlex($g: 15px);
+  }
+
+  .btn-new-chat {
+    @include icon-button();
+  }
+}
+
+main {
+  @include dFlex($fd: column, $jc: flex-start, $ai: flex-start, $g: 25px);
+
+  > * {
+    width: 100%;
+  }
+
+  .channels-details,
+  .messages-details {
+    summary {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+
+      &:hover {
+        color: $purple-3;
+
+        .details-title svg path {
+          fill: $purple-3;
+        }
+      }
+
+      .details-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      button {
+        @include icon-button();
+      }
     }
+  }
+
+  .channels-details {
+    justify-content: space-between;
+  }
+
+  .messages-details {
+    justify-content: flex-start;
+  }
+
+  .details-body {
+    @include dFlex($fd: column, $jc: flex-start, $ai: flex-start, $g: 25px);
+  }
+
+  .btn-channel {
+    border: none;
+    background: none;
+    height: 33px;
+    padding: 4px 20px;
+    border-radius: 20px;
+    @include dFlex($jc: flex-start, $g: 15px);
+
+    &:hover {
+      background-color: $background-color;
+      svg path {
+        fill: $purple-3;
+      }
+    }
+  }
+
+  .btn-add-channel {
+    border: none;
+    background: none;
+    height: 33px;
+    padding: 4px 20px;
+    border-radius: 30px;
+    @include dFlex($g: 10px);
+
+    &:hover {
+      color: $purple-3;
+      svg path {
+        fill: $purple-3;
+      }
+    }
+  }
+
+  .profile-button {
+    background: none;
+    border: none;
+    width: 100%;
+    border-radius: 30px;
+    padding: 4px 20px;
+    @include dFlex($jc: flex-start, $g: 15px);
+    p {
+      font-size: 18px;
+      font-weight: 400;
+      margin: 0;
+    }
+
+    .profile-picture-container {
+      position: relative;
+    }
+
+    .profile-picture {
+      width: 50px;
+      height: 50px;
+      border-radius: 100%;
+    }
+
+    .online-marker {
+      width: 14px;
+      height: 14px;
+      border-style: solid;
+      border-width: 2px;
+      border-radius: 50%;
+      border-color: $background-color;
+      background-color: $online-green;
+      position: absolute;
+      bottom: 4px;
+      right: 0;
+      z-index: 99;
+    }
+
+    &:hover {
+      background: $background-color;
+    }
+  }
 }
