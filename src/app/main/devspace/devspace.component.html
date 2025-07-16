@@ -33,8 +33,8 @@
     </button>
   </header>
   <main>
-    <details class="channels-details">
-      <summary>
+    <div class="channels-details" [class.open]="channelsOpen">
+      <div class="summary" (click)="toggleChannels()">
         <div class="details-title">
           <svg
             width="24"
@@ -77,8 +77,8 @@
             />
           </svg>
         </button>
-      </summary>
-      <div class="details-body">
+      </div>
+      <div class="channels-details-body" [class.open]="channelsOpen">
         <button class="btn-channel">
           <svg
             width="24"
@@ -164,9 +164,10 @@
           <p>Channel hinzufügen</p>
         </button>
       </div>
-    </details>
-    <details class="messages-details">
-      <summary>
+    </div>
+
+    <div class="messages-details" [class.open]="messagesOpen">
+      <div class="summary" (click)="toggleMessages()">
         <div class="details-title">
           <svg
             width="24"
@@ -195,8 +196,8 @@
           </svg>
           <p>Direktnachrichten</p>
         </div>
-      </summary>
-      <div class="details-body">
+      </div>
+      <div class="messages-details-body" [class.open]="messagesOpen">
         <button class="profile-button">
           <div class="profile-picture-container">
             <img
@@ -231,6 +232,6 @@
           <p>Peter Bacon</p>
         </button>
       </div>
-    </details>
+    </div>
   </main>
 </article>

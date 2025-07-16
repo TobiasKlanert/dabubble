@@ -31,10 +31,12 @@ main {
 
   .channels-details,
   .messages-details {
-    summary {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    @include dFlex($fd: column, $ai: flex-start);
+
+    .summary {
+      @include dFlex($jc: space-between);
+      height: 46px;
+      width: 100%;
       cursor: pointer;
 
       &:hover {
@@ -49,12 +51,19 @@ main {
         display: flex;
         align-items: center;
         gap: 10px;
+        font-size: 20px;
+        font-weight: 700;
       }
 
       button {
         @include icon-button();
       }
     }
+  }
+
+  .channels-details.open,
+  .messages-details.open {
+    gap: 25px;
   }
 
   .channels-details {
@@ -65,8 +74,19 @@ main {
     justify-content: flex-start;
   }
 
-  .details-body {
+  .channels-details-body,
+  .messages-details-body {
     @include dFlex($fd: column, $jc: flex-start, $ai: flex-start, $g: 25px);
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 125ms ease, opacity 125ms;
+  }
+
+  .channels-details-body.open,
+  .messages-details-body.open {
+    max-height: 1000px; // groß genug für den Inhalt
+    opacity: 1;
   }
 
   .btn-channel {

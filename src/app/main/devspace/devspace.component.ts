@@ -5,8 +5,17 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './devspace.component.html',
-  styleUrl: './devspace.component.scss'
+  styleUrl: './devspace.component.scss',
 })
 export class DevspaceComponent {
+  channelsOpen = false;
+  messagesOpen = false;
 
+  toggleChannels() {
+    this.channelsOpen = !this.channelsOpen;
+  }
+
+  toggleMessages() {
+    this.messagesOpen = !this.messagesOpen;
+  }
 }
