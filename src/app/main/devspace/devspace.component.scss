@@ -47,6 +47,11 @@ main {
         }
       }
 
+      .details-arrow {
+        transition: transform 0.2s ease;
+        transform: rotate(0deg);
+      }
+
       .details-title {
         display: flex;
         align-items: center;
@@ -64,6 +69,10 @@ main {
   .channels-details.open,
   .messages-details.open {
     gap: 25px;
+
+    .summary .details-arrow {
+      transform: rotate(90deg);
+    }
   }
 
   .channels-details {
@@ -78,6 +87,7 @@ main {
   .messages-details-body {
     @include dFlex($fd: column, $jc: flex-start, $ai: flex-start, $g: 25px);
     max-height: 0;
+    margin-left: 20px;
     overflow: hidden;
     opacity: 0;
     transition: max-height 125ms ease, opacity 125ms;

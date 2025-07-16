@@ -8,8 +8,8 @@ import { Component } from '@angular/core';
   styleUrl: './devspace.component.scss',
 })
 export class DevspaceComponent {
-  channelsOpen = false;
-  messagesOpen = false;
+  channelsOpen = true;
+  messagesOpen = true;
 
   toggleChannels() {
     this.channelsOpen = !this.channelsOpen;
