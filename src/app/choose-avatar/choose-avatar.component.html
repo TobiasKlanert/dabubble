@@ -5,25 +5,23 @@
             <a class="arrow-back" [routerLink]="'/'"><img src="/assets/img/arrow-back.png" alt=""></a>
             <h2 class="headline-style mb32">Wähle deinen Avatar</h2>
             <div class="avatar-container flex-column flex-center">
-                <img class="default-user-image" src="/assets/img/default-user.png" alt="">
+                <img class="default-user-image" [src]="selectedAvatar || '/assets/img/default-user.png'" alt="">
                 <h3>""Username""</h3>
                 <div class="span-wrapper">
                     <span>Aus der Liste wählen</span>
                 </div>
                 <div class="avatar-list flex-row">
+                    @for (row of [0, 1]; track row) {
                     <div class="avatar-list-row">
-                        <img class="avatar-image" src="/assets/img/user1.png" alt="">
-                        <img class="avatar-image" src="/assets/img/user2.png" alt="">
-                        <img class="avatar-image" src="/assets/img/user3.png" alt="">
+                        @for (avatar of avatars.slice(row * 3, row * 3 + 3); track avatar) {
+                        <img class="avatar-image" [src]="avatar" [class.selected]="avatar === selectedAvatar"
+                            (click)="selectAvatar(avatar)" alt="Avatar" />
+                        }
                     </div>
-                    <div class="avatar-list-row">
-                        <img class="avatar-image" src="/assets/img/user4.png" alt="">
-                        <img class="avatar-image" src="/assets/img/user5.png" alt="">
-                        <img class="avatar-image" src="/assets/img/user6.png" alt="">
-                    </div>
+                    }
                 </div>
                 <div class="button-wrapper flex-end">
-                    <button class="button-primary-style">Weiter</button>
+                    <button [disabled]="!isAvatarChosen" class="button-primary-style" [routerLink]="'/main'">Weiter</button>
                 </div>
             </div>
         </div>
