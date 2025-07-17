@@ -1,1 +1,8 @@
-<p>chat works!</p>
+<div class="chat-container">
+  <app-message-bubble
+    *ngFor="let msg of messages"
+    [text]="msg.text"
+    [outgoing]="msg.outgoing"
+    [timestamp]="msg.timestamp"
+  ></app-message-bubble>
+</div>
