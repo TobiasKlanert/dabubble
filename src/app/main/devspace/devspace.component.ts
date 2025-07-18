@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { OverlayService } from '../../services/overlay.service';
 
 @Component({
   selector: 'app-devspace',
@@ -10,6 +11,12 @@ import { Component } from '@angular/core';
 export class DevspaceComponent {
   channelsOpen = true;
   messagesOpen = true;
+
+  constructor(private overlayService: OverlayService) {}
+
+  onAddChannel() {
+    this.overlayService.open();
+  }
 
   toggleChannels() {
     this.channelsOpen = !this.channelsOpen;
