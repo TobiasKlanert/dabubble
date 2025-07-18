@@ -25,8 +25,12 @@
       </div>
     </div>
   </div>
-  <app-message-bubble *ngFor="let msg of messages" [text]="msg.text" [outgoing]="msg.outgoing"
-    [timestamp]="msg.timestamp"></app-message-bubble>
+  <div>
+    <div class="message-container">
+      <app-message-bubble *ngFor="let msg of messages" [text]="msg.text" [outgoing]="msg.outgoing"
+        [timestamp]="msg.timestamp"></app-message-bubble>
+    </div>
+  </div>
   <div class="textarea-container">
     <textarea name="send-message" id="sendMessage" placeholder="Nachricht an #Channel"></textarea>
   </div>
