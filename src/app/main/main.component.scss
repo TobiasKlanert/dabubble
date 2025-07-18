@@ -13,7 +13,7 @@
   height: 100vh;
 }
 
-header {
+.main-header {
   padding: 25px 29px 0 50px;
   display: flex;
   justify-content: space-between;
@@ -114,7 +114,7 @@ header {
   }
 }
 
-main {
+.main-main {
   @include dFlex($ai: flex-start, $g: 50px);
   width: 100%;
   height: 100%;
@@ -165,6 +165,69 @@ main {
       padding: 40px;
       background-color: #fff;
       opacity: 1;
+
+      .ovl-header,
+      .f-add-channel,
+      .input-container {
+        @include dFlex($fd: column, $ai: flex-start, $g: 20px);
+      }
+
+      .ovl-header {
+        margin-bottom: 20px;
+      }
+
+      .title-container {
+        @include dFlex($jc: space-between);
+        width: 100%;
+      }
+
+      .btn-close-overlay {
+        @include icon-button();
+      }
+
+      .input-container {
+        width: 100%;
+      }
+
+      .form-input {
+        width: 100%;
+        /* height: 60px; */
+        border: solid;
+        border-radius: 40px;
+        border-width: 1px;
+        border-color: $light-purple;
+        padding: 18px 20px;
+
+        /*
+          TODO: Funktioniert nicht. Wenn Input fokussiert wird border schwarz
+        */
+        &:focus {
+          border-color: $light-purple;
+        }
+      }
+
+      .icon-input {
+        background-image: url(../../assets/img/tag.svg);
+        background-repeat: no-repeat;
+        background-size: 23px 23px;
+        padding-left: 63px;
+        background-position: 20px center;
+
+        &:focus {
+          background-image: url(../../assets/img/tag-focus.svg);
+        }
+      }
+
+      .subheading > span {
+        font-weight: 400;
+        font-style: Regular;
+        color: $text-grey;
+      }
+
+      .btn-container {
+        @include dFlex($jc: flex-end);
+        width: 100%;
+      }
     }
   }
 }
