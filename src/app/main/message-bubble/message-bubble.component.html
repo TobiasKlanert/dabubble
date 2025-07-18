@@ -1,4 +1,21 @@
-<div class="bubble" [ngClass]="{ 'own': outgoing, 'other': !outgoing }">
-  <p class="message">{{ text }}</p>
-  <span class="timestamp">{{ timestamp }}</span>
+<div class="message-wrapper flex-row" [ngClass]="{ 'outgoing': outgoing, 'incoming': !outgoing }">
+  <img src="/assets/img/user1.png" alt="">
+  <div class="message-content" [ngClass]="{ 'outgoing': outgoing, 'incoming': !outgoing }">
+    <div class="flex-row gap20">
+      <p class="sender">Max Mustermann</p>
+      <p class="timestamp">12:34</p>
+    </div>
+    <div class="bubble-wrapper" [ngClass]="{ 'outgoing': outgoing, 'incoming': !outgoing }">
+      <div class="bubble flex-center text-center" [ngClass]="{ 'outgoing': outgoing, 'incoming': !outgoing }">
+        <p class="message-text">{{ text }}</p>
+      </div>
+    </div>
+    <div class="flex-center flex-row gap20">
+      <a href="" class="text-link-style">2 Antworten</a>
+      <div class="flex-row gap4">
+        <p>Letzte Antwort</p>
+        <p class="timestamp">12:65</p>
+      </div>
+    </div>
+  </div>
 </div>

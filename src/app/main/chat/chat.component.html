@@ -1,8 +1,7 @@
-<div class="chat-container">
-  <app-message-bubble
-    *ngFor="let msg of messages"
-    [text]="msg.text"
-    [outgoing]="msg.outgoing"
-    [timestamp]="msg.timestamp"
-  ></app-message-bubble>
+<div class="chat-container flex-column">
+  <app-message-bubble *ngFor="let msg of messages" [text]="msg.text" [outgoing]="msg.outgoing"
+    [timestamp]="msg.timestamp"></app-message-bubble>
+  <div class="textarea-container">
+    <textarea name="send-message" id="sendMessage" placeholder="Nachricht an #Channel"></textarea>
+  </div>
 </div>
