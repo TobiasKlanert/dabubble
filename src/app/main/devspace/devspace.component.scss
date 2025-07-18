@@ -95,7 +95,7 @@ main {
 
   .channels-details-body.open,
   .messages-details-body.open {
-    max-height: 1000px; // groß genug für den Inhalt
+    max-height: 1000px;
     opacity: 1;
   }
 
@@ -165,7 +165,7 @@ main {
       position: absolute;
       bottom: 4px;
       right: 0;
-      z-index: 99;
+      z-index: 2;
     }
 
     &:hover {

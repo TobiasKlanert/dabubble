@@ -95,7 +95,7 @@
           </svg>
           <p>Channels</p>
         </div>
-        <button (click)="onAddChannel()">
+        <button (click)="onAddChannel(); $event.stopPropagation()" >
           <svg
             width="14"
             height="14"
