@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { OverlayService } from '../../services/overlay.service';
+import { ChannelService } from '../../services/channel.service';
+import { Channel } from '../../models/channel.model';
 
 @Component({
   selector: 'app-devspace',
@@ -12,16 +14,18 @@ export class DevspaceComponent {
   channelsOpen = true;
   messagesOpen = true;
 
-  channels = [
-    {
-      name: 'Entwicklerteam',
-      description: '',
-    },
-    { name: 'Office-Team', description: '' },
-    { name: 'Test', description: '' },
-  ];
+  channels: Channel[] = [];
 
-  constructor(private overlayService: OverlayService) {}
+  constructor(
+    private overlayService: OverlayService,
+    private channelService: ChannelService
+  ) {}
+
+  ngOnInit() {
+    this.channelService.channels$.subscribe((channels) => {
+      this.channels = channels;
+    });
+  }
 
   onAddChannel() {
     this.overlayService.open();

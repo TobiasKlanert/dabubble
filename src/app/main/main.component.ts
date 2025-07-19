@@ -5,6 +5,8 @@ import { ChatComponent } from './chat/chat.component';
 import { ThreadsComponent } from './threads/threads.component';
 import { UploadService } from '../services/upload.service';
 import { OverlayService } from '../services/overlay.service';
+import { ChannelService } from '../services/channel.service';
+import { Channel } from '../models/channel.model';
 
 @Component({
   selector: 'app-main',
@@ -19,7 +21,8 @@ export class MainComponent {
 
   constructor(
     public uploadService: UploadService,
-    private overlayService: OverlayService
+    private overlayService: OverlayService,
+    private channelService: ChannelService
   ) {
     this.overlayService.overlayOpen$.subscribe((open) => {
       this.overlayOpen = open;
@@ -28,6 +31,7 @@ export class MainComponent {
 
   closeOverlay() {
     this.overlayService.close();
+    this.isInputEmpty = true;
   }
 
   onSearch(value: any, inputRef?: HTMLInputElement, event?: Event): void {
@@ -49,13 +53,18 @@ export class MainComponent {
       const maxHeight = 90; // Max in px
 
       // Set new height up to the limit
-      textarea.style.height = Math.min(textarea.scrollHeight, maxHeight) + 'px';
+    textarea.style.height = Math.min(textarea.scrollHeight, maxHeight) + 'px';
 
       // Optional: hide scroll but allow scrolling internally if over limit
-      if (textarea.scrollHeight > maxHeight) {
-        textarea.style.overflowY = 'auto';
-      } else {
-        textarea.style.overflowY = 'hidden';
-      }
+    if (textarea.scrollHeight > maxHeight) {
+      textarea.style.overflowY = 'auto';
+    } else {
+      textarea.style.overflowY = 'hidden';
+    }
+  }
+
+  createChannel(name: string, description?: string) {
+    const newChannel: Channel = { name, description };
+    this.channelService.addChannel(newChannel);
   }
 }

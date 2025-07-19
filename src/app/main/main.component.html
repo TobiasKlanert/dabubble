@@ -94,7 +94,7 @@
                 type="text"
                 class="form-input icon-input"
                 placeholder="z.B. Kooperationsprojekte"
-                (input)="toggleButton(inputName.value)" 
+                (input)="toggleButton(inputName.value)"
               />
             </div>
             <div class="input-container">
@@ -113,7 +113,15 @@
               ></textarea>
             </div>
             <div class="btn-container">
-              <button class="button-primary-style btn-font-style" [disabled]="isInputEmpty">
+              <button
+                type="button"
+                class="button-primary-style btn-font-style"
+                [disabled]="isInputEmpty"
+                (click)="
+                  createChannel(inputName.value, description.value);
+                  closeOverlay()
+                "
+              >
                 Erstellen
               </button>
             </div>
