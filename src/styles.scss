@@ -18,6 +18,15 @@ details {
   cursor: pointer;
 }
 
+textarea {
+  resize: none;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+}
+
 .headline {
   font-size: 24px;
   font-weight: 700;

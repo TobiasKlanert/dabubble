@@ -191,18 +191,32 @@
 
       .form-input {
         width: 100%;
-        /* height: 60px; */
         border: solid;
         border-radius: 40px;
         border-width: 1px;
         border-color: $light-purple;
         padding: 18px 20px;
 
-        /*
-          TODO: Funktioniert nicht. Wenn Input fokussiert wird border schwarz
-        */
+        &:hover {
+          border-color: $purple-2;
+        }
+
         &:focus {
-          border-color: $light-purple;
+          border-color: $purple-3;
+        }
+      }
+
+      .form-textarea {
+        height: 65px;
+        min-height: 65px;
+        max-height: 90px;
+        line-height: 25px;
+        resize: none;
+        overflow-y: hidden;
+        scrollbar-width: none;
+
+        &::-webkit-scrollbar {
+          display: none;
         }
       }
 
@@ -212,10 +226,6 @@
         background-size: 23px 23px;
         padding-left: 63px;
         background-position: 20px center;
-
-        &:focus {
-          background-image: url(../../assets/img/tag-focus.svg);
-        }
       }
 
       .subheading > span {
@@ -227,6 +237,11 @@
       .btn-container {
         @include dFlex($jc: flex-end);
         width: 100%;
+      }
+
+      .btn-font-style {
+        font-size: 18px;
+        font-weight: 700;
       }
     }
   }

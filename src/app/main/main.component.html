@@ -88,28 +88,34 @@
             <div class="input-container">
               <label for="name" class="subheading">Channel-Name</label>
               <input
+                #inputName
                 id="name"
                 name="name"
                 type="text"
                 class="form-input icon-input"
                 placeholder="z.B. Kooperationsprojekte"
-                required
+                (input)="toggleButton(inputName.value)" 
               />
             </div>
             <div class="input-container">
               <label for="description" class="subheading"
                 >Beschreibung <span>(optional)</span></label
               >
-              <input
+              <textarea
+                #description
                 id="description"
                 name="description"
                 type="text"
-                class="form-input"
+                class="form-input form-textarea"
                 placeholder="Dein Text hier"
-              />
+                rows="1"
+                (input)="autoResize(description)"
+              ></textarea>
             </div>
             <div class="btn-container">
-              <button class="button-primary-style">Erstellen</button>
+              <button class="button-primary-style btn-font-style" [disabled]="isInputEmpty">
+                Erstellen
+              </button>
             </div>
           </form>
         </div>
