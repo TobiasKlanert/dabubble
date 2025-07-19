@@ -12,6 +12,15 @@ export class DevspaceComponent {
   channelsOpen = true;
   messagesOpen = true;
 
+  channels = [
+    {
+      name: 'Entwicklerteam',
+      description: '',
+    },
+    { name: 'Office-Team', description: '' },
+    { name: 'Test', description: '' },
+  ];
+
   constructor(private overlayService: OverlayService) {}
 
   onAddChannel() {
