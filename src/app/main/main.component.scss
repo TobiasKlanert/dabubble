@@ -164,11 +164,10 @@
       border-radius: 30px;
       padding: 40px;
       background-color: #fff;
-      opacity: 1;
 
       .ovl-header,
       .f-add-channel,
-      .input-container {
+      .input-container-column {
         @include dFlex($fd: column, $ai: flex-start, $g: 20px);
       }
 
@@ -181,29 +180,8 @@
         width: 100%;
       }
 
-      .btn-close-overlay {
-        @include icon-button();
-      }
-
-      .input-container {
+      .input-container-column {
         width: 100%;
-      }
-
-      .form-input {
-        width: 100%;
-        border: solid;
-        border-radius: 40px;
-        border-width: 1px;
-        border-color: $light-purple;
-        padding: 18px 20px;
-
-        &:hover {
-          border-color: $purple-2;
-        }
-
-        &:focus {
-          border-color: $purple-3;
-        }
       }
 
       .form-textarea {
@@ -234,15 +212,75 @@
         color: $text-grey;
       }
 
-      .btn-container {
-        @include dFlex($jc: flex-end);
-        width: 100%;
-      }
-
       .btn-font-style {
         font-size: 18px;
         font-weight: 700;
       }
+    }
+
+    .ovl-add-members {
+      width: 710px;
+      border-radius: 30px;
+      padding: 40px;
+      background-color: #fff;
+      @include dFlex($fd: column, $jc: flex-start, $ai: flex-start, $g: 20px);
+
+      header {
+        width: 100%;
+        @include dFlex($jc: space-between);
+      }
+
+      form {
+        width: 100%;
+        @include dFlex($fd: column, $jc: flex-start, $ai: flex-start, $g: 20px);
+
+        .input-container-row {
+          width: 100%;
+          @include dFlex($jc: flex-start, $g: 20px);
+        }
+
+        input[type="radio"] {
+          accent-color: $purple-1;
+          width: 20px;
+          height: 20px;
+        }
+
+        input[type="radio"],
+        label {
+          cursor: pointer;
+        }
+
+        .highlight {
+          color: $purple-3;
+        }
+      }
+    }
+
+    .btn-close-overlay {
+      @include icon-button();
+    }
+
+    .form-input {
+      width: 100%;
+      border: solid;
+      border-radius: 40px;
+      border-width: 1px;
+      border-color: $light-purple;
+      padding: 18px 20px;
+      opacity: 1;
+
+      &:hover {
+        border-color: $purple-2;
+      }
+
+      &:focus {
+        border-color: $purple-3;
+      }
+    }
+
+    .btn-container {
+      @include dFlex($jc: flex-end);
+      width: 100%;
     }
   }
 }
