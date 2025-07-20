@@ -2,6 +2,11 @@
 @import "../../fonts";
 @import "../../variables";
 
+:host {
+    display: block;
+    margin-top: 0px;
+}
+
 p {
     margin: 0;
     color: $text-grey;
@@ -19,12 +24,12 @@ p {
 
     &.outgoing {
         display: flex;
-        justify-content: flex-start;
+        flex-direction: row-reverse;
     }
 
     &.incoming {
         display: flex;
-        flex-direction: row-reverse;
+        justify-content: flex-start;
     }
 }
 
@@ -33,13 +38,24 @@ p {
     flex-direction: column;
 
     &.incoming {
-        align-items: flex-end;
-        text-align: end;
+        align-items: flex-start;
+        text-align: start;
+    }
+}
+
+.name-time {
+    &.outgoing {
+        flex-direction: row-reverse;
     }
 }
 
 .bubble-wrapper {
     width: 100%;
+
+    &.outgoing {
+        display: flex;
+        justify-content: flex-end;
+    }
 }
 
 .bubble {
@@ -52,19 +68,19 @@ p {
     word-wrap: break-word;
 
     &.outgoing {
-        background-color: #dcf8c6;
+        background-color: $purple-2;
         margin-left: auto;
-        border-top-left-radius: 0;
-        align-self: flex-start;
-        text-align: left;
-    }
-
-    &.incoming {
-        background-color: #f1f0f0;
-        margin-right: auto;
         border-top-right-radius: 0;
         align-self: flex-end;
         text-align: right;
+    }
+
+    &.incoming {
+        background-color: $background-color;
+        margin-right: auto;
+        border-top-left-radius: 0;
+        align-self: flex-start;
+        text-align: end;
     }
 }
 
@@ -82,4 +98,8 @@ p {
     color: #000000;
     font-size: 18px;
     text-align: left;
+
+    &.outgoing {
+        color: $text-white;
+    }
 }

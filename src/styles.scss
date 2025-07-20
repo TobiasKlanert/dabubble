@@ -65,6 +65,11 @@ textarea:focus {
   flex-direction: row;
 }
 
+.flex-row-reverse {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
 .flex-sb {
   display: flex;
   justify-content: space-between;
