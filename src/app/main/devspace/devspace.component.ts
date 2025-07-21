@@ -28,7 +28,7 @@ export class DevspaceComponent {
   }
 
   onAddChannel() {
-    this.overlayService.open();
+    this.overlayService.open('addChannel');
   }
 
   toggleChannels() {
