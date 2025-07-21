@@ -6,11 +6,19 @@
     height: 100%;
     width: 100%;
     padding: 75px;
+
+    .logo {
+        position: absolute;
+        top: 25px;
+        left: 75px;
+        height: 70px;
+    }
 }
 
 .privacy-policy-content {
     max-width: 1920px;
     width: 100%;
+    margin-top: 72px;
 
      svg {
         cursor: pointer;
@@ -36,11 +44,20 @@
 @media (max-width: 768px) {
     .privacy-policy-wrapper {
         padding: 16px;
+        .logo {
+            left: 16px;
+        }
+    }
+
+    .privacy-policy-content {
+        margin-top: 112px;
     }
 }
 
 @media (max-width: 528px) {
     .privacy-policy-content {
+
+        
         h1 {
             font-size: 32px;
         }

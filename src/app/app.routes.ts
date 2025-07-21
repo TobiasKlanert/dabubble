@@ -9,7 +9,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { ChooseAvatarComponent } from './choose-avatar/choose-avatar.component';
 
 export const routes: Routes = [
-    { path: '', component: PrivacyPolicyComponent  },
+    { path: '', component: LoginComponent  },
     { path: 'main', component: MainComponent },
     { path: 'imprint', component: ImprintComponent },
     { path: 'privacy-policy', component: PrivacyPolicyComponent },
