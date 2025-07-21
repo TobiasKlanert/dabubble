@@ -267,7 +267,6 @@
       border-width: 1px;
       border-color: $light-purple;
       padding: 18px 20px;
-      opacity: 1;
 
       &:hover {
         border-color: $purple-2;
@@ -281,6 +280,10 @@
     .btn-container {
       @include dFlex($jc: flex-end);
       width: 100%;
+    }
+
+    .hidden {
+      display: none;
     }
   }
 }

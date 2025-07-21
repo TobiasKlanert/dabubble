@@ -21,7 +21,7 @@ export class MainComponent {
   isInputEmpty: boolean = true;
   isFormInvalid: boolean = true;
   isInputUserInvisible: boolean = true;
-  selectedOption?: string;
+  selectedOption: string = 'none';
 
   constructor(
     public uploadService: UploadService,

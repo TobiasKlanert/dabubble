@@ -62,7 +62,7 @@
       >
         <div
           class="ovl-add-channel"
-          [hidden]="!showFirstMenu"
+          [ngClass]="{ 'hidden': !showFirstMenu }"
           (click)="$event.stopPropagation()"
         >
           <header class="ovl-header">
@@ -132,7 +132,7 @@
         </div>
         <div
           class="ovl-add-members"
-          [hidden]="showFirstMenu"
+          [ngClass]="{ 'hidden': showFirstMenu }"
           (click)="$event.stopPropagation()"
         >
           <header>
