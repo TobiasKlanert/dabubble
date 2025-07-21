@@ -10,9 +10,9 @@ export class MessageService {
   private messages: Message[] = [];
   private messagesSubject = new BehaviorSubject<Message[]>([]);
   messages$ = this.messagesSubject.asObservable();
-}
 
-// addMessage(message: Message) {
-//   this.messages.push(message);
-//   this.messagesSubject.next(this.messages);
-// }
+  addMessage(message: Message) {
+    this.messages.push(message);
+    this.messagesSubject.next(this.messages);
+  }
+}
