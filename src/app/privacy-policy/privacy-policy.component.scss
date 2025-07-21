@@ -1,0 +1,52 @@
+@import './../variables';
+@import './../base';
+@import './../fonts';
+
+.privacy-policy-wrapper {
+    height: 100%;
+    width: 100%;
+    padding: 75px;
+}
+
+.privacy-policy-content {
+    max-width: 1920px;
+    width: 100%;
+
+     svg {
+        cursor: pointer;
+        color: #000000;
+        border-radius: 100px;
+        &:hover {
+            color: $purple-1;
+            background-color: $background-color;
+        }  
+    }
+
+    h1 {
+        margin-bottom: 32px;
+    }
+
+    h2 {
+        color: $purple-1;
+        font-size: 32px;
+        margin-bottom: 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    .privacy-policy-wrapper {
+        padding: 16px;
+    }
+}
+
+@media (max-width: 528px) {
+    .privacy-policy-content {
+        h1 {
+            font-size: 32px;
+        }
+
+        h2 {
+            font-size: 24px;
+        }
+    }
+}
