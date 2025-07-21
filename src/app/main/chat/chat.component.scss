@@ -46,6 +46,7 @@
         width: 40px;
         border-radius: 100px;
         background-color: $background-color;
+
         .add-user {
             cursor: pointer;
 
@@ -65,6 +66,15 @@
     background-color: white;
     border-bottom-left-radius: 30px;
     border-bottom-right-radius: 30px;
+    position: relative;
+
+    .button-wrapper {
+        position: absolute;
+        bottom: 25px;
+        width: 100%;
+        padding-left: 60px;
+        padding-right: 60px;
+    }
 
     textarea {
         width: 100%;
@@ -77,5 +87,29 @@
         margin-bottom: 25px;
         border-radius: 30px;
         min-height: 145px;
+        &:hover {
+            border-color: $purple-2;
+        }
+    }
+}
+
+.textarea-icon {
+    height: 40px;
+    width: 40px;
+    color: #686868;
+    border-radius: 100px;
+    &:hover {
+        cursor: pointer;
+        color: $purple-3;
+        background-color: $background-color;
+        transform: scale(1.1);
+    }
+}
+
+.send-icon {
+    color: #444DF2;
+    cursor: pointer;
+    &:hover {
+        color: $purple-2;
     }
 }
