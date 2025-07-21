@@ -40,6 +40,7 @@ export class ChatComponent {
     { text: 'Auch gut!', outgoing: false, timestamp: '12:02' }
   ];
   messages$ = this.messageService.messages$;
+  inputText: string = '';
 
   constructor(private messageService: MessageService) { }
 
@@ -47,14 +48,10 @@ export class ChatComponent {
   scrollContainer!: ElementRef<HTMLDivElement>;
 
   ngAfterViewInit() {
-    // this.scrollToBottom();
+    this.scrollToBottom();
   }
 
-  inputText: string = '';
-
   sendMessage() {
-    console.log('moin');
-    
     if (this.inputText.trim()) {
       const msg = {
         text: this.inputText.trim(),
@@ -68,6 +65,16 @@ export class ChatComponent {
       this.messages.push(msg);
       // this.messageService.addMessage(msg);
       this.inputText = '';
+      setTimeout(() => this.scrollToBottom(), 0);
+    }
+  }
+
+  private scrollToBottom(): void {
+    try {
+      const el = this.scrollContainer.nativeElement;
+      el.scrollTop = el.scrollHeight;
+    } catch (err) {
+      console.warn('Scroll to bottom failed:', err);
     }
   }
 }
