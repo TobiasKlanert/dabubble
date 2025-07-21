@@ -1,0 +1,40 @@
+@import './../variables';
+@import './../base';
+@import './../fonts';
+
+.imprint-wrapper {
+    width: 100%;
+    height: 100vh;
+
+    .logo {
+        position: absolute;
+        top: 25px;
+        left: 50px;
+        height: 70px;
+    }
+}
+
+.imprint-content {
+    background-color: white;
+    padding: 48px 56px;
+    border-radius: 30px;
+
+    svg {
+        cursor: pointer;
+        color: #000000;
+        border-radius: 100px;
+        &:hover {
+            color: $purple-1;
+            background-color: $background-color;
+        }  
+    }
+
+    p {
+        font-size: 20px;
+    }
+
+    h2 {
+        color: $purple-1;
+        font-size: 32px;
+    }
+}
