@@ -7,4 +7,13 @@ import { Component } from '@angular/core';
   templateUrl: './profile-menu.component.html',
   styleUrl: './profile-menu.component.scss',
 })
-export class ProfileMenuComponent {}
+export class ProfileMenuComponent {
+
+  openProfile() {
+    console.log("Profil öffnen");
+  }
+
+  logout() {
+    console.log("Logout");
+  }
+}

@@ -82,6 +82,14 @@
       font-weight: 700;
       margin: 0;
     }
+
+    &:hover {
+      color: $purple-2;
+      
+      svg path {
+        fill: $purple-2;
+      }
+    }
   }
 
   .profile-picture-container {
