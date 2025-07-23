@@ -18,6 +18,7 @@
 
 .message-bubble {
     margin-bottom: 32px;
+
     &:hover {
         background-color: $background-color;
     }
@@ -93,6 +94,7 @@
         margin-bottom: 25px;
         border-radius: 30px;
         min-height: 145px;
+
         &:hover {
             border-color: $purple-2;
         }
@@ -104,6 +106,7 @@
     width: 40px;
     color: #686868;
     border-radius: 100px;
+
     &:hover {
         cursor: pointer;
         color: $purple-3;
@@ -115,7 +118,39 @@
 .send-icon {
     color: #444DF2;
     cursor: pointer;
+
     &:hover {
         color: $purple-2;
+    }
+}
+
+.emoji-picker-menu {
+    position: absolute;
+    background-color: $background-color;
+    padding: 16px;
+    border: 1px solid $background-color;
+    border-radius: 20px 20px 20px 0px;
+    left: 92px;
+    bottom: 72px;
+}
+
+.emoji-container {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 8px;
+    margin-bottom: 32px;
+}
+
+.emoji-selector-menu {
+    width: 100%;
+}
+
+.emoji {
+    transform: scale(1.4);
+    height: 32px;
+    cursor: pointer;
+
+    &:hover {
+        transform: scale(1.8);
     }
 }
