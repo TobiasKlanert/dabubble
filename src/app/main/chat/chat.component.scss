@@ -12,10 +12,15 @@
 }
 
 .message-container {
-    padding-left: 45px;
-    padding-right: 30px;
     overflow-y: scroll;
     scroll-behavior: smooth;
+}
+
+.message-bubble {
+    margin-bottom: 32px;
+    &:hover {
+        background-color: $background-color;
+    }
 }
 
 .header-container {

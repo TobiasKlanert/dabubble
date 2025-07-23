@@ -28,7 +28,6 @@
   <div #scrollContainer class="message-container">
     <app-message-bubble class="message-bubble" *ngFor="let msg of messages; let i = index; let last = last" [ngStyle]="{
       'padding-top': i === 0 ? '16px' : '0px',
-      'padding-bottom': last ? '16px' : '0px',
       }" [text]="msg.text" [outgoing]="msg.outgoing" [timestamp]="msg.timestamp"></app-message-bubble>
   </div>
   <div class="textarea-container">
