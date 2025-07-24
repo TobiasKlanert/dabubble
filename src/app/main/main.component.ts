@@ -37,6 +37,6 @@ export class MainComponent {
   }
 
   openProfileMenu() {
-    this.overlayService.open('profile');
+    this.overlayService.open('profileMenu');
   }
 }

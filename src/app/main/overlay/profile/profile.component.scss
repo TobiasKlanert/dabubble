@@ -1,0 +1,79 @@
+@import "../../../base";
+@import "../../../fonts";
+@import "../../../variables";
+
+.ovl-profile {
+  width: 500px;
+  height: 705px;
+  border-radius: 30px;
+  padding: 40px;
+  background-color: #fff;
+  @include dFlex($fd: column, $jc: flex-start, $ai: flex-start, $g: 45px);
+
+  header {
+    width: 100%;
+    @include dFlex($jc: space-between);
+
+    button {
+      @include icon-button();
+    }
+  }
+
+  .profile-picture-container {
+    width: 100%;
+    @include dFlex();
+
+    img {
+      width: 200px;
+      height: 200px;
+      border-radius: 100%;
+    }
+  }
+
+  .user-info {
+    width: 100%;
+    @include dFlex($fd: column, $ai: flex-start, $g: 15px);
+  }
+
+  .user-details {
+    width: 100%;
+    @include dFlex($jc: space-between);
+
+    p {
+      font-size: 32px;
+      font-weight: 700;
+    }
+
+    button {
+      border: none;
+      background: none;
+      color: $purple-3;
+      font-size: 18px;
+      font-weight: 600;
+      transition: font-weight 125ms ease-in-out;
+
+      &:hover {
+        font-weight: 800;
+      }
+    }
+  }
+
+  .user-status {
+    width: 100%;
+    @include dFlex($jc: flex-start, $g: 15px);
+
+    span {
+      display: block;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background-color: $online-green;
+    }
+
+    p {
+      font-size: 20px;
+      font-weight: 400;
+      color: $text-grey;
+    }
+  }
+}

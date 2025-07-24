@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
-export type OverlayMenuType = 'addChannel' | 'profile' | null;
+export type OverlayMenuType = 'addChannel' | 'profileMenu' | 'profile' | null;
 
 @Injectable({
   providedIn: 'root',

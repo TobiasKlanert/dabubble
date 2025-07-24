@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { OverlayService } from '../../../services/overlay.service';
 
 @Component({
   selector: 'app-profile-menu',
@@ -8,12 +9,15 @@ import { Component } from '@angular/core';
   styleUrl: './profile-menu.component.scss',
 })
 export class ProfileMenuComponent {
+  constructor(private overlayService: OverlayService) {}
 
   openProfile() {
-    console.log("Profil öffnen");
+    this.overlayService.open('profile');
   }
 
   logout() {
-    console.log("Logout");
+    //Placeholder
+    this.overlayService.close();
+    console.log('Logout');
   }
 }

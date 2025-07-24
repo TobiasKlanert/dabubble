@@ -1,5 +1,5 @@
 <div class="menu-container">
-  <div class="profile-menu">
+  <div class="profile-menu" (click)="$event.stopPropagation()">
     <button (click)="openProfile()">Profil</button>
     <button (click)="logout()">Logout</button>
   </div>
