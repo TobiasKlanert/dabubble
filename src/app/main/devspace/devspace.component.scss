@@ -102,7 +102,6 @@ main {
   .btn-channel {
     border: none;
     background: none;
-    height: 33px;
     padding: 4px 20px;
     border-radius: 20px;
     @include dFlex($jc: flex-start, $g: 15px);
@@ -118,7 +117,6 @@ main {
   .btn-add-channel {
     border: none;
     background: none;
-    height: 33px;
     padding: 4px 20px;
     border-radius: 30px;
     @include dFlex($g: 10px);
