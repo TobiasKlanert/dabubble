@@ -34,7 +34,7 @@
 
     <div class="emoji-picker-menu" *ngIf="showEmojiPicker">
       <div class="emoji-container">
-        <div class="emoji" *ngFor="let emoji of displayedEmojis; let i = index">{{ emoji }}</div>
+        <div class="emoji" (click)="addEmoji(i)" *ngFor="let emoji of displayedEmojis; let i = index">{{ emoji }}</div>
       </div>
       <div class="seperator"></div>
       <div class="emoji-selector-menu flex-row flex-sb">

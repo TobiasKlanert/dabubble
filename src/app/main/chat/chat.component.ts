@@ -70,7 +70,7 @@ export class ChatComponent {
       "⬇️", "⬅️", "➡️", "↗️", "↘️", "↙️", "↖️", "🔄", "🔁", "🔀"
     ],
   }
-  showEmojiPicker = true;
+  showEmojiPicker = false;
   activeEmojiCategory: string = 'Smiley';
 
   messages = [
@@ -136,5 +136,9 @@ export class ChatComponent {
 
   get displayedEmojis(): string[] {
     return this.emojis[this.activeEmojiCategory] || this.emojis["smileys"];
+  }
+
+  addEmoji(index: number) {
+    this.inputText += this.displayedEmojis[index];
   }
 }
