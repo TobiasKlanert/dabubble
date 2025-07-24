@@ -14,14 +14,15 @@
 }
 
 .main-header {
-  padding: 25px 29px 0 50px;
+  padding: 25px 20px 0 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  height: 105px;
 
   .left-column {
-    width: calc(19% - 30px);
+    width: calc(19%);
   }
 
   .center-column {
@@ -29,8 +30,12 @@
   }
 
   .right-column {
-    width: calc(25% - 9px);
+    width: calc(25%);
     @include dFlex($jc: flex-end);
+  }
+
+  .logo {
+    margin-left: 25px;
   }
 
   .search-form {
@@ -76,6 +81,7 @@
   .profile-button {
     background: none;
     border: none;
+    margin-right: 14px;
     @include dFlex($g: 20px);
     p {
       font-size: 32px;
@@ -85,7 +91,7 @@
 
     &:hover {
       color: $purple-2;
-      
+
       svg path {
         fill: $purple-2;
       }
@@ -123,9 +129,9 @@
 }
 
 .main-main {
-  @include dFlex($ai: flex-start, $g: 50px);
+  @include dFlex($jc: space-between, $ai: flex-start/* , $g: 50px */);
   width: 100%;
-  height: 100%;
+  height: calc(100% - 105px);
   max-width: 1920px;
   padding: 20px;
 
@@ -153,4 +159,8 @@
     border-radius: 30px;
     position: relative;
   }
+}
+
+app-overlay {
+  position: absolute;
 }
