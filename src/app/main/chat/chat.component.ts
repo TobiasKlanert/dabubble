@@ -3,7 +3,8 @@ import {
   Input,
   AfterViewInit,
   ElementRef,
-  ViewChild
+  ViewChild,
+  HostListener
 } from '@angular/core';
 import { MessageBubbleComponent } from '../message-bubble/message-bubble.component';
 import { CommonModule } from '@angular/common';
@@ -18,7 +19,7 @@ import { log } from 'console';
     MessageBubbleComponent,
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss'
@@ -90,10 +91,10 @@ export class ChatComponent {
   messages$ = this.messageService.messages$;
   inputText: string = '';
 
-  constructor(private messageService: MessageService) { }
+  constructor(private messageService: MessageService, private host: ElementRef<HTMLElement>) { }
 
-  @ViewChild('scrollContainer')
-  scrollContainer!: ElementRef<HTMLDivElement>;
+  @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLDivElement>;
+  @ViewChild('emojiPicker') emojiPicker!: ElementRef<HTMLElement>;
 
   ngAfterViewInit() {
     this.scrollToBottom();
@@ -128,6 +129,15 @@ export class ChatComponent {
 
   toggleEmojiPicker() {
     this.showEmojiPicker = !this.showEmojiPicker;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onOutsideClick(event: MouseEvent) {
+    if (this.showEmojiPicker &&
+      this.emojiPicker &&
+      !this.emojiPicker.nativeElement.contains(event.target as Node)) {
+      this.showEmojiPicker = false
+    }
   }
 
   selectEmojiCategory(category: string) {
