@@ -1,9 +1,5 @@
 <article class="overlay-container" *ngIf="overlayOpen" (click)="closeOverlay()">
-  <div
-    class="overlay-content"
-    (click)="$event.stopPropagation()"
-    [ngSwitch]="overlayService.activeMenu$ | async"
-  >
+  <div class="overlay-content" [ngSwitch]="overlayService.activeMenu$ | async">
     <app-add-channel-menu *ngSwitchCase="'addChannel'"></app-add-channel-menu>
     <app-profile-menu *ngSwitchCase="'profileMenu'"></app-profile-menu>
     <app-profile *ngSwitchCase="'profile'"></app-profile>
