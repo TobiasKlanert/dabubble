@@ -32,32 +32,32 @@
   </div>
   <div class="textarea-container">
 
-    <div #emojiPicker class="emoji-picker-menu" *ngIf="showEmojiPicker">
+    <div #emojiPicker class="emoji-picker-menu" *ngIf="emojiService.showEmojiPicker">
       <div class="emoji-container">
-        <div class="emoji" (click)="addEmoji(i)" *ngFor="let emoji of displayedEmojis; let i = index">{{ emoji }}</div>
+        <div class="emoji" (click)="addEmoji(i)" *ngFor="let emoji of emojiService.displayedEmojis; let i = index">{{ emoji }}</div>
       </div>
       <div class="seperator"></div>
       <div class="emoji-selector-menu flex-row flex-sb">
-        <div class="emojie-selector emoji" (click)="selectEmojiCategory('smileys')"
-          [class.active]="activeEmojiCategory==='smileys'">😀</div>
-        <div class="emojie-selector emoji" (click)="selectEmojiCategory('tiere')"
-          [class.active]="activeEmojiCategory==='tiere'">🐶</div>
-        <div class="emojie-selector emoji" (click)="selectEmojiCategory('essen')"
-          [class.active]="activeEmojiCategory==='essen'">🍎</div>
-        <div class="emojie-selector emoji" (click)="selectEmojiCategory('aktivität')"
-          [class.active]="activeEmojiCategory==='aktivität'">⚽</div>
-        <div class="emojie-selector emoji" (click)="selectEmojiCategory('reisen')"
-          [class.active]="activeEmojiCategory==='reisen'">🛩️</div>
-        <div class="emojie-selector emoji" (click)="selectEmojiCategory('objekte')"
-          [class.active]="activeEmojiCategory==='objekte'">💻</div>
-        <div class="emojie-selector emoji" (click)="selectEmojiCategory('symbole')"
-          [class.active]="activeEmojiCategory==='symbole'">❤️</div>
+        <div class="emojie-selector emoji" (click)="emojiService.selectEmojiCategory('smileys')"
+          [class.active]="emojiService.activeEmojiCategory==='smileys'">😀</div>
+        <div class="emojie-selector emoji" (click)="emojiService.selectEmojiCategory('tiere')"
+          [class.active]="emojiService.activeEmojiCategory==='tiere'">🐶</div>
+        <div class="emojie-selector emoji" (click)="emojiService.selectEmojiCategory('essen')"
+          [class.active]="emojiService.activeEmojiCategory==='essen'">🍎</div>
+        <div class="emojie-selector emoji" (click)="emojiService.selectEmojiCategory('aktivität')"
+          [class.active]="emojiService.activeEmojiCategory==='aktivität'">⚽</div>
+        <div class="emojie-selector emoji" (click)="emojiService.selectEmojiCategory('reisen')"
+          [class.active]="emojiService.activeEmojiCategory==='reisen'">🛩️</div>
+        <div class="emojie-selector emoji" (click)="emojiService.selectEmojiCategory('objekte')"
+          [class.active]="emojiService.activeEmojiCategory==='objekte'">💻</div>
+        <div class="emojie-selector emoji" (click)="emojiService.selectEmojiCategory('symbole')"
+          [class.active]="emojiService.activeEmojiCategory==='symbole'">❤️</div>
       </div>
     </div>
 
     <div class="button-wrapper flex-row flex-sb">
       <div class="flex-row">
-        <svg (click)="toggleEmojiPicker(); $event.stopPropagation()" class="textarea-icon" width="40" height="40" viewBox="0 0 40 40" fill="none"
+        <svg (click)="emojiService.toggleEmojiPicker(); $event.stopPropagation()" class="textarea-icon" width="40" height="40" viewBox="0 0 40 40" fill="none"
           xmlns="http://www.w3.org/2000/svg">
           <mask id="mask0_143922_16674" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="8" y="8" width="24"
             height="24">

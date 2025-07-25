@@ -1,16 +1,14 @@
 import {
   Component,
-  Input,
-  AfterViewInit,
   ElementRef,
   ViewChild,
-  HostListener
 } from '@angular/core';
 import { MessageBubbleComponent } from '../message-bubble/message-bubble.component';
 import { CommonModule } from '@angular/common';
 import { MessageService } from './../../services/message.service';
+import { EmojiService } from '../../services/emoji.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { log } from 'console';
+
 
 @Component({
   selector: 'app-chat',
@@ -25,54 +23,6 @@ import { log } from 'console';
   styleUrl: './chat.component.scss'
 })
 export class ChatComponent {
-
-  emojis: any = {
-    "smileys": [
-      "😀", "😃", "😄", "😁", "😆", "😅", "😂", "🤣", "😊", "😇",
-      "🙂", "🙃", "😉", "😌", "😍", "🥰", "😘", "😗", "😙", "😚",
-      "😋", "😜", "😝", "😛", "🤑", "🤗", "🤭", "🤫", "🤔", "🤐",
-      "🤨", "😐", "😑", "😶", "😏", "😒", "🙄", "😬", "😮‍💨", "🤥",
-      "😌", "😔", "😪", "🤤", "😴", "😷", "🤒", "🤕", "🤢", "🤮"
-    ],
-    "tiere": [
-      "🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐨", "🐯",
-      "🦁", "🐮", "🐷", "🐸", "🐵", "🐔", "🐧", "🐦", "🐤", "🐣",
-      "🐥", "🦆", "🦅", "🦉", "🦇", "🐺", "🐗", "🐴", "🦄", "🐝",
-      "🐛", "🦋", "🐌", "🐚", "🐞", "🐜", "🕷️", "🦂", "🐢", "🐍",
-      "🦎", "🦖", "🦕", "🐙", "🦑", "🦐", "🦞", "🦀", "🐡", "🐠"
-    ],
-    "essen": [
-      "🍏", "🍎", "🍐", "🍊", "🍋", "🍌", "🍉", "🍇", "🍓", "🍈",
-      "🍒", "🍑", "🥭", "🍍", "🥥", "🥝", "🍅", "🍆", "🥑", "🥦",
-      "🥬", "🥒", "🌶️", "🌽", "🥕", "🥔", "🍠", "🥐", "🍞", "🥖",
-      "🥨", "🥯", "🧀", "🍖", "🍗", "🥩", "🥓", "🍔", "🍟", "🍕",
-      "🌭", "🥪", "🌮", "🌯", "🥙", "🧆", "🥚", "🍳", "🥘", "🍲"
-    ],
-    "aktivität": [
-      "⚽", "🏀", "🏈", "⚾", "🎾", "🏐", "🏉", "🥏", "🎱", "🏓",
-      "🏸", "🥅", "🏒", "🏑", "🏏", "⛳", "🏹", "🎣", "🥊", "🥋",
-      "🎽", "🛹", "🛼", "🛷", "⛸️", "🥌", "🎿", "⛷️", "🏂", "🏋️‍♂️"
-    ],
-    "reisen": [
-      "🚗", "🚕", "🚙", "🚌", "🚎", "🏎️", "🚓", "🚑", "🚒", "🚐",
-      "🛻", "🚚", "🚛", "🚜", "🛴", "🚲", "🛵", "🏍️", "🛺", "🚨",
-      "🚁", "🛩️", "✈️", "🛫", "🛬", "🚀", "🛸", "🚡", "🚠", "🚟",
-      "🚃", "🚋", "🚞", "🚝", "🚄", "🚅", "🚈", "🚂", "🚆", "🚇"
-    ],
-    "objekte": [
-      "⌚", "📱", "📲", "💻", "⌨️", "🖥️", "🖨️", "🖱️", "🖲️", "🕹️",
-      "🗜️", "💽", "💾", "💿", "📀", "📼", "📷", "📸", "📹", "🎥",
-      "📽️", "🎞️", "📞", "☎️", "📟", "📠", "📺", "📻", "🎙️", "🎚️"
-    ],
-    "symbole": [
-      "❤️", "🧡", "💛", "💚", "💙", "💜", "🖤", "🤍", "🤎",
-      "💔", "❣️", "💕", "💞", "💓", "💗", "💖", "💘", "💝",
-      "🔔", "🔕", "🎵", "🎶", "⚠️", "🚸", "🔞", "☢️", "☣️", "⬆️",
-      "⬇️", "⬅️", "➡️", "↗️", "↘️", "↙️", "↖️", "🔄", "🔁", "🔀"
-    ],
-  }
-  showEmojiPicker = false;
-  activeEmojiCategory: string = 'Smiley';
 
   messages = [
     { text: 'Hey, wie geht’s?', outgoing: false, timestamp: '12:00' },
@@ -90,11 +40,11 @@ export class ChatComponent {
   ];
   messages$ = this.messageService.messages$;
   inputText: string = '';
+  showEmojiPicker = false;
 
-  constructor(private messageService: MessageService, private host: ElementRef<HTMLElement>) { }
+  constructor(private messageService: MessageService, public emojiService: EmojiService) { }
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLDivElement>;
-  @ViewChild('emojiPicker') emojiPicker!: ElementRef<HTMLElement>;
 
   ngAfterViewInit() {
     this.scrollToBottom();
@@ -127,28 +77,7 @@ export class ChatComponent {
     }
   }
 
-  toggleEmojiPicker() {
-    this.showEmojiPicker = !this.showEmojiPicker;
-  }
-
-  @HostListener('document:click', ['$event'])
-  onOutsideClick(event: MouseEvent) {
-    if (this.showEmojiPicker &&
-      this.emojiPicker &&
-      !this.emojiPicker.nativeElement.contains(event.target as Node)) {
-      this.showEmojiPicker = false
-    }
-  }
-
-  selectEmojiCategory(category: string) {
-    this.activeEmojiCategory = category;
-  }
-
-  get displayedEmojis(): string[] {
-    return this.emojis[this.activeEmojiCategory] || this.emojis["smileys"];
-  }
-
   addEmoji(index: number) {
-    this.inputText += this.displayedEmojis[index];
+    this.inputText += this.emojiService.displayedEmojis[index];
   }
 }
