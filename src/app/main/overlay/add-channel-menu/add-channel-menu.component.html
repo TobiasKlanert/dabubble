@@ -136,7 +136,7 @@
         class="button-primary-style btn-font-style"
         [disabled]="isFormInvalid"
         (click)="
-          createChannel(inputName.value, description.value); closeOverlay()
+          this.channelService.createChannel(inputName.value, description.value); closeOverlay()
         "
       >
         Erstellen

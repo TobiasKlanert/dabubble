@@ -19,7 +19,7 @@ export class AddChannelMenuComponent {
   selectedOption: string = 'none';
 
   constructor(
-    private channelService: ChannelService,
+    public channelService: ChannelService,
     private overlayService: OverlayService
   ) {}
 
@@ -78,11 +78,6 @@ export class AddChannelMenuComponent {
       default:
         break;
     }
-  }
-
-  createChannel(name: string, description?: string) {
-    const newChannel: Channel = { name, description };
-    this.channelService.addChannel(newChannel);
   }
 
   closeOverlay() {
