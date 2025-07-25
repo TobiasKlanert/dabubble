@@ -3,7 +3,7 @@ import {
   ElementRef,
   ViewChild,
 } from '@angular/core';
-import { MessageBubbleComponent } from '../message-bubble/message-bubble.component';
+import { SingleMessageComponent } from '../single-message/single-message.component';
 import { CommonModule } from '@angular/common';
 import { MessageService } from './../../services/message.service';
 import { EmojiService } from '../../services/emoji.service';
@@ -14,7 +14,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   selector: 'app-chat',
   standalone: true,
   imports: [
-    MessageBubbleComponent,
+    SingleMessageComponent,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
