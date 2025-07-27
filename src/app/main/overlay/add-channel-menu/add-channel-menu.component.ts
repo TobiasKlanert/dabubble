@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ChannelService } from '../../../services/channel.service';
-import { Channel } from '../../../models/channel.model';
-import { OverlayService } from '../../../services/overlay.service';
+import { ChannelService } from '../../../shared/services/channel.service';
+import { Channel } from '../../../shared/models/channel.model';
+import { OverlayService } from '../../../shared/services/overlay.service';
 
 @Component({
   selector: 'app-add-channel-menu',

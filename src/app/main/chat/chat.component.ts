@@ -3,12 +3,13 @@ import {
   ElementRef,
   ViewChild,
 } from '@angular/core';
-import { SingleMessageComponent } from '../single-message/single-message.component';
+
 import { CommonModule } from '@angular/common';
-import { MessageService } from './../../services/message.service';
-import { EmojiService } from '../../services/emoji.service';
+import { MessageService } from './../../shared/services/message.service';
+import { EmojiService } from '../../shared/services/emoji.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmojiMenuComponent } from '../emoji-menu/emoji-menu.component';
+import { SingleMessageComponent } from '../single-message/single-message.component';
 
 
 @Component({

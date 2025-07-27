@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { EmojiService } from '../../services/emoji.service';
+import { EmojiService } from '../../shared/services/emoji.service';
 import { CommonModule } from '@angular/common';
 
 @Component({

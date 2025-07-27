@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { OverlayService } from '../../services/overlay.service';
+import { OverlayService } from '../../shared/services/overlay.service';
 import { AddChannelMenuComponent } from './add-channel-menu/add-channel-menu.component';
 import { ProfileMenuComponent } from './profile-menu/profile-menu.component';
 import { ProfileComponent } from './profile/profile.component';
+
 
 @Component({
   selector: 'app-overlay',

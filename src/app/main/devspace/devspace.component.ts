@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { OverlayService } from '../../services/overlay.service';
-import { ChannelService } from '../../services/channel.service';
-import { Channel } from '../../models/channel.model';
-import { UserService } from '../../services/user.service';
-import { User } from '../../models/user.model';
+import { OverlayService } from '../../shared/services/overlay.service';
+import { ChannelService } from '../../shared/services/channel.service';
+import { Channel } from '../../shared/models/channel.model';
+import { UserService } from '../../shared/services/user.service';
+import { User } from '../../shared/models/user.model';
 
 @Component({
   selector: 'app-devspace',

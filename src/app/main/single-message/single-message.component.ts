@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { ProfileService } from '../../services/profile.service';
+import { ProfileService } from '../../shared/services/profile.service';
 
 
 @Component({

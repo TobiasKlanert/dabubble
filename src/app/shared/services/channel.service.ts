@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Channel } from '../models/channel.model';
+import { Channel } from './../models/channel.model';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable({

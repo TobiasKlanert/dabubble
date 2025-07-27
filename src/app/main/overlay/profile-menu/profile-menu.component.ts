@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { OverlayService } from '../../../services/overlay.service';
-import { ProfileService } from '../../../services/profile.service';
+import { OverlayService } from '../../../shared/services/overlay.service';
+import { ProfileService } from '../../../shared/services/profile.service';
 
 @Component({
   selector: 'app-profile-menu',

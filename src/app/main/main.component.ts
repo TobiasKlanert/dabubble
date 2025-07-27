@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { DevspaceComponent } from './devspace/devspace.component';
 import { ChatComponent } from './chat/chat.component';
 import { ThreadsComponent } from './threads/threads.component';
-import { OverlayService } from '../services/overlay.service';
+import { OverlayService } from '../shared/services/overlay.service';
+import { UploadService } from '../shared/services/upload.service';
 import { OverlayComponent } from './overlay/overlay.component';
-import { UploadService } from '../services/upload.service';
 
 @Component({
   selector: 'app-main',

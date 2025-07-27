@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { UploadService } from '../app/services/upload.service';
+import { UploadService } from '../app/shared/services/upload.service';
 
 @Component({
   selector: 'app-root',
