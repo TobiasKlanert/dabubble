@@ -33,11 +33,18 @@ export class UserService {
   constructor() {
     this.usersSubject.next(this.users);
   }
-  
+
   private usersSubject = new BehaviorSubject<User[]>([]);
   users$ = this.usersSubject.asObservable();
 
+  private selectedUserSubject = new BehaviorSubject<User | null>(null);
+  selectedUser$ = this.selectedUserSubject.asObservable();
+
   getUsers(): User[] {
     return [...this.users];
+  }
+
+  selectUser(user: User) {
+    this.selectedUserSubject.next(user);
   }
 }

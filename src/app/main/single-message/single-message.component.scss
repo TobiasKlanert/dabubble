@@ -138,6 +138,12 @@ p {
     font-weight: 700;
     font-size: 18px;
     color: #000000;
+    cursor: pointer;
+    transition: all 125ms ease-in-out;
+
+    &:hover {
+        color: $purple-3;
+    }
 }
 
 .timestamp {

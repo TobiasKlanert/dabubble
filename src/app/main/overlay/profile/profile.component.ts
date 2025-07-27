@@ -1,16 +1,30 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { OverlayService } from '../../../services/overlay.service';
+import { UserService } from '../../../services/user.service';
+import { User } from '../../../models/user.model';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
 })
-export class ProfileComponent {
-  constructor(private overlayService: OverlayService) {}
-  
+export class ProfileComponent implements OnInit {
+  user: User | null = null;
+
+  constructor(
+    private userService: UserService,
+    private overlayService: OverlayService
+  ) {}
+
+  ngOnInit() {
+    this.userService.selectedUser$.subscribe((user) => {
+      this.user = user;
+    });
+  }
+
   closeOverlay() {
     this.overlayService.close();
   }

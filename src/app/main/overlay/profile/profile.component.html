@@ -17,16 +17,21 @@
     </button>
   </header>
   <div class="profile-picture-container">
-    <img src="./assets/img/user1.png" alt="Profilbild" />
+    <img src="{{ user?.pictureUrl }}" alt="Profilbild" />
   </div>
   <div class="user-info">
     <div class="user-details">
-      <p>Max Musterbacon</p>
+      <p>{{ user?.name }}</p>
       <button>Bearbeiten</button>
     </div>
     <div class="user-status">
-      <span class="online-marker"></span>
-      <p>Aktiv</p>
+      <span class="online-marker" [ngStyle]="{ 'background-color': user?.status ? '#92C83E' : '#686868' }"></span>
+      @if (user?.status) {
+        <p>Aktiv</p>
+      }
+      @if (!user?.status) {
+        <p>Offline</p>
+      }
     </div>
   </div>
   <div class="user-mail">
@@ -34,8 +39,8 @@
       <img src="./assets/img/mail.svg" alt="E-Mail" />
       <p>E-Mail-Adresse</p>
     </div>
-    <a class="a-mail" href="mailto: max.musterbacon@test.de"
-      >max.musterbacon&#64;test.de</a
+    <a class="a-mail" href="mailto: {{ user?.mail }}"
+      >{{ user?.mail }}</a
     >
   </div>
   <div class="btn-container">

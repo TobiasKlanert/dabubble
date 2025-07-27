@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { OverlayService } from '../../../services/overlay.service';
+import { ProfileService } from '../../../services/profile.service';
 
 @Component({
   selector: 'app-profile-menu',
@@ -9,10 +10,13 @@ import { OverlayService } from '../../../services/overlay.service';
   styleUrl: './profile-menu.component.scss',
 })
 export class ProfileMenuComponent {
-  constructor(private overlayService: OverlayService) {}
+  constructor(
+    private overlayService: OverlayService,
+    private profileService: ProfileService
+  ) {}
 
-  openProfile() {
-    this.overlayService.open('profile');
+  openProfile(userId: string) {
+    this.profileService.openUserProfile(userId);
   }
 
   logout() {

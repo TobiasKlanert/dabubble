@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { ProfileService } from '../../services/profile.service';
 
 
 @Component({
@@ -12,7 +13,15 @@ import { Component, Input } from '@angular/core';
   styleUrl: './single-message.component.scss'
 })
 export class SingleMessageComponent {
- @Input() text!: string;
- @Input() outgoing = false;
- @Input() timestamp?: string;
+  @Input() text!: string;
+  @Input() outgoing = false;
+  @Input() timestamp?: string;
+
+  constructor(
+    private profileService: ProfileService
+  ) {}
+
+  openProfile(userId: string) {
+    this.profileService.openUserProfile(userId);
+  }
 }
