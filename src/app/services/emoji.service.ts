@@ -56,7 +56,7 @@ export class EmojiService {
         ],
     }
     activeEmojiCategory: string = 'Smiley';
-    showEmojiPicker = false;
+    showEmojiPicker = true;
 
     constructor() { }
 

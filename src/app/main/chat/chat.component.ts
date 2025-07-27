@@ -42,7 +42,6 @@ export class ChatComponent {
   ];
   messages$ = this.messageService.messages$;
   inputText: string = '';
-  showEmojiPicker = false;
 
   constructor(private messageService: MessageService, public emojiService: EmojiService) { }
 
