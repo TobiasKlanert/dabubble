@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { MessageService } from './../../services/message.service';
 import { EmojiService } from '../../services/emoji.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EmojiMenuComponent } from '../emoji-menu/emoji-menu.component';
 
 
 @Component({
@@ -18,6 +19,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    EmojiMenuComponent
   ],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss'
