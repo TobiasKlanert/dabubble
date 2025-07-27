@@ -99,12 +99,12 @@
             border-color: $purple-2;
         }
     }
+}
 
-    app-emoji-menu {
-        position: absolute;
-        left: 72px;
-        bottom: 440px;
-    }
+app-emoji-menu {
+    position: absolute;
+    bottom: 80px;
+    left: 80px;
 }
 
 .textarea-icon {
