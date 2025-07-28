@@ -34,18 +34,42 @@
     margin: 0;
   }
 
-  .user-container {
-    margin-right: 10px;
+  .user-wrapper {
+    @include dFlex($g: 10px);
+  }
 
-    img {
-      height: 40px;
+  .user-container {
+    @include dFlex();
+    border-radius: 40px;
+    padding: 3px 10px;
+    cursor: pointer;
+    transition: all 125ms ease-in-out;
+
+    &:hover {
+      background-color: $background-color;
+      color: $purple-3;
+    }
+  }
+
+  .user-icon-container {
+    @include dFlex();
+    position: relative;
+
+    .user {
       width: 40px;
+      height: 40px;
       border-radius: 100px;
+      object-fit: cover;
+      border: 2px solid white;
+      position: relative;
+      z-index: 1;
+      transition: z-index 0.3s ease;
     }
   }
 
   .counter {
-    margin-right: 16px;
+    font-weight: 600;
+    font-size: 20px;
   }
 
   .btn-add-user {

@@ -28,6 +28,13 @@ export class UserService {
       status: true,
       mail: 'john.doe@example.com',
     },
+    /* {
+      id: '4',
+      name: 'Peter Bacon',
+      pictureUrl: './assets/img/user4.png',
+      status: false,
+      mail: 'peter.bacon@example.com',
+    }, */
   ];
 
   constructor() {
