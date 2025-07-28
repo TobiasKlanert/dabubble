@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmojiMenuComponent } from '../emoji-menu/emoji-menu.component';
 import { SingleMessageComponent } from '../single-message/single-message.component';
 import { ClickOutsideDirective } from '../../shared/directives/click-outside.directive';
+import { OverlayService } from '../../shared/services/overlay.service';
 
 @Component({
   selector: 'app-chat',
@@ -44,7 +45,7 @@ export class ChatComponent {
   messages$ = this.messageService.messages$;
   inputText: string = '';
 
-  constructor(private messageService: MessageService, public emojiService: EmojiService) { }
+  constructor(private messageService: MessageService, private overlayService: OverlayService, public emojiService: EmojiService) { }
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLDivElement>;
 
@@ -85,5 +86,9 @@ export class ChatComponent {
 
   toggleEmojiPicker() {
     this.emojiService.togglePicker(); 
+  }
+
+  openAddUserMenu() {
+    this.overlayService.open('addUser');
   }
 }

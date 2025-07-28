@@ -4,12 +4,18 @@ import { OverlayService } from '../../shared/services/overlay.service';
 import { AddChannelMenuComponent } from './add-channel-menu/add-channel-menu.component';
 import { ProfileMenuComponent } from './profile-menu/profile-menu.component';
 import { ProfileComponent } from './profile/profile.component';
-
+import { AddUserMenuComponent } from './add-user-menu/add-user-menu.component';
 
 @Component({
   selector: 'app-overlay',
   standalone: true,
-  imports: [CommonModule, AddChannelMenuComponent, ProfileMenuComponent, ProfileComponent],
+  imports: [
+    CommonModule,
+    AddChannelMenuComponent,
+    ProfileMenuComponent,
+    ProfileComponent,
+    AddUserMenuComponent,
+  ],
   templateUrl: './overlay.component.html',
   styleUrl: './overlay.component.scss',
 })
