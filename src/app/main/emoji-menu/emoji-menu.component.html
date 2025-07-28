@@ -1,4 +1,4 @@
-<div #emojiPicker class="emoji-picker-menu" *ngIf="emojiService.showEmojiPicker">
+<div #emojiPicker class="emoji-picker-menu" *ngIf="emojiService._showPicker">
     <div class="emoji-container flex-column">
         <div class="emoji" (click)="addEmoji(i)" *ngFor="let emoji of emojiService.displayedEmojis; let i = index">
             {{ emoji }}
@@ -6,19 +6,19 @@
     </div>
     <div class="seperator"></div>
     <div class="emoji-selector-menu flex-row flex-sb">
-        <div class="emojie-selector emoji" (click)="emojiService.selectEmojiCategory('smileys')"
-            [class.active]="emojiService.activeEmojiCategory==='smileys'">😀</div>
-        <div class="emojie-selector emoji" (click)="emojiService.selectEmojiCategory('tiere')"
-            [class.active]="emojiService.activeEmojiCategory==='tiere'">🐶</div>
-        <div class="emojie-selector emoji" (click)="emojiService.selectEmojiCategory('essen')"
-            [class.active]="emojiService.activeEmojiCategory==='essen'">🍎</div>
-        <div class="emojie-selector emoji" (click)="emojiService.selectEmojiCategory('aktivität')"
-            [class.active]="emojiService.activeEmojiCategory==='aktivität'">⚽</div>
-        <div class="emojie-selector emoji" (click)="emojiService.selectEmojiCategory('reisen')"
-            [class.active]="emojiService.activeEmojiCategory==='reisen'">🛩️</div>
-        <div class="emojie-selector emoji" (click)="emojiService.selectEmojiCategory('objekte')"
-            [class.active]="emojiService.activeEmojiCategory==='objekte'">💻</div>
-        <div class="emojie-selector emoji" (click)="emojiService.selectEmojiCategory('symbole')"
-            [class.active]="emojiService.activeEmojiCategory==='symbole'">❤️</div>
+        <div class="emojie-selector emoji" (click)="emojiService.selectCategory('smileys')"
+            [class.active]="emojiService._activeCategory">😀</div>
+        <div class="emojie-selector emoji" (click)="emojiService.selectCategory('tiere')"
+            [class.active]="emojiService._activeCategory==='tiere'">🐶</div>
+        <div class="emojie-selector emoji" (click)="emojiService.selectCategory('essen')"
+            [class.active]="emojiService._activeCategory==='essen'">🍎</div>
+        <div class="emojie-selector emoji" (click)="emojiService.selectCategory('aktivität')"
+            [class.active]="emojiService._activeCategory==='aktivität'">⚽</div>
+        <div class="emojie-selector emoji" (click)="emojiService.selectCategory('reisen')"
+            [class.active]="emojiService._activeCategory==='reisen'">🛩️</div>
+        <div class="emojie-selector emoji" (click)="emojiService.selectCategory('objekte')"
+            [class.active]="emojiService._activeCategory==='objekte'">💻</div>
+        <div class="emojie-selector emoji" (click)="emojiService.selectCategory('symbole')"
+            [class.active]="emojiService._activeCategory==='symbole'">❤️</div>
     </div>
 </div>

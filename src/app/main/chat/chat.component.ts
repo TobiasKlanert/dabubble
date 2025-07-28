@@ -3,14 +3,13 @@ import {
   ElementRef,
   ViewChild,
 } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
 import { MessageService } from './../../shared/services/message.service';
 import { EmojiService } from '../../shared/services/emoji.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmojiMenuComponent } from '../emoji-menu/emoji-menu.component';
 import { SingleMessageComponent } from '../single-message/single-message.component';
-
+import { ClickOutsideDirective } from '../../shared/directives/click-outside.directive';
 
 @Component({
   selector: 'app-chat',
@@ -20,7 +19,8 @@ import { SingleMessageComponent } from '../single-message/single-message.compone
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    EmojiMenuComponent
+    EmojiMenuComponent,
+    ClickOutsideDirective
   ],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss'
@@ -81,5 +81,9 @@ export class ChatComponent {
 
   addEmoji(index: number) {
     this.inputText += this.emojiService.displayedEmojis[index];
+  }
+
+  toggleEmojiPicker() {
+    this.emojiService.togglePicker(); 
   }
 }

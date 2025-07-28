@@ -1,15 +1,12 @@
-import {
-    Injectable,
-    ElementRef,
-    ViewChild,
-    HostListener
-} from "@angular/core";
+import { Injectable } from "@angular/core";
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 
 export class EmojiService {
+    public _showPicker = false;
+    public _activeCategory = 'smileys';
     emojis: any = {
         "smileys": [
             "😀", "😃", "😄", "😁", "😆", "😅", "😂", "🤣", "😊", "😇",
@@ -55,31 +52,21 @@ export class EmojiService {
             "⬇️", "⬅️", "➡️", "↗️", "↘️", "↙️", "↖️", "🔄", "🔁", "🔀"
         ],
     }
-    activeEmojiCategory: string = 'Smiley';
-    showEmojiPicker = true;
 
     constructor() { }
 
-    @ViewChild('emojiPicker') emojiPicker!: ElementRef<HTMLElement>;
-
-    selectEmojiCategory(category: string) {
-        this.activeEmojiCategory = category;
+    togglePicker() { 
+        this._showPicker = !this._showPicker; 
+    }
+    closePicker() { 
+        this._showPicker = false;
+    }
+    selectCategory(cat: string) { 
+        this._activeCategory = cat; 
     }
 
+    get showPicker() { return this._showPicker; }
     get displayedEmojis(): string[] {
-        return this.emojis[this.activeEmojiCategory] || this.emojis["smileys"];
-    }
-
-    toggleEmojiPicker() {
-      this.showEmojiPicker = !this.showEmojiPicker;
-    }
-
-    @HostListener('document:click', ['$event'])
-    onOutsideClick(event: MouseEvent) {
-        if (this.showEmojiPicker &&
-            this.emojiPicker &&
-            !this.emojiPicker.nativeElement.contains(event.target as Node)) {
-            this.showEmojiPicker = false
-        }
+        return this.emojis[this._activeCategory] || this.emojis.smileys;
     }
 }
