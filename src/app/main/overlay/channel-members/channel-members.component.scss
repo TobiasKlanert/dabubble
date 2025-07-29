@@ -2,9 +2,18 @@
 @import "../../../fonts";
 @import "../../../variables";
 
+.ovl-wrapper {
+  position: relative;
+  max-width: 1920px;
+  width: 100vw;
+  height: 100vh;
+}
+
 .ovl-channel-members {
+  position: absolute;
+  top: 210px;
+  right: 33%;
   width: 415px;
-  /* height: 411px; */
   padding: 40px;
   border-top-left-radius: 30px;
   border-bottom-right-radius: 30px;

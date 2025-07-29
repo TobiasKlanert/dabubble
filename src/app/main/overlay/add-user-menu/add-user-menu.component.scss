@@ -2,7 +2,17 @@
 @import "../../../fonts";
 @import "../../../variables";
 
+.ovl-wrapper {
+  position: relative;
+  max-width: 1920px;
+  width: 100vw;
+  height: 100vh;
+}
+
 .ovl-add-user {
+  position: absolute;
+  top: 210px;
+  right: 30%;
   width: 514px;
   height: 294px;
   padding: 40px;
