@@ -22,9 +22,15 @@ export class SingleMessageComponent {
   @Input() outgoing = false;
   @Input() timestamp?: string;
 
+  reactions: string[] = [];
+
   constructor (private profileService: ProfileService, public emojiService: EmojiService) {}
 
   openProfile(userId: string) {
     this.profileService.openUserProfile(userId);
+  }
+
+  toggleEmojiPicker() {
+    this.emojiService.toggleChannelMessagePicker();
   }
 }

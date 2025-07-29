@@ -46,11 +46,13 @@
         </clipPath>
       </defs>
     </svg>
+
     <div>
       <app-emoji-menu *ngIf="emojiService._showPickerInChannelMessage" click-outside
-        (clickOutside)="emojiService.closePicker()" [ngClass]="{ 'outgoing': outgoing, 'incoming': !outgoing }">
+        (clickOutside)="emojiService.closePickerInChannelMessage()"
+        [ngClass]="{ 'outgoing': outgoing, 'incoming': !outgoing }">
       </app-emoji-menu>
-      <svg id="emojiBtn" class="emoji-button" width="40" height="40" viewBox="0 0 40 40" fill="none"
+      <svg (click)="toggleEmojiPicker()" id="emojiBtn" class="emoji-button" width="40" height="40" viewBox="0 0 40 40" fill="none"
         xmlns="http://www.w3.org/2000/svg">
         <mask id="mask0_144534_19136" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="8" y="8" width="24"
           height="24">
@@ -63,6 +65,7 @@
         </g>
       </svg>
     </div>
+
     <svg id="answerBtn" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
       <mask id="mask0_144534_19140" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="8" y="8" width="24"
         height="24">
@@ -98,33 +101,9 @@
         <p class="message-text" [ngClass]="{ 'outgoing': outgoing, 'incoming': !outgoing }">{{ text }}</p>
       </div>
     </div>
-    <div class="reaction-wrapper mb8" [ngClass]="{ 'outgoing': outgoing, 'incoming': !outgoing }">
-      <div class="reaction flex-row flex-center">
-        <div>😃</div>
-        <div>1</div>
-      </div>
-      <div class="reaction flex-row flex-center">
-        <div>😃</div>
-        <div>1</div>
-      </div>
-      <div class="reaction flex-row flex-center">
-        <div>😃</div>
-        <div>1</div>
-      </div>
-      <div class="reaction flex-row flex-center">
-        <div>😃</div>
-        <div>1</div>
-      </div>
-      <div class="reaction flex-row flex-center">
-        <div>😃</div>
-        <div>1</div>
-      </div>
-      <div class="reaction flex-row flex-center">
-        <div>😃</div>
-        <div>1</div>
-      </div>
-      <div class="reaction flex-row flex-center">
-        <div>😃</div>
+    <div  *ngIf="reactions.length > 0" class="reaction-wrapper mb8" [ngClass]="{ 'outgoing': outgoing, 'incoming': !outgoing }">
+      <div *ngFor="let reaction of reactions; let i = index"  class="reaction flex-row flex-center">
+        <div>{{ reaction }}</div>
         <div>1</div>
       </div>
     </div>

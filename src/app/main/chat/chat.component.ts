@@ -99,7 +99,7 @@ export class ChatComponent {
 
 
   toggleEmojiPicker() {
-    this.emojiService.togglePicker();
+    this.emojiService.toggleChannelPicker();
   }
 
   showChannelMembers() {

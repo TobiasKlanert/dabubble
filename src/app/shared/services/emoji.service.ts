@@ -56,19 +56,34 @@ export class EmojiService {
 
     constructor() { }
 
-    togglePicker() { 
+    toggleChannelPicker() { 
         this._showPickerInChannels = !this._showPickerInChannels; 
     }
-    closePicker() { 
+
+    toggleChannelMessagePicker() {
+        this._showPickerInChannelMessage =!this._showPickerInChannelMessage;
+    }
+
+    closePickerInChannels() { 
         this._showPickerInChannels = false;
         this._activeCategory = 'smileys';
     }
+
+    closePickerInChannelMessage() {
+        this._showPickerInChannelMessage = false;
+        this._activeCategory = 'smileys';
+    }
+
     selectCategory(cat: string) { 
         this._activeCategory = cat; 
     }
 
-    get showPicker() { 
+    get showPickerUÍnChannels() { 
         return this._showPickerInChannels;
+    }
+
+    get showPickerInChannelMessage() {
+        return this._showPickerInChannelMessage;
     }
 
     get displayedEmojis(): string[] {
