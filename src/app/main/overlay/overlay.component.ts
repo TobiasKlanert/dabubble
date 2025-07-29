@@ -6,6 +6,7 @@ import { ProfileMenuComponent } from './profile-menu/profile-menu.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AddUserMenuComponent } from './add-user-menu/add-user-menu.component';
 import { ChannelMembersComponent } from './channel-members/channel-members.component';
+import { ChannelInfoComponent } from './channel-info/channel-info.component';
 
 @Component({
   selector: 'app-overlay',
@@ -16,7 +17,8 @@ import { ChannelMembersComponent } from './channel-members/channel-members.compo
     ProfileMenuComponent,
     ProfileComponent,
     AddUserMenuComponent,
-    ChannelMembersComponent
+    ChannelMembersComponent,
+    ChannelInfoComponent
   ],
   templateUrl: './overlay.component.html',
   styleUrl: './overlay.component.scss',

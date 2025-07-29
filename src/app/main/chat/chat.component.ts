@@ -106,6 +106,10 @@ export class ChatComponent {
     this.overlayService.open('channelMembers');
   }
 
+  showChannelInfo() {
+    this.overlayService.open('channelInfo')
+  }
+
   openAddUserMenu() {
     this.overlayService.open('addUser');
   }

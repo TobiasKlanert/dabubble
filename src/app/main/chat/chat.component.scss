@@ -11,6 +11,32 @@
   position: relative;
 }
 
+.btn-channel-info {
+  @include dFlex($g: 10px);
+  background: none;
+  border: none;
+  padding: 6px 10px;
+  transition: all 125ms;
+
+  svg {
+    display: block;
+  }
+
+  &:hover {
+    background-color: $background-color;
+
+    .headline {
+      color: $purple-3;
+      transition: all 125ms;
+    }
+
+    svg path {
+      fill: $purple-3;
+      transition: fill 125ms;
+    }
+  }
+}
+
 .message-container {
   overflow-y: scroll;
   scroll-behavior: smooth;
