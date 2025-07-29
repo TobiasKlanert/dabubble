@@ -5,7 +5,8 @@ import { Injectable } from "@angular/core";
 })
 
 export class EmojiService {
-    public _showPicker = false;
+    public _showPickerInChannels = false;
+    public _showPickerInChannelMessage = false;
     public _activeCategory = 'smileys';
     emojis: any = {
         "smileys": [
@@ -56,16 +57,20 @@ export class EmojiService {
     constructor() { }
 
     togglePicker() { 
-        this._showPicker = !this._showPicker; 
+        this._showPickerInChannels = !this._showPickerInChannels; 
     }
     closePicker() { 
-        this._showPicker = false;
+        this._showPickerInChannels = false;
+        this._activeCategory = 'smileys';
     }
     selectCategory(cat: string) { 
         this._activeCategory = cat; 
     }
 
-    get showPicker() { return this._showPicker; }
+    get showPicker() { 
+        return this._showPickerInChannels;
+    }
+
     get displayedEmojis(): string[] {
         return this.emojis[this._activeCategory] || this.emojis.smileys;
     }

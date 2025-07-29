@@ -86,7 +86,6 @@ p {
 .message-content {
     display: flex;
     flex-direction: column;
-    gap: 8px;
 
     &.incoming {
         align-items: flex-start;
@@ -164,6 +163,15 @@ p {
             background-color: white;
             cursor: pointer;
         }
+    }
+}
+
+app-emoji-menu {
+    position: absolute;
+    z-index: 100;
+    bottom: 0;
+    &.incoming {
+        right: 24px;
     }
 }
 

@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
 import { ProfileService } from '../../shared/services/profile.service';
 import { EmojiMenuComponent } from '../emoji-menu/emoji-menu.component';
 import { EmojiService } from '../../shared/services/emoji.service';
+import { ChatComponent } from '../chat/chat.component';
 
 
 @Component({
@@ -21,7 +22,7 @@ export class SingleMessageComponent {
   @Input() outgoing = false;
   @Input() timestamp?: string;
 
-  constructor (private profileService: ProfileService) {}
+  constructor (private profileService: ProfileService, public emojiService: EmojiService) {}
 
   openProfile(userId: string) {
     this.profileService.openUserProfile(userId);

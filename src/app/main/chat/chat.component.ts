@@ -93,9 +93,10 @@ export class ChatComponent {
     }
   }
 
-  addEmoji(index: number) {
-    this.inputText += this.emojiService.displayedEmojis[index];
-  }
+ addEmoji = (emoji: string) => {
+  this.inputText += emoji;
+};
+
 
   toggleEmojiPicker() {
     this.emojiService.togglePicker();

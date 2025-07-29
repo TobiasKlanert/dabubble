@@ -63,8 +63,9 @@
     ></app-single-message>
   </div>
   <div class="textarea-container">
-    <app-emoji-menu
-      *ngIf="emojiService._showPicker"
+    <app-emoji-menu 
+      [onEmojiSelected]="addEmoji"
+      *ngIf="emojiService._showPickerInChannels"
       click-outside
       (clickOutside)="emojiService.closePicker()"
     ></app-emoji-menu>
