@@ -14,10 +14,10 @@ p {
 }
 
 .message-wrapper {
-    position: relative;
     width: 100%;
     gap: 30px;
     padding: 16px 16px 16px 48px;
+    position: relative;
 
     img {
         height: 70px;
@@ -94,6 +94,12 @@ p {
     }
 }
 
+.threads-link-wrapper {
+    &.outgoing { 
+        justify-content: flex-end;
+    }
+}
+
 .name-time {
     &.outgoing {
         flex-direction: row-reverse;
@@ -101,7 +107,6 @@ p {
 }
 
 .bubble-wrapper {
-    width: 100%;
 
     &.outgoing {
         display: flex;
@@ -111,11 +116,13 @@ p {
 
 .bubble {
     padding: 15px;
-    border-radius: 100px;
+    border-radius: 30px;
     padding: 15px;
+    max-width: 100%;
     display: inline-block;
     position: relative;
     word-wrap: break-word;
+    word-break: break-word;
 
     &.outgoing {
         background-color: $purple-2;
@@ -131,6 +138,32 @@ p {
         border-top-left-radius: 0;
         align-self: flex-start;
         text-align: end;
+    }
+}
+
+.reaction-wrapper {
+    width: 100%;
+    display: flex;
+    gap: 8px;
+    position: relative;
+
+    &.incoming {
+        justify-content: flex-start;
+    }
+
+    &.outgoing {
+        justify-content: flex-end;
+    }
+
+    .reaction {
+        padding: 5px 10px 5px 10px;
+        border-radius: 100px;
+        border: 1px solid #ADB0D9;
+
+        &:hover {
+            background-color: white;
+            cursor: pointer;
+        }
     }
 }
 

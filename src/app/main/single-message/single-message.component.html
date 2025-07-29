@@ -91,7 +91,37 @@
         <p class="message-text" [ngClass]="{ 'outgoing': outgoing, 'incoming': !outgoing }">{{ text }}</p>
       </div>
     </div>
-    <div class="flex-center flex-row gap20">
+    <div class="reaction-wrapper" [ngClass]="{ 'outgoing': outgoing, 'incoming': !outgoing }">
+      <div class="reaction flex-row flex-center">
+        <div>😃</div>
+        <div>1</div>
+      </div>
+      <div class="reaction flex-row flex-center">
+        <div>😃</div>
+        <div>1</div>
+      </div>
+      <div class="reaction flex-row flex-center">
+        <div>😃</div>
+        <div>1</div>
+      </div>
+      <div class="reaction flex-row flex-center">
+        <div>😃</div>
+        <div>1</div>
+      </div>
+      <div class="reaction flex-row flex-center">
+        <div>😃</div>
+        <div>1</div>
+      </div>
+      <div class="reaction flex-row flex-center">
+        <div>😃</div>
+        <div>1</div>
+      </div>
+      <div class="reaction flex-row flex-center">
+        <div>😃</div>
+        <div>1</div>
+      </div>
+    </div>
+    <div class="threads-link-wrapper flex-center flex-row gap20" [ngClass]="{ 'outgoing': outgoing, 'incoming': !outgoing }">
       <a href="" class="text-link-style">2 Antworten</a>
       <div class="flex-row gap4">
         <p>Letzte Antwort</p>
