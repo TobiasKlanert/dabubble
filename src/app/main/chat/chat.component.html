@@ -94,8 +94,8 @@
     <app-emoji-menu
       [onEmojiSelected]="addEmoji"
       *ngIf="emojiService._showPickerInChannels"
-      click-outside
-      (clickOutside)="emojiService.closePickerInChannels()"
+      hover-outside
+      (hoverOutside)="emojiService.closePickerInChannels()"
     ></app-emoji-menu>
     <div class="button-wrapper flex-row flex-sb">
       <div class="flex-row">

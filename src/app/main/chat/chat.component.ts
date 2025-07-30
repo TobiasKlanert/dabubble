@@ -5,7 +5,7 @@ import { EmojiService } from '../../shared/services/emoji.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmojiMenuComponent } from '../emoji-menu/emoji-menu.component';
 import { SingleMessageComponent } from '../single-message/single-message.component';
-import { ClickOutsideDirective } from '../../shared/directives/click-outside.directive';
+import { HoverOutsideDirective } from '../../shared/directives/hover-outside.directive';
 import { OverlayService } from '../../shared/services/overlay.service';
 import { UserService } from '../../shared/services/user.service';
 import { User } from '../../shared/models/user.model';
@@ -20,7 +20,7 @@ import { log } from 'console';
     FormsModule,
     ReactiveFormsModule,
     EmojiMenuComponent,
-    ClickOutsideDirective,
+    HoverOutsideDirective,
   ],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss',

@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ProfileService } from '../../shared/services/profile.service';
 import { EmojiMenuComponent } from '../emoji-menu/emoji-menu.component';
-import { ClickOutsideDirective } from '../../shared/directives/click-outside.directive';
 import { Reaction } from '../../shared/models/reaction.model';
+import { HoverOutsideDirective } from '../../shared/directives/hover-outside.directive';
 
 
 @Component({
@@ -12,7 +12,7 @@ import { Reaction } from '../../shared/models/reaction.model';
   imports: [
     CommonModule,
     EmojiMenuComponent,
-    ClickOutsideDirective,
+    HoverOutsideDirective
   ],
   templateUrl: './single-message.component.html',
   styleUrl: './single-message.component.scss'

@@ -46,7 +46,7 @@
         </clipPath>
       </defs>
     </svg>
-    <div *ngIf="showEmojiPicker" click-outside (clickOutside)="showEmojiPicker = false">
+    <div *ngIf="showEmojiPicker" hover-outside (hoverOutside)="showEmojiPicker = false">
       <app-emoji-menu [onEmojiSelected]="addEmoji" [ngClass]="{ 'outgoing': outgoing, 'incoming': !outgoing }"></app-emoji-menu>
     </div>
     <svg (click)="toggleEmojiPicker(); $event.stopPropagation()" id="emojiBtn" class="emoji-button" width="40"
