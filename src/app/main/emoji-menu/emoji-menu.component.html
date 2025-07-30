@@ -1,4 +1,5 @@
-<div #emojiPicker class="emoji-picker-menu" *ngIf="emojiService._showPickerInChannels||emojiService._showPickerInChannelMessage">
+<div #emojiPicker class="emoji-picker-menu"
+    (click)="$event.stopPropagation()">
     <div class="emoji-container flex-column">
         <div class="emoji" (click)="addEmoji(i)" *ngFor="let emoji of emojiService.displayedEmojis; let i = index">
             {{ emoji }}

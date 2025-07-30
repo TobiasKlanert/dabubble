@@ -2,8 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ProfileService } from '../../shared/services/profile.service';
 import { EmojiMenuComponent } from '../emoji-menu/emoji-menu.component';
-import { EmojiService } from '../../shared/services/emoji.service';
-import { ChatComponent } from '../chat/chat.component';
+import { ClickOutsideDirective } from '../../shared/directives/click-outside.directive';
 
 
 @Component({
@@ -12,6 +11,7 @@ import { ChatComponent } from '../chat/chat.component';
   imports: [
     CommonModule,
     EmojiMenuComponent,
+    ClickOutsideDirective
   ],
   templateUrl: './single-message.component.html',
   styleUrl: './single-message.component.scss'
@@ -22,15 +22,16 @@ export class SingleMessageComponent {
   @Input() outgoing = false;
   @Input() timestamp?: string;
 
-  reactions: string[] = [];
+  reactions: string[] = ['🤢', '🤢'];
+  showEmojiPicker = false;
 
-  constructor (private profileService: ProfileService, public emojiService: EmojiService) {}
+  constructor(private profileService: ProfileService) { }
 
   openProfile(userId: string) {
     this.profileService.openUserProfile(userId);
   }
 
   toggleEmojiPicker() {
-    this.emojiService.toggleChannelMessagePicker();
+    this.showEmojiPicker = !this.showEmojiPicker;
   }
 }
