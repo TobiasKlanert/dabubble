@@ -47,7 +47,7 @@
       </defs>
     </svg>
     <div *ngIf="showEmojiPicker" click-outside (clickOutside)="showEmojiPicker = false">
-      <app-emoji-menu [ngClass]="{ 'outgoing': outgoing, 'incoming': !outgoing }"></app-emoji-menu>
+      <app-emoji-menu [onEmojiSelected]="addEmoji" [ngClass]="{ 'outgoing': outgoing, 'incoming': !outgoing }"></app-emoji-menu>
     </div>
     <svg (click)="toggleEmojiPicker(); $event.stopPropagation()" id="emojiBtn" class="emoji-button" width="40"
       height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -99,8 +99,8 @@
     <div *ngIf="reactions.length > 0" class="reaction-wrapper mb8"
       [ngClass]="{ 'outgoing': outgoing, 'incoming': !outgoing }">
       <div *ngFor="let reaction of reactions; let i = index" class="reaction flex-row flex-center">
-        <div>{{ reaction }}</div>
-        <div>1</div>
+        <div>{{ reaction.emoji }}</div>
+        <div>{{ reaction.amount }}</div>
       </div>
     </div>
     <div class="threads-link-wrapper flex-center flex-row gap20"

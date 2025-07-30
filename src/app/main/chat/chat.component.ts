@@ -50,7 +50,7 @@ export class ChatComponent {
     private overlayService: OverlayService,
     private userService: UserService,
     public emojiService: EmojiService
-  ) {}
+  ) { }
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLDivElement>;
 
@@ -93,9 +93,9 @@ export class ChatComponent {
     }
   }
 
- addEmoji = (emoji: string) => {
-  this.inputText += emoji;
-};
+  addEmoji = (emoji: string) => {
+    this.inputText += emoji;
+  };
 
 
   toggleEmojiPicker() {

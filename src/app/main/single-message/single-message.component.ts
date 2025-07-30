@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
 import { ProfileService } from '../../shared/services/profile.service';
 import { EmojiMenuComponent } from '../emoji-menu/emoji-menu.component';
 import { ClickOutsideDirective } from '../../shared/directives/click-outside.directive';
+import { Reaction } from '../../shared/models/reaction.model';
 
 
 @Component({
@@ -11,7 +12,7 @@ import { ClickOutsideDirective } from '../../shared/directives/click-outside.dir
   imports: [
     CommonModule,
     EmojiMenuComponent,
-    ClickOutsideDirective
+    ClickOutsideDirective,
   ],
   templateUrl: './single-message.component.html',
   styleUrl: './single-message.component.scss'
@@ -22,7 +23,8 @@ export class SingleMessageComponent {
   @Input() outgoing = false;
   @Input() timestamp?: string;
 
-  reactions: string[] = ['🤢', '🤢'];
+  reactions: Reaction[] = []
+
   showEmojiPicker = false;
 
   constructor(private profileService: ProfileService) { }
@@ -34,4 +36,21 @@ export class SingleMessageComponent {
   toggleEmojiPicker() {
     this.showEmojiPicker = !this.showEmojiPicker;
   }
+
+  addEmoji = (emoji: string) => {
+  const existingReaction = this.reactions.find(r => r.emoji === emoji);
+
+  if (existingReaction) {
+    existingReaction.amount += 1;
+    existingReaction.userName.push('dummy-user-id'); // später UserDaten verwenden
+  } else {
+    this.reactions.push({
+      emoji,
+      amount: 1,
+      userName: ['dummy-user-id']
+    });
+  }
+
+  this.showEmojiPicker = false;
+};
 }
