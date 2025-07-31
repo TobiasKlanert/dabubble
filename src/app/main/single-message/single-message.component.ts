@@ -26,6 +26,8 @@ export class SingleMessageComponent {
   reactions: Reaction[] = []
 
   showEmojiPicker = false;
+  showEmojiPickerInEditMode = false;
+  showEditMode = false;
 
   constructor(private profileService: ProfileService) { }
 
@@ -33,24 +35,36 @@ export class SingleMessageComponent {
     this.profileService.openUserProfile(userId);
   }
 
+  openEditMode() {
+    this.showEditMode = true;
+  }
+
+  closeEditMode() {
+    this.showEditMode = false;  
+  }
+
   toggleEmojiPicker() {
     this.showEmojiPicker = !this.showEmojiPicker;
   }
 
-  addEmoji = (emoji: string) => {
-  const existingReaction = this.reactions.find(r => r.emoji === emoji);
-
-  if (existingReaction) {
-    existingReaction.amount += 1;
-    existingReaction.userName.push('dummy-user-id'); // später UserDaten verwenden
-  } else {
-    this.reactions.push({
-      emoji,
-      amount: 1,
-      userName: ['dummy-user-id']
-    });
+  toggleEditEmojiPicker() {
+    this.showEmojiPickerInEditMode = !this.showEmojiPickerInEditMode;
   }
 
-  this.showEmojiPicker = false;
-};
+  addEmoji = (emoji: string) => {
+    const existingReaction = this.reactions.find(r => r.emoji === emoji);
+
+    if (existingReaction) {
+      existingReaction.amount += 1;
+      existingReaction.userName.push('dummy-user-id'); // später UserDaten verwenden
+    } else {
+      this.reactions.push({
+        emoji,
+        amount: 1,
+        userName: ['dummy-user-id']
+      });
+    }
+
+    this.showEmojiPicker = false;
+  };
 }
