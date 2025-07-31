@@ -94,7 +94,7 @@ p {
 }
 
 .threads-link-wrapper {
-    &.outgoing { 
+    &.outgoing {
         justify-content: flex-end;
     }
 }
@@ -154,14 +154,30 @@ p {
         justify-content: flex-end;
     }
 
+    svg {
+        background-color: white;
+        border-radius: 30px;
+        cursor: pointer;
+        fill: currentColor;
+        &:hover {
+            background-color: $background-color;
+            transform: scale(1.05);
+            path {
+                color: $purple-3;
+                transition: fill 125ms
+            }
+        }
+    }
+
     .reaction {
         padding: 5px 10px 5px 10px;
         border-radius: 100px;
         border: 1px solid #ADB0D9;
+        background-color: white;
 
         &:hover {
-            background-color: white;
             cursor: pointer;
+            transform: scale(1.05);
         }
     }
 }
@@ -170,6 +186,7 @@ app-emoji-menu {
     position: absolute;
     z-index: 100;
     bottom: 0;
+
     &.incoming {
         right: 24px;
     }
