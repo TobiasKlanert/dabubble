@@ -81,6 +81,16 @@ p {
             background-color: $background-color;
         }
     }
+
+    app-emoji-menu {
+        position: absolute;
+        z-index: 100;
+        bottom: 0;
+
+        &.incoming {
+            right: 24px;
+        }
+    }
 }
 
 .message-content {
@@ -94,7 +104,7 @@ p {
 }
 
 .threads-link-wrapper {
-    &.outgoing { 
+    &.outgoing {
         justify-content: flex-end;
     }
 }
@@ -154,24 +164,33 @@ p {
         justify-content: flex-end;
     }
 
+    svg {
+        background-color: white;
+        border-radius: 30px;
+        cursor: pointer;
+        fill: currentColor;
+
+        &:hover {
+            background-color: $background-color;
+            transform: scale(1.05);
+
+            path {
+                color: $purple-3;
+                transition: fill 125ms
+            }
+        }
+    }
+
     .reaction {
         padding: 5px 10px 5px 10px;
         border-radius: 100px;
         border: 1px solid #ADB0D9;
+        background-color: white;
 
         &:hover {
-            background-color: white;
             cursor: pointer;
+            transform: scale(1.05);
         }
-    }
-}
-
-app-emoji-menu {
-    position: absolute;
-    z-index: 100;
-    bottom: 0;
-    &.incoming {
-        right: 24px;
     }
 }
 
@@ -199,4 +218,38 @@ app-emoji-menu {
     &.outgoing {
         color: $text-white;
     }
+}
+
+.edit-message {
+    position: absolute;
+    top: 0;
+    left: 132px;
+    right: 116px;
+    height: 100%;
+    bottom: 10px;
+    background-color: white;
+    z-index: 10;
+    border: 1px solid $text-grey;
+    padding: 20px;
+    border-radius: 20px;
+
+    textarea {
+        width: 100%;
+        border: none;
+        box-sizing: border-box;
+        color: $text-grey;
+    }
+
+    .edit-message-buttons {
+        display: flex;
+        gap: 32px;
+    }
+
+    app-emoji-menu {
+        position: absolute;
+        z-index: 20000;
+        bottom: 20px;
+        left: 20px;
+    }
+
 }

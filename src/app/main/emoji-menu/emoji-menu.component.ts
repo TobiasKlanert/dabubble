@@ -16,7 +16,6 @@ export class EmojiMenuComponent {
   constructor(public emojiService: EmojiService) { }
 
   @Input() onEmojiSelected!: (emoji: string) => void;
-
   addEmoji(index: number) {
     const emoji = this.emojiService.displayedEmojis[index];
     this.onEmojiSelected?.(emoji);
