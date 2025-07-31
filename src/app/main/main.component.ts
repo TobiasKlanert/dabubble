@@ -21,6 +21,9 @@ import { OverlayComponent } from './overlay/overlay.component';
   styleUrl: './main.component.scss',
 })
 export class MainComponent {
+
+  isWorkspaceHidden = false;
+
   constructor(
     public uploadService: UploadService,
     private overlayService: OverlayService
@@ -38,5 +41,9 @@ export class MainComponent {
 
   openProfileMenu() {
     this.overlayService.open('profileMenu');
+  }
+
+  toggleWorkspaceMenu() {
+    this.isWorkspaceHidden = !this.isWorkspaceHidden;
   }
 }

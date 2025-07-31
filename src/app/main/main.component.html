@@ -2,7 +2,11 @@
   <div class="main-content flex-center flex-column">
     <header class="main-header">
       <div class="left-column">
-        <img class="logo" src="./assets/img/logo-with-text.svg" alt="DABubble Logo" />
+        <img
+          class="logo"
+          src="./assets/img/logo-with-text.svg"
+          alt="DABubble Logo"
+        />
       </div>
       <div class="center-column">
         <form
@@ -66,10 +70,70 @@
       </div>
     </header>
     <main class="main-main">
+      @if (!isWorkspaceHidden) {
       <aside class="devspace">
         <app-devspace></app-devspace>
       </aside>
-      <section class="chat">
+      }
+      <button class="btn-toggle-workspace" (click)="toggleWorkspaceMenu()">
+        @if (!isWorkspaceHidden) {
+        <svg
+          width="32"
+          height="32"
+          viewBox="0 0 32 32"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect
+            x="8"
+            y="8"
+            width="16"
+            height="16"
+            rx="1"
+            stroke="black"
+            stroke-width="2"
+          />
+          <path d="M13.7142 8V24" stroke="black" stroke-width="2" />
+          <path
+            d="M19.4285 18.2856L17.4964 16.3535C17.3011 16.1582 17.3011 15.8416 17.4964 15.6464L19.4285 13.7142"
+            stroke="black"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+        </svg>
+        <span>Workspace-Menü schließen</span>
+        } @if (isWorkspaceHidden) {
+        <svg
+          width="32"
+          height="32"
+          viewBox="0 0 32 32"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect
+            x="8"
+            y="8"
+            width="16"
+            height="16"
+            rx="1"
+            stroke="black"
+            stroke-width="2"
+          />
+          <path d="M13.7144 8V24" stroke="black" stroke-width="2" />
+          <path
+            d="M17.143 18.2856L19.0752 16.3535C19.2704 16.1582 19.2704 15.8416 19.0752 15.6464L17.143 13.7142"
+            stroke="black"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+        </svg>
+        <span>Workspace-Menu öffnen</span>
+        }
+      </button>
+      <section
+        class="chat"
+        [ngStyle]="{ width: isWorkspaceHidden ? '73%' : '52%' }"
+      >
         <app-chat></app-chat>
       </section>
       <aside class="threads">

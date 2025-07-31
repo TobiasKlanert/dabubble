@@ -8,6 +8,7 @@
 }
 
 .main-content {
+  position: relative;
   max-width: 1920px;
   width: 100%;
   height: 100vh;
@@ -129,7 +130,7 @@
 }
 
 .main-main {
-  @include dFlex($jc: space-between, $ai: flex-start/* , $g: 50px */);
+  @include dFlex($jc: space-between, $ai: flex-start);
   width: 100%;
   height: calc(100% - 105px);
   max-width: 1920px;
@@ -152,12 +153,45 @@
   }
 
   .chat {
-    width: 52%;
     height: 100%;
     max-height: 940px;
     background-color: #fff;
     border-radius: 30px;
     position: relative;
+  }
+}
+
+.btn-toggle-workspace {
+  position: absolute;
+  top: 581px;
+  left: 0;
+  width: 56px;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+  padding: 20px 12px;
+  border: none;
+  background-color: #fff;
+  box-shadow: 4px 4px 7px 0px #00000033;
+  z-index: 2;
+  @include dFlex($fd: column, $g: 8px);
+
+  span {
+    writing-mode: vertical-lr;
+    transform: scale(-1, -1);
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  &:hover {
+    span {
+      font-weight: 700;
+      font-style: bold;
+      color: $purple-3;
+    }
+
+    svg path {
+      stroke: $purple-3;
+    }
   }
 }
 
