@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ChannelService } from '../../../shared/services/channel.service';
 import { Channel } from '../../../shared/models/channel.model';
 import { OverlayService } from '../../../shared/services/overlay.service';
+import { TextareaResizeService } from '../../../shared/services/textarea-resize.service';
 
 @Component({
   selector: 'app-add-channel-menu',
@@ -20,26 +21,12 @@ export class AddChannelMenuComponent {
 
   constructor(
     public channelService: ChannelService,
-    private overlayService: OverlayService
+    private overlayService: OverlayService,
+    public textareaResizeService: TextareaResizeService
   ) {}
 
   toggleMenus() {
     this.showFirstMenu = !this.showFirstMenu;
-  }
-
-  autoResize(textarea: HTMLTextAreaElement) {
-    textarea.style.height = 'auto'; // Reset height
-    const maxHeight = 90; // Max in px
-
-    // Set new height up to the limit
-    textarea.style.height = Math.min(textarea.scrollHeight, maxHeight) + 'px';
-
-    // Optional: hide scroll but allow scrolling internally if over limit
-    if (textarea.scrollHeight > maxHeight) {
-      textarea.style.overflowY = 'auto';
-    } else {
-      textarea.style.overflowY = 'hidden';
-    }
   }
 
   onRadioClick(option: string, event: Event) {
