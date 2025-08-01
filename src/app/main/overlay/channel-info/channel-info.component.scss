@@ -14,6 +14,7 @@
   top: 210px;
   left: 25%;
   width: 872px;
+  height: 623px;
   padding: 40px;
   border-top-right-radius: 30px;
   border-bottom-right-radius: 30px;
@@ -36,13 +37,17 @@
   }
 
   .channel-name-container,
-  .channel-details {
+  .channel-details,
+  .channel-description-container {
+    width: 100%;
+  }
+
+  .border {
     border: 1px;
     border-style: solid;
     border-radius: 20px;
     border-color: $light-purple;
     padding: 20px;
-    width: 100%;
   }
 
   .channel-name-container,
@@ -51,12 +56,13 @@
     @include dFlex($fd: column, $jc: flex-start, $ai: flex-start, $g: 20px);
   }
 
-  .channel-details {
-    @include dFlex($fd: column, $jc: flex-start, $ai: flex-start, $g: 30px);
+  .channel-name-container {
+   height: 114px; 
   }
 
-  .channel-description-container {
-    width: 100%;
+  .channel-details {
+    @include dFlex($fd: column, $jc: flex-start, $ai: flex-start, $g: 30px);
+    height: 279px;
   }
 
   .channel-info-header {

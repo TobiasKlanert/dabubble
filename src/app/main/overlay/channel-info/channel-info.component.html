@@ -44,11 +44,18 @@
         </svg>
       </button>
     </header>
-    <div class="channel-name-container">
+    <div class="channel-name-container" [ngClass]="!isNameEditorActive ? 'border' : ''">
       <div class="channel-info-header">
         <h3 class="subheading">Channel-Name</h3>
-        <button class="btn-edit">Bearbeiten</button>
+        @if (!isNameEditorActive) {
+        <button class="btn-edit" (click)="toggleEditor('name')">
+          Bearbeiten
+        </button>
+        } @else {
+        <button class="btn-edit" (click)="saveEdit('name')">Speichern</button>
+        }
       </div>
+      @if (!isNameEditorActive) {
       <div class="channel-name">
         <svg
           width="24"
@@ -77,18 +84,49 @@
         </svg>
         <p>Entwicklerteam</p>
       </div>
+      } @else {
+      <input
+        #inputName
+        id="inputChannelName"
+        name="name"
+        type="text"
+        class="form-input icon-input"
+        placeholder="Entwicklerteam"
+      />
+      }
     </div>
-    <div class="channel-details">
+    <div class="channel-details" [ngClass]="!isDescriptionEditorActive ? 'border' : ''">
       <div class="channel-description-container">
         <div class="channel-info-header">
           <h3 class="subheading">Beschreibung</h3>
-          <button class="btn-edit">Bearbeiten</button>
+          @if (!isDescriptionEditorActive) {
+          <button class="btn-edit" (click)="toggleEditor('description')">
+            Bearbeiten
+          </button>
+          } @else {
+          <button class="btn-edit" (click)="saveEdit('description')">
+            Speichern
+          </button>
+          }
         </div>
+        @if (!isDescriptionEditorActive) {
         <p>
           Dieser Channel ist für alles rund um #dfsdf vorgesehen. Hier kannst du
           zusammen mit deinem Team Meetings abhalten, Dokumente teilen und
           Entscheidungen treffen.
         </p>
+        } @else {
+        <textarea
+          #description
+          id="description"
+          name="description"
+          type="text"
+          class="form-input form-textarea"
+          placeholder="Dein Text hier"
+          rows="1"
+          (input)="this.textareaResizeService.autoResize(description)"
+        ></textarea>
+        }
       </div>
       <svg
         width="739"
