@@ -130,3 +130,42 @@
   border: 1px solid $btn-secondary-disabled;
   cursor: default;
 }
+
+.form-input {
+  width: 100%;
+  border: solid;
+  border-radius: 40px;
+  border-width: 1px;
+  border-color: $light-purple;
+  padding: 18px 20px;
+
+  &:hover {
+    border-color: $purple-2;
+  }
+
+  &:focus {
+    border-color: $purple-3;
+  }
+}
+
+.icon-input {
+  background-image: url(../assets/img/tag.svg);
+  background-repeat: no-repeat;
+  background-size: 23px 23px;
+  padding-left: 63px;
+  background-position: 20px center;
+}
+
+.form-textarea {
+  height: 65px;
+  min-height: 65px;
+  max-height: 90px;
+  line-height: 25px;
+  resize: none;
+  overflow-y: hidden;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
