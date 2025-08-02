@@ -1,7 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, collectionData, doc, getDoc, query, where } from '@angular/fire/firestore';
+import {
+  Firestore,
+  collection,
+  collectionData,
+  doc,
+  getDoc,
+  query,
+  where,
+} from '@angular/fire/firestore';
 import { Observable, from, forkJoin, map, switchMap } from 'rxjs';
-import { User, UserChatPreview } from '../models/database.model';
+import { User, UserChatPreview, Channel } from '../models/database.model';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +17,14 @@ import { User, UserChatPreview } from '../models/database.model';
 export class FirestoreService {
   constructor(private firestore: Firestore) {}
 
-  getAllChats(userId: string): Observable<UserChatPreview[]> {
+  getChannels(userId: string): Observable<Channel[]> {
+    const channelRef = collection(this.firestore, 'channels');
+    const q = query(channelRef, where('members', 'array-contains', userId));
+
+    return collectionData(q, { idField: 'id' }) as Observable<Channel[]>;
+  }
+
+  getChats(userId: string): Observable<UserChatPreview[]> {
     const chatsRef = collection(this.firestore, 'chats');
     const q = query(chatsRef, where('participants', 'array-contains', userId));
 

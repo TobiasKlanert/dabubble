@@ -23,3 +23,39 @@ export interface UserChatPreview {
     onlineStatus: boolean;
   };
 }
+
+export interface Channel {
+  id: string;
+  name: string;
+  description: string;
+  createdAt: string;
+  creatorId: string;
+  members: string[];
+  messages: ChannelMessage[];
+}
+
+export interface ChannelMessage {
+  id: string;
+  senderId: string;
+  text: string;
+  createdAt: string;
+  editedAt?: string | null;
+  repliesCount: number;
+  reactions: Reaction;
+  thread: ThreadMessage[];
+}
+
+export interface Reaction {
+  [emoji: string]: {
+    count: number;
+    userIds: string[];
+  };
+}
+
+export interface ThreadMessage {
+  id: string;
+  senderId: string;
+  text: string;
+  createdAt: string;
+  editedAt?: string | null;
+}
