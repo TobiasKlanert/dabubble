@@ -1,309 +1,195 @@
 {
-  "users": {
-    "1": {
-      "name": "Max Mustermann",
-      "email": "max.mustermann@test.de",
+  "users": [
+    {
+      "id": "u1",
+      "name": "Alice Müller",
+      "email": "alice@example.com",
       "profilePictureUrl": "./assets/img/user1.png",
-      "joinedAt": "2025-07-02T13:00:00Z",
-      "onlineStatus": true,
-      "channels": ["10", "11"],
-      "chats": {
-        "100": {
-          "with": ["2"],
-          "createdAt": "2025-07-02T13:20:00Z",
-          "messages": {
-            "msg10": {
-              "senderId": "1",
-              "text": "Hey Marie, hast du kurz Zeit?",
-              "createdAt": "2025-07-02T13:21:00Z",
-              "editedAt": null,
-              "reactions": {
-                "👀": ["2"]
-              }
-            }
-          }
-        },
-        "101": {
-          "with": ["3"],
-          "createdAt": "2025-07-03T11:00:00Z",
-          "messages": {
-            "msg11": {
-              "senderId": "3",
-              "text": "Wegen dem Code Review...",
-              "createdAt": "2025-07-03T11:02:00Z",
-              "editedAt": null
-            }
-          }
-        }
-      }
+      "joinedAt": "2024-03-01T10:00:00Z",
+      "onlineStatus": true
     },
-    "2": {
-      "name": "Marie Musterfrau",
-      "email": "marie.musterfrau@test.de",
+    {
+      "id": "u2",
+      "name": "Bob Schneider",
+      "email": "bob@example.com",
       "profilePictureUrl": "./assets/img/user2.png",
-      "joinedAt": "2025-07-03T08:00:00Z",
-      "onlineStatus": false,
-      "channels": ["10", "12"],
-      "chats": {
-        "100": {
-          "with": ["1"],
-          "createdAt": "2025-07-02T13:20:00Z",
-          "messages": {
-            "msg10": {
-              "senderId": "1",
-              "text": "Hey Marie, hast du kurz Zeit?",
-              "createdAt": "2025-07-02T13:21:00Z",
-              "editedAt": null,
-              "reactions": {
-                "👀": ["2"]
-              }
-            }
-          }
-        },
-        "102": {
-          "with": ["4"],
-          "createdAt": "2025-07-04T12:00:00Z",
-          "messages": {
-            "msg12": {
-              "senderId": "4",
-              "text": "Lass uns das später besprechen.",
-              "createdAt": "2025-07-04T12:01:00Z",
-              "editedAt": null
-            }
-          }
-        }
-      }
+      "joinedAt": "2024-03-05T09:15:00Z",
+      "onlineStatus": false
     },
-    "3": {
-      "name": "John Doe",
-      "email": "john.doe@test.de",
+    {
+      "id": "u3",
+      "name": "Clara Weiss",
+      "email": "clara@example.com",
       "profilePictureUrl": "./assets/img/user3.png",
-      "joinedAt": "2025-07-04T09:30:00Z",
-      "onlineStatus": true,
-      "channels": ["10"],
-      "chats": {
-        "101": {
-          "with": ["1"],
-          "createdAt": "2025-07-03T11:00:00Z",
-          "messages": {
-            "msg11": {
-              "senderId": "3",
-              "text": "Wegen dem Code Review...",
-              "createdAt": "2025-07-03T11:02:00Z",
-              "editedAt": null
-            }
-          }
-        },
-        "103": {
-          "with": ["5", "6"],
-          "createdAt": "2025-07-05T15:00:00Z",
-          "messages": {
-            "msg13": {
-              "senderId": "6",
-              "text": "Teammeeting morgen um 10 Uhr?",
-              "createdAt": "2025-07-05T15:02:00Z",
-              "editedAt": null,
-              "reactions": {
-                "✅": ["3", "5"]
-              }
-            }
-          }
-        }
-      }
+      "joinedAt": "2024-04-10T12:30:00Z",
+      "onlineStatus": true
     },
-    "4": {
-      "name": "Lisa Schmidt",
-      "email": "lisa.schmidt@test.de",
+    {
+      "id": "u4",
+      "name": "David Braun",
+      "email": "david@example.com",
       "profilePictureUrl": "./assets/img/user4.png",
-      "joinedAt": "2025-07-05T12:15:00Z",
-      "onlineStatus": false,
-      "channels": ["11"],
-      "chats": {
-        "102": {
-          "with": ["2"],
-          "createdAt": "2025-07-04T12:00:00Z",
-          "messages": {
-            "msg12": {
-              "senderId": "4",
-              "text": "Lass uns das später besprechen.",
-              "createdAt": "2025-07-04T12:01:00Z",
-              "editedAt": null
-            }
-          }
-        }
-      }
+      "joinedAt": "2024-05-01T08:00:00Z",
+      "onlineStatus": false
     },
-    "5": {
-      "name": "Tom Meier",
-      "email": "tom.meier@test.de",
+    {
+      "id": "u5",
+      "name": "Eva Schmidt",
+      "email": "eva@example.com",
       "profilePictureUrl": "./assets/img/user5.png",
-      "joinedAt": "2025-07-06T14:45:00Z",
-      "onlineStatus": true,
-      "channels": ["11", "12"],
-      "chats": {
-        "103": {
-          "with": ["3", "6"],
-          "createdAt": "2025-07-05T15:00:00Z",
-          "messages": {
-            "msg13": {
-              "senderId": "6",
-              "text": "Teammeeting morgen um 10 Uhr?",
-              "createdAt": "2025-07-05T15:02:00Z",
-              "editedAt": null,
-              "reactions": {
-                "✅": ["3", "5"]
-              }
-            }
-          }
-        }
-      }
+      "joinedAt": "2024-06-15T14:20:00Z",
+      "onlineStatus": true
     },
-    "6": {
-      "name": "Anna Weber",
-      "email": "anna.weber@test.de",
+    {
+      "id": "u6",
+      "name": "Felix König",
+      "email": "felix@example.com",
       "profilePictureUrl": "./assets/img/user6.png",
-      "joinedAt": "2025-07-07T16:00:00Z",
-      "onlineStatus": false,
-      "channels": ["12"],
-      "chats": {
-        "103": {
-          "with": ["3", "5"],
-          "createdAt": "2025-07-05T15:00:00Z",
-          "messages": {
-            "msg13": {
-              "senderId": "6",
-              "text": "Teammeeting morgen um 10 Uhr?",
-              "createdAt": "2025-07-05T15:02:00Z",
-              "editedAt": null,
-              "reactions": {
-                "✅": ["3", "5"]
-              }
-            }
-          }
-        }
-      }
+      "joinedAt": "2024-07-01T11:45:00Z",
+      "onlineStatus": false
     }
-  },
-  "channels": {
-    "10": {
-      "name": "General",
-      "description": "Test Channel",
-      "createdAt": "2025-07-02T13:00:00Z",
-      "creator": "1",
-      "members": ["1", "2", "3"],
-      "messages": {
-        "msg1": {
-          "senderId": "1",
+  ],
+  "channels": [
+    {
+      "id": "c1",
+      "name": "general",
+      "description": "Allgemeiner Kanal für Ankündigungen",
+      "createdAt": "2024-03-01T10:00:00Z",
+      "creatorId": "u1",
+      "members": ["u1", "u2", "u3", "u4", "u5", "u6"],
+      "messages": [
+        {
+          "id": "m1",
+          "senderId": "u2",
           "text": "Willkommen im Channel!",
-          "createdAt": "2025-07-02T13:01:00Z",
+          "createdAt": "2024-03-01T10:05:00Z",
           "editedAt": null,
-          "threadCount": "1",
-          "threads": {
-            "thread1": {
-              "senderId": "2",
-              "text": "Danke Max!",
-              "createdAt": "2025-07-02T13:05:00Z",
-              "editedAt": null,
-              "reactions": {
-                "👍": ["1", "3"]
-              }
-            }
-          }
-        },
-        "msg2": {
-          "senderId": "2",
-          "text": "Wie läuft das Projekt?",
-          "createdAt": "2025-07-02T13:10:00Z",
-          "editedAt": null,
-          "threadCount": "0"
-        },
-        "msg3": {
-          "senderId": "3",
-          "text": "Sehr gut!",
-          "createdAt": "2025-07-02T13:12:00Z",
-          "editedAt": "2025-07-02T13:13:00Z",
-          "threadCount": "0"
-        }
-      }
-    },
-    "11": {
-      "name": "Design",
-      "description": "Test Channel 2",
-      "createdAt": "2025-07-03T10:00:00Z",
-      "creator": "4",
-      "members": ["1", "4", "5"],
-      "messages": {
-        "msg4": {
-          "senderId": "4",
-          "text": "Hier ist das neue Mockup.",
-          "createdAt": "2025-07-03T10:15:00Z",
-          "editedAt": null,
-          "threadCount": "0"
-        },
-        "msg5": {
-          "senderId": "5",
-          "text": "Sieht gut aus!",
-          "createdAt": "2025-07-03T10:20:00Z",
-          "editedAt": null,
-          "threadCount": "0",
+          "repliesCount": 1,
           "reactions": {
-            "🎨": ["4"]
-          }
-        },
-        "msg6": {
-          "senderId": "1",
-          "text": "Ich habe noch ein paar Änderungen.",
-          "createdAt": "2025-07-03T10:30:00Z",
-          "editedAt": null,
-          "threadCount": "1",
-          "threads": {
-            "thread2": {
-              "senderId": "4",
-              "text": "Welche denn?",
-              "createdAt": "2025-07-03T10:35:00Z",
+            "👍": {
+              "count": 3,
+              "userIds": ["u1", "u3", "u5"]
+            }
+          },
+          "thread": [
+            {
+              "id": "t1",
+              "senderId": "u1",
+              "text": "Danke Bob!",
+              "createdAt": "2024-03-01T10:10:00Z",
               "editedAt": null
             }
-          }
+          ]
         }
-      }
+      ]
     },
-    "12": {
-      "name": "Tech Talk",
-      "description": "Test Channel 3",
-      "createdAt": "2025-07-04T09:00:00Z",
-      "creator": "2",
-      "members": ["2", "5", "6"],
-      "messages": {
-        "msg7": {
-          "senderId": "6",
-          "text": "Was haltet ihr von Angular 17?",
-          "createdAt": "2025-07-04T09:05:00Z",
+    {
+      "id": "c2",
+      "name": "frontend",
+      "description": "Frontend-Entwicklung",
+      "createdAt": "2024-04-01T11:00:00Z",
+      "creatorId": "u3",
+      "members": ["u3", "u4", "u5"],
+      "messages": [
+        {
+          "id": "m2",
+          "senderId": "u3",
+          "text": "Bitte die neuen UI-Komponenten prüfen.",
+          "createdAt": "2024-04-02T09:00:00Z",
+          "editedAt": "2024-04-02T10:00:00Z",
+          "repliesCount": 0,
+          "reactions": {
+            "✅": {
+              "count": 2,
+              "userIds": ["u4", "u5"]
+            }
+          },
+          "thread": []
+        }
+      ]
+    },
+    {
+      "id": "c3",
+      "name": "random",
+      "description": "Offtopic und Spaß",
+      "createdAt": "2024-04-15T13:00:00Z",
+      "creatorId": "u2",
+      "members": ["u1", "u2", "u6"],
+      "messages": [
+        {
+          "id": "m3",
+          "senderId": "u6",
+          "text": "Hat jemand einen guten Witz?",
+          "createdAt": "2024-04-15T13:15:00Z",
           "editedAt": null,
-          "threadCount": "0"
-        },
-        "msg8": {
-          "senderId": "5",
-          "text": "Ziemlich cool!",
-          "createdAt": "2025-07-04T09:06:00Z",
-          "editedAt": null,
-          "threadCount": "1",
-          "threads": {
-            "thread3": {
-              "senderId": "2",
-              "text": "Besonders die Signals gefallen mir.",
-              "createdAt": "2025-07-04T09:07:00Z",
+          "repliesCount": 1,
+          "reactions": {
+            "😂": {
+              "count": 1,
+              "userIds": ["u2"]
+            }
+          },
+          "thread": [
+            {
+              "id": "t2",
+              "senderId": "u2",
+              "text": "Warum können Geister so schlecht lügen? Weil man durch sie hindurchsehen kann!",
+              "createdAt": "2024-04-15T13:20:00Z",
               "editedAt": null
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "chats": [
+    {
+      "id": "chat1",
+      "participants": ["u1", "u3"],
+      "createdAt": "2024-05-10T15:00:00Z",
+      "messages": [
+        {
+          "id": "dm1",
+          "senderId": "u1",
+          "text": "Hey Clara, hast du das Ticket schon gesehen?",
+          "createdAt": "2024-05-10T15:01:00Z",
+          "editedAt": null,
+          "reactions": {
+            "👀": {
+              "count": 1,
+              "userIds": ["u3"]
             }
           }
         },
-        "msg9": {
-          "senderId": "2",
-          "text": "Ich mag das neue Routing.",
-          "createdAt": "2025-07-04T09:10:00Z",
+        {
+          "id": "dm2",
+          "senderId": "u3",
+          "text": "Ja, bin schon dran!",
+          "createdAt": "2024-05-10T15:02:00Z",
           "editedAt": null,
-          "threadCount": "0"
+          "reactions": {}
         }
-      }
+      ]
+    },
+    {
+      "id": "chat2",
+      "participants": ["u1", "u6"],
+      "createdAt": "2024-06-20T17:00:00Z",
+      "messages": [
+        {
+          "id": "dm3",
+          "senderId": "u5",
+          "text": "Kommst du morgen zum Meeting?",
+          "createdAt": "2024-06-20T17:01:00Z",
+          "editedAt": null,
+          "reactions": {
+            "🤔": {
+              "count": 1,
+              "userIds": ["u6"]
+            }
+          }
+        }
+      ]
     }
-  }
+  ]
 }
