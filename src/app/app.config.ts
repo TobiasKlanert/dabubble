@@ -14,8 +14,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideRouter(routes),
     provideClientHydration(),
-    provideAuth(() => getAuth()),
-    provideFirestore(() => getFirestore()),
     provideFirebaseApp(() =>
       initializeApp({
         projectId: 'dabubble-f9213',
