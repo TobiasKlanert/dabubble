@@ -35,7 +35,7 @@
           @for (user of users; let i = $index; track user.id) {
           <img
             class="user"
-            src="{{ user.pictureUrl }}"
+            src="{{ user.profilePictureUrl }}"
             alt="Profilbild"
             [ngStyle]="{
               'margin-left': i === 0 ? '0px' : '-10px',

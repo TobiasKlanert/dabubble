@@ -26,13 +26,13 @@
         <div class="profile-picture-container">
           <img
             class="profile-picture"
-            src="{{ user.pictureUrl }}"
+            src="{{ user.profilePictureUrl }}"
             alt="Profilbild"
           />
           <span
             class="online-marker"
             [ngStyle]="{
-              'background-color': user.status ? '#92C83E' : '#686868'
+              'background-color': user?.onlineStatus ? '#92C83E' : '#686868'
             }"
           ></span>
         </div>

@@ -17,7 +17,7 @@
     </button>
   </header>
   <div class="profile-picture-container">
-    <img src="{{ user?.pictureUrl }}" alt="Profilbild" />
+    <img src="{{ user?.profilePictureUrl }}" alt="Profilbild" />
   </div>
   <div class="user-info">
     <div class="user-details">
@@ -25,11 +25,11 @@
       <button>Bearbeiten</button>
     </div>
     <div class="user-status">
-      <span class="online-marker" [ngStyle]="{ 'background-color': user?.status ? '#92C83E' : '#686868' }"></span>
-      @if (user?.status) {
+      <span class="online-marker" [ngStyle]="{ 'background-color': user?.onlineStatus ? '#92C83E' : '#686868'}"></span>
+      @if (user?.onlineStatus) {
         <p>Aktiv</p>
       }
-      @if (!user?.status) {
+      @if (!user?.onlineStatus) {
         <p>Offline</p>
       }
     </div>
@@ -39,8 +39,8 @@
       <img src="./assets/img/mail.svg" alt="E-Mail" />
       <p>E-Mail-Adresse</p>
     </div>
-    <a class="a-mail" href="mailto: {{ user?.mail }}"
-      >{{ user?.mail }}</a
+    <a class="a-mail" href="mailto: {{ user?.email }}"
+      >{{ user?.email }}</a
     >
   </div>
   <div class="btn-container">
