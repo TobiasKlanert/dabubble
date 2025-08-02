@@ -236,22 +236,22 @@
         </div>
       </div>
       <div class="messages-details-body" [class.open]="messagesOpen">
-        @for (user of users; track user.name) {
+         @for (chat of chats; track chat.chatId) {
         <button class="profile-button">
           <div class="profile-picture-container">
             <img
               class="profile-picture"
-              src="{{ user.profilePictureUrl }}"
+              src="{{ chat.partner.profilePictureUrl }}"
               alt="Profilbild"
             />
             <span
               class="online-marker"
               [ngStyle]="{
-                'background-color': user?.onlineStatus ? '#92C83E' : '#686868'
+                'background-color': chat.partner.onlineStatus ? '#92C83E' : '#686868'
               }"
             ></span>
           </div>
-          <p>{{ user.name }}</p>
+          <p>{{ chat.partner.name }}</p>
         </button>
         }
       </div>

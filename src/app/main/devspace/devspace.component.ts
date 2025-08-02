@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OverlayService } from '../../shared/services/overlay.service';
-import { ChannelService } from '../../shared/services/channel.service';
-import { Channel } from '../../shared/models/channel.model';
-import { UserService } from '../../shared/services/user.service';
-import { User } from '../../shared/models/user.model';
+import { UserChatPreview, Channel } from '../../shared/models/database.model';
+import { FirestoreService } from '../../shared/services/firestore.service';
 
 @Component({
   selector: 'app-devspace',
@@ -18,21 +16,22 @@ export class DevspaceComponent {
   messagesOpen = true;
 
   channels: Channel[] = [];
-  users: User[] = [];
+  chats: UserChatPreview[] = []
 
   constructor(
     private overlayService: OverlayService,
-    private channelService: ChannelService,
-    private userService: UserService
+    private firestore: FirestoreService
   ) {}
 
   ngOnInit() {
-    this.channelService.channels$.subscribe((channels) => {
-      this.channels = channels;
-    });
+    const userId = 'u1';
 
-    this.userService.users$.subscribe((users) => {
-      this.users = users;
+    this.firestore.getChannels(userId).subscribe((channels) => {
+      this.channels = channels;
+    })
+
+    this.firestore.getChats(userId).subscribe((chats) => {
+      this.chats = chats;
     });
   }
 
