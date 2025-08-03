@@ -138,7 +138,7 @@
 
       <div class="textarea-wrapper">
         <textarea [(ngModel)]="editText" name="editMessage" id="">
-        {{ text }}
+          {{ editText }}
         </textarea>
       </div>
       <div class="flex-center flex-sb">
@@ -159,7 +159,7 @@
         </div>
         <div class="edit-message-buttons">
           <button class="button-secondary-style" (click)="closeEditMode()">Abbrechen</button>
-          <button class="button-primary-style">Speichern</button>
+          <button class="button-primary-style" (click)="saveEditedMessage()">Speichern</button>
         </div>
       </div>
     </div>

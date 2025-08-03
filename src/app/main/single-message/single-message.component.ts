@@ -43,11 +43,22 @@ export class SingleMessageComponent {
 
   openEditMode() {
     this.showEditMode = true;
-    this.inputText = this.text;
+    this.editText = this.text;
   }
 
   closeEditMode() {
-    this.showEditMode = false;  
+    this.showEditMode = false;
+  }
+
+  saveEditedMessage() {
+    if (this.editText.trim()) {
+      const msg = {
+        text: this.editText.trim(),
+      };
+      console.log(msg);
+      // this.messageService.addMessage(msg);  <--!> Implementierung der MessageService <-->
+    }
+    this.closeEditMode();
   }
 
   toggleEmojiPicker() {
@@ -76,8 +87,6 @@ export class SingleMessageComponent {
   };
 
   addTextEmoji = (emoji: string) => {
-    console.log('triggered')
-    
-    this.inputText += emoji;
+    this.editText += emoji;
   };
 }
