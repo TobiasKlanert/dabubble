@@ -1,8 +1,10 @@
-<div class="message-wrapper flex-row" [ngClass]="{ 'outgoing': outgoing, 'incoming': !outgoing, 'active-message': showEditMode }">
+<div class="message-wrapper flex-row"
+  [ngClass]="{ 'outgoing': outgoing, 'incoming': !outgoing, 'active-message': showEditMode }">
   <img src="/assets/img/user1.png" alt="">
 
   <!--Reaction Hover Container-->
-  <div class="reaction-container flex-center" *ngIf="!showEditMode" [ngClass]="{ 'outgoing': outgoing, 'incoming': !outgoing }">
+  <div class="reaction-container flex-center" *ngIf="!showEditMode"
+    [ngClass]="{ 'outgoing': outgoing, 'incoming': !outgoing }">
     <svg id="checkBtn" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
         d="M20 30C25.5228 30 30 25.5228 30 20C30 14.4772 25.5228 10 20 10C14.4772 10 10 14.4772 10 20C10 25.5228 14.4772 30 20 30Z"
@@ -75,8 +77,9 @@
           fill="black" />
       </g>
     </svg>
-    <svg id="editBtn" class="edit-button" (click)="openEditMode(); $event.stopPropagation()" [ngClass]="{ 'outgoing' : outgoing, 'incoming' : !outgoing }" width="40"
-      height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg id="editBtn" class="edit-button" (click)="openEditMode(); $event.stopPropagation()"
+      [ngClass]="{ 'outgoing' : outgoing, 'incoming' : !outgoing }" width="40" height="40" viewBox="0 0 40 40"
+      fill="none" xmlns="http://www.w3.org/2000/svg">
       <mask id="mask0_144534_19144" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="8" y="8" width="24"
         height="24">
         <rect x="8" y="8" width="24" height="24" fill="#D9D9D9" />
@@ -128,17 +131,15 @@
         <p class="timestamp">{{ timestamp }}</p>
       </div>
     </div>
-    
+
     <!--Edit Message Overlay-->
-    <div class="edit-message" *ngIf="showEditMode" [ngClass]="{ 'outgoing': outgoing, 'incoming': !outgoing }" click-outside (clickOutside)="showEditMode = false">
-      
-      <div>
-<textarea 
-      [(ngModel)]="editText" 
-      name="editMessage" 
-      id="">
+    <div class="edit-message" *ngIf="showEditMode" [ngClass]="{ 'outgoing': outgoing, 'incoming': !outgoing }"
+      click-outside (clickOutside)="showEditMode = false">
+
+      <div class="textarea-wrapper">
+        <textarea [(ngModel)]="editText" name="editMessage" id="">
         {{ text }}
-      </textarea>
+        </textarea>
       </div>
       <div class="flex-center flex-sb">
         <svg id="emojiBtn" class="emoji-button" (click)="toggleEditEmojiPicker(); $event.stopPropagation()" width="40"

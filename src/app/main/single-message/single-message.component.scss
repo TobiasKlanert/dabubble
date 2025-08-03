@@ -228,6 +228,7 @@ p {
 }
 
 .edit-message {
+    @include dFlex($fd: column, $ai: space-between, $g: 8px);
     position: absolute;
     top: 0;
     left: 132px;
@@ -240,12 +241,19 @@ p {
     padding: 20px;
     border-radius: 20px;
 
-    textarea {
-        width: 100%;
-        border: none;
-        box-sizing: border-box;
-        color: $text-grey;
+    .textarea-wrapper {
+        display: flex;
+        flex-grow: 1;
+
+        textarea {
+            width: 100%;
+            flex-grow: 1;
+            border: none;
+            box-sizing: border-box;
+            color: $text-grey;
+        }
     }
+
 
     .edit-message-buttons {
         display: flex;
