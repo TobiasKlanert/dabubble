@@ -12,11 +12,13 @@ import { FirestoreService } from '../../shared/services/firestore.service';
   styleUrl: './devspace.component.scss',
 })
 export class DevspaceComponent {
-  channelsOpen = true;
-  messagesOpen = true;
+  userId: string = 'u1';
+
+  channelsOpen: boolean = true;
+  messagesOpen: boolean = true;
 
   channels: Channel[] = [];
-  chats: UserChatPreview[] = []
+  chats: UserChatPreview[] = [];
 
   constructor(
     private overlayService: OverlayService,
@@ -24,13 +26,12 @@ export class DevspaceComponent {
   ) {}
 
   ngOnInit() {
-    const userId = 'u1';
 
-    this.firestore.getChannels(userId).subscribe((channels) => {
+    this.firestore.getChannels(this.userId).subscribe((channels) => {
       this.channels = channels;
-    })
+    });
 
-    this.firestore.getChats(userId).subscribe((chats) => {
+    this.firestore.getChats(this.userId).subscribe((chats) => {
       this.chats = chats;
     });
   }
