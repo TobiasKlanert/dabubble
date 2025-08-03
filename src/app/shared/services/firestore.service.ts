@@ -10,7 +10,7 @@ import {
   where,
 } from '@angular/fire/firestore';
 import { Observable, from, forkJoin, map, switchMap } from 'rxjs';
-import { User, UserChatPreview, Channel } from '../models/database.model';
+import { User, UserChatPreview, Channel, CreateChannelData } from '../models/database.model';
 
 @Injectable({
   providedIn: 'root',
@@ -25,19 +25,18 @@ export class FirestoreService {
     return collectionData(q, { idField: 'id' }) as Observable<Channel[]>;
   }
 
-  createChannel(data: Channel): Promise<string> {
-  const channelsRef = collection(this.firestore, 'channels');
-  const newChannel = {
-    name: data.name,
-    description: data.description,
-    creatorId: data.creatorId,
-    createdAt: new Date().toISOString(),
-    members: Array.from(new Set(data.members)),
-    messages: null
-  };
+  createChannel(data: CreateChannelData): Promise<string> {
+    const channelsRef = collection(this.firestore, 'channels');
+    const newChannel = {
+      name: data.name,
+      description: data.description,
+      creatorId: data.creatorId,
+      createdAt: new Date().toISOString(),
+      members: Array.from(new Set(data.members)),
+    };
 
-  return addDoc(channelsRef, newChannel).then(docRef => docRef.id);
-}
+    return addDoc(channelsRef, newChannel).then((docRef) => docRef.id);
+  }
 
   getChats(userId: string): Observable<UserChatPreview[]> {
     const chatsRef = collection(this.firestore, 'chats');

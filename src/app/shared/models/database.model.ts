@@ -34,6 +34,13 @@ export interface Channel {
   messages: ChannelMessage[] | null;
 }
 
+export interface CreateChannelData {
+  name: string;
+  description: string;
+  creatorId: string;
+  members: string[];
+}
+
 export interface ChannelMessage {
   id: string;
   senderId: string;
