@@ -18,6 +18,7 @@ p {
     gap: 30px;
     padding: 16px 32px 16px 48px;
     position: relative;
+    margin-bottom: 32px;
 
     img {
         height: 70px;
@@ -36,6 +37,8 @@ p {
     }
 
     &:hover {
+        background-color: $background-color;
+
         .reaction-container {
             display: flex;
         }
@@ -46,6 +49,10 @@ p {
             }
         }
     }
+}
+
+.active-message {
+    background-color: $background-color;
 }
 
 .reaction-container {
@@ -243,6 +250,23 @@ p {
     .edit-message-buttons {
         display: flex;
         gap: 32px;
+    }
+
+    svg {
+        background-color: white;
+        border-radius: 30px;
+        cursor: pointer;
+        fill: currentColor;
+
+        &:hover {
+            background-color: $background-color;
+            transform: scale(1.05);
+
+            path {
+                color: $purple-3;
+                transition: fill 125ms
+            }
+        }
     }
 
     app-emoji-menu {

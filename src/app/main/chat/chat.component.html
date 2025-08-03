@@ -80,7 +80,7 @@
   </div>
   <div #scrollContainer class="message-container">
     <app-single-message
-      class="message-bubble"
+      class="single-message"
       *ngFor="let msg of messages; let i = index; let last = last"
       [ngStyle]="{
       'padding-top': i === 0 ? '16px' : '0px',

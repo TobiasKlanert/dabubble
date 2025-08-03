@@ -4,7 +4,7 @@ import { ProfileService } from '../../shared/services/profile.service';
 import { EmojiMenuComponent } from '../emoji-menu/emoji-menu.component';
 import { Reaction } from '../../shared/models/reaction.model';
 import { HoverOutsideDirective } from '../../shared/directives/hover-outside.directive';
-
+import { ClickOutsideDirective } from '../../shared/directives/click-outside.directive';
 
 @Component({
   selector: 'app-single-message',
@@ -12,7 +12,8 @@ import { HoverOutsideDirective } from '../../shared/directives/hover-outside.dir
   imports: [
     CommonModule,
     EmojiMenuComponent,
-    HoverOutsideDirective
+    HoverOutsideDirective,
+    ClickOutsideDirective
   ],
   templateUrl: './single-message.component.html',
   styleUrl: './single-message.component.scss'
@@ -22,6 +23,8 @@ export class SingleMessageComponent {
   @Input() text!: string;
   @Input() outgoing = false;
   @Input() timestamp?: string;
+
+  inputText = this.text;
 
   reactions: Reaction[] = []
 
@@ -66,5 +69,9 @@ export class SingleMessageComponent {
     }
 
     this.showEmojiPicker = false;
+  };
+
+  addEmojiToText = (emoji: string) => {
+    this.inputText += emoji;
   };
 }
