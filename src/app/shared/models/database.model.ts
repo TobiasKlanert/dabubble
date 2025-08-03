@@ -31,7 +31,7 @@ export interface Channel {
   createdAt: string;
   creatorId: string;
   members: string[];
-  messages: ChannelMessage[];
+  messages: ChannelMessage[] | null;
 }
 
 export interface ChannelMessage {
