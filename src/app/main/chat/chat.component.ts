@@ -93,7 +93,7 @@ export class ChatComponent {
     }
   }
 
-  addEmoji = (emoji: string) => {
+  addTextEmoji = (emoji: string) => {
     this.inputText += emoji;
   };
 

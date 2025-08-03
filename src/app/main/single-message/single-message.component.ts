@@ -5,6 +5,7 @@ import { EmojiMenuComponent } from '../emoji-menu/emoji-menu.component';
 import { Reaction } from '../../shared/models/reaction.model';
 import { HoverOutsideDirective } from '../../shared/directives/hover-outside.directive';
 import { ClickOutsideDirective } from '../../shared/directives/click-outside.directive';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-single-message',
@@ -13,7 +14,8 @@ import { ClickOutsideDirective } from '../../shared/directives/click-outside.dir
     CommonModule,
     EmojiMenuComponent,
     HoverOutsideDirective,
-    ClickOutsideDirective
+    ClickOutsideDirective,
+    FormsModule
   ],
   templateUrl: './single-message.component.html',
   styleUrl: './single-message.component.scss'
@@ -25,6 +27,7 @@ export class SingleMessageComponent {
   @Input() timestamp?: string;
 
   inputText = this.text;
+  editText = this.text;
 
   reactions: Reaction[] = []
 
@@ -40,6 +43,7 @@ export class SingleMessageComponent {
 
   openEditMode() {
     this.showEditMode = true;
+    this.inputText = this.text;
   }
 
   closeEditMode() {
@@ -54,7 +58,7 @@ export class SingleMessageComponent {
     this.showEmojiPickerInEditMode = !this.showEmojiPickerInEditMode;
   }
 
-  addEmoji = (emoji: string) => {
+  addReactionEmoji = (emoji: string) => {
     const existingReaction = this.reactions.find(r => r.emoji === emoji);
 
     if (existingReaction) {
@@ -71,7 +75,9 @@ export class SingleMessageComponent {
     this.showEmojiPicker = false;
   };
 
-  addEmojiToText = (emoji: string) => {
+  addTextEmoji = (emoji: string) => {
+    console.log('triggered')
+    
     this.inputText += emoji;
   };
 }

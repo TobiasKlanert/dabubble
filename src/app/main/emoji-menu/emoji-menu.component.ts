@@ -15,9 +15,15 @@ export class EmojiMenuComponent {
 
   constructor(public emojiService: EmojiService) { }
 
-  @Input() onEmojiSelected!: (emoji: string) => void;
-  addEmoji(index: number) {
+  @Input() onTextEmojiSelected!: (emoji: string) => void;
+  addTextEmoji(index: number) {
     const emoji = this.emojiService.displayedEmojis[index];
-    this.onEmojiSelected?.(emoji);
+    this.onTextEmojiSelected?.(emoji);
+  }
+
+  @Input() onReactionEmojiSelected!: (emoji: string) => void;
+  addReactionEmoji(index: number) {
+    const emoji = this.emojiService.displayedEmojis[index];
+    this.onReactionEmojiSelected?.(emoji);
   }
 }

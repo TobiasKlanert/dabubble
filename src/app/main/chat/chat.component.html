@@ -92,7 +92,7 @@
   </div>
   <div class="textarea-container">
     <app-emoji-menu
-      [onEmojiSelected]="addEmoji"
+      [onTextEmojiSelected]="addTextEmoji"
       *ngIf="emojiService._showPickerInChannels"
       hover-outside
       (hoverOutside)="emojiService.closePickerInChannels()"

@@ -49,7 +49,7 @@
       </defs>
     </svg>
     <div *ngIf="showEmojiPicker" hover-outside (hoverOutside)="showEmojiPicker = false">
-      <app-emoji-menu [onEmojiSelected]="addEmoji"
+      <app-emoji-menu [onReactionEmojiSelected]="addReactionEmoji"
         [ngClass]="{ 'outgoing': outgoing, 'incoming': !outgoing }"></app-emoji-menu>
     </div>
     <svg id="emojiBtn" class="emoji-button" (click)="toggleEmojiPicker(); $event.stopPropagation()" width="40"
@@ -131,9 +131,15 @@
     
     <!--Edit Message Overlay-->
     <div class="edit-message" *ngIf="showEditMode" [ngClass]="{ 'outgoing': outgoing, 'incoming': !outgoing }" click-outside (clickOutside)="showEditMode = false">
-      <textarea name="editMessage" id="">
+      
+      <div>
+<textarea 
+      [(ngModel)]="editText" 
+      name="editMessage" 
+      id="">
         {{ text }}
       </textarea>
+      </div>
       <div class="flex-center flex-sb">
         <svg id="emojiBtn" class="emoji-button" (click)="toggleEditEmojiPicker(); $event.stopPropagation()" width="40"
           height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -148,7 +154,7 @@
           </g>
         </svg>
         <div *ngIf="showEmojiPickerInEditMode" hover-outside (hoverOutside)="showEmojiPickerInEditMode = false">
-          <app-emoji-menu [onEmojiSelected]="addEmoji" class="emoji-menu-edit"></app-emoji-menu>
+          <app-emoji-menu [onTextEmojiSelected]="addTextEmoji" class="emoji-menu-edit"></app-emoji-menu>
         </div>
         <div class="edit-message-buttons">
           <button class="button-secondary-style" (click)="closeEditMode()">Abbrechen</button>
