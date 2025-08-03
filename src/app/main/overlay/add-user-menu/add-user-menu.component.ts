@@ -17,8 +17,8 @@ export class AddUserMenuComponent {
         this.isInputEmpty = value.trim().length === 0;
     }
 
+  // TODO: implement method to add users to a channel
   addUser(value: string) {
-    //Placeholder
     console.log("Added User: ", value);
     this.closeOverlay();
   }

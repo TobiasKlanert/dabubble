@@ -4,6 +4,7 @@ import { ChannelService } from '../../../shared/services/channel.service';
 import { Channel } from '../../../shared/models/channel.model';
 import { OverlayService } from '../../../shared/services/overlay.service';
 import { TextareaResizeService } from '../../../shared/services/textarea-resize.service';
+import { FirestoreService } from '../../../shared/services/firestore.service';
 
 @Component({
   selector: 'app-add-channel-menu',
@@ -13,15 +14,19 @@ import { TextareaResizeService } from '../../../shared/services/textarea-resize.
   styleUrl: './add-channel-menu.component.scss',
 })
 export class AddChannelMenuComponent {
+  userId: string = 'u1';
+
   showFirstMenu: boolean = true;
   isInputEmpty: boolean = true;
   isFormInvalid: boolean = true;
   isInputUserInvisible: boolean = true;
+  
   selectedOption: string = 'none';
 
   constructor(
     public channelService: ChannelService,
     private overlayService: OverlayService,
+    private firestore: FirestoreService,
     public textareaResizeService: TextareaResizeService
   ) {}
 
@@ -65,6 +70,20 @@ export class AddChannelMenuComponent {
       default:
         break;
     }
+  }
+
+  // TODO: implement method for inserting members
+  createChannel(inputName: string, inputDescription: string) {
+    this.firestore
+      .createChannel({
+        name: inputName,
+        description: inputDescription,
+        creatorId: this.userId,
+        members: [this.userId, 'u2', 'u3'],
+      })
+      .then(() => {
+        this.closeOverlay();
+      });
   }
 
   closeOverlay() {
