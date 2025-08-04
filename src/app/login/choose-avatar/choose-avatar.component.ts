@@ -29,13 +29,13 @@ export class ChooseAvatarComponent {
   constructor(private regData: RegistrationDataService, private firestore: FirestoreService) { }
 
   ngOnInit(): void {
-    let formData = this.regData.getData('form');
+    this.formData = this.regData.getData('form');
 
-    if (formData) {
-      console.log('Name:', formData.name);
-      console.log('Email:', formData.email);
-      console.log('Passwort:', formData.password);
-      console.log('Privacy akzeptiert:', formData.privacy);
+    if (this.formData) {
+      console.log('Name:', this.formData.name);
+      console.log('Email:', this.formData.email);
+      console.log('Passwort:', this.formData.password);
+      console.log('Privacy akzeptiert:', this.formData.privacy);
     }
   }
 
@@ -49,6 +49,11 @@ export class ChooseAvatarComponent {
   }
 
   addUserToFirebase(): void {
+    if (!this.formData) {
+      console.error('Keine Formulardaten vorhanden!');
+      return;
+    }
+
     const user: CreateUserData = {
       name: this.formData.name,
       email: this.formData.email,
@@ -56,7 +61,7 @@ export class ChooseAvatarComponent {
       joinedAt: new Date().toISOString(),
       onlineStatus: true
     }
-    this.firestore.addUser(user);
+    // this.firestore.addUser(user);
   }
 
 }
