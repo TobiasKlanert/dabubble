@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OverlayService } from '../../../shared/services/overlay.service';
-import { UserService } from '../../../shared/services/user.service';
 import { User } from '../../../shared/models/database.model';
 import { ProfileService } from '../../../shared/services/profile.service';
+import { FirestoreService } from '../../../shared/services/firestore.service';
+import { ChannelService } from '../../../shared/services/channel.service';
 
 @Component({
   selector: 'app-channel-members',
@@ -13,17 +14,24 @@ import { ProfileService } from '../../../shared/services/profile.service';
   styleUrl: './channel-members.component.scss',
 })
 export class ChannelMembersComponent {
-  users: User[] = [];
+  channelId: string ='';
+
+  channelMembers: User[] = [];
 
   constructor(
     private overlayService: OverlayService,
-    private userService: UserService,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private firestore: FirestoreService,
+    private channel: ChannelService
   ) {}
 
   ngOnInit() {
-    this.userService.users$.subscribe((users) => {
-      this.users = users;
+    this.channel.selectedChannelId$.subscribe((id) => {
+      if (id) this.channelId = id;
+    });
+
+    this.firestore.getChannelMembers(this.channelId).subscribe((members) => {
+      this.channelMembers = members;
     });
   }
 

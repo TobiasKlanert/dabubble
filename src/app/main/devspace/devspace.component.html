@@ -111,8 +111,8 @@
         </button>
       </div>
       <div class="channels-details-body" [class.open]="channelsOpen">
-        @for (channel of channels; track channel.name) {
-        <button class="btn-channel">
+        @for (channel of channels; track channel.id) {
+        <button class="btn-channel" (click)="onSelectChannel(channel.id)">
           <svg
             width="24"
             height="25"

@@ -18,25 +18,25 @@
       </button>
     </header>
     <main>
-      @for (user of users; track user.name) {
+      @for (member of channelMembers; track member.id) {
       <button
         class="profile-button"
-        (click)="openProfile(user.id); $event.stopPropagation()"
+        (click)="openProfile(member.id); $event.stopPropagation()"
       >
         <div class="profile-picture-container">
           <img
             class="profile-picture"
-            src="{{ user.profilePictureUrl }}"
+            src="{{ member.profilePictureUrl }}"
             alt="Profilbild"
           />
           <span
             class="online-marker"
             [ngStyle]="{
-              'background-color': user?.onlineStatus ? '#92C83E' : '#686868'
+              'background-color': member?.onlineStatus ? '#92C83E' : '#686868'
             }"
           ></span>
         </div>
-        <p>{{ user.name }}</p>
+        <p>{{ member.name }}</p>
       </button>
       }
       <button
