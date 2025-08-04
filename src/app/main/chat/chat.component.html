@@ -1,7 +1,7 @@
 <div class="chat-container flex-column">
   <div class="header-container flex-row flex-sb flex-center">
     <div class="headline-container">
-      <button class="btn-channel-info" (click)="showChannelInfo()">
+      <button class="btn-channel-info" (click)="openOverlay('channelInfo')">
         <svg
           width="32"
           height="33"
@@ -30,12 +30,12 @@
       </button>
     </div>
     <div class="user-wrapper">
-      <div class="user-container" (click)="showChannelMembers()">
+      <div class="user-container" (click)="openOverlay('channelMembers')">
         <div class="user-icon-container">
-          @for (user of users; let i = $index; track user.id) {
+          @for (member of channelMembers; let i = $index; track member.id) {
           <img
             class="user"
-            src="{{ user.profilePictureUrl }}"
+            src="{{ member.profilePictureUrl }}"
             alt="Profilbild"
             [ngStyle]="{
               'margin-left': i === 0 ? '0px' : '-10px',
@@ -48,7 +48,7 @@
         </div>
         <p class="counter">{{ members }}</p>
       </div>
-      <button class="btn-add-user" (click)="openAddUserMenu()">
+      <button class="btn-add-user" (click)="openOverlay('addUser')">
         <svg
           class="add-user"
           width="24"

@@ -6,9 +6,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmojiMenuComponent } from '../emoji-menu/emoji-menu.component';
 import { SingleMessageComponent } from '../single-message/single-message.component';
 import { HoverOutsideDirective } from '../../shared/directives/hover-outside.directive';
-import { OverlayService } from '../../shared/services/overlay.service';
-import { UserService } from '../../shared/services/user.service';
+import { OverlayMenuType, OverlayService } from '../../shared/services/overlay.service';
 import { User } from '../../shared/models/database.model';
+import { FirestoreService } from '../../shared/services/firestore.service';
+import { ChannelService } from '../../shared/services/channel.service';
 
 @Component({
   selector: 'app-chat',
@@ -25,6 +26,10 @@ import { User } from '../../shared/models/database.model';
   styleUrl: './chat.component.scss',
 })
 export class ChatComponent {
+  // TODO: Channel may only open after clicking on Channel in Devspace, delete default value 'c1'
+  channelId: string ='c1';
+  channelMembers: User[] = [];
+
   messages = [
     { text: 'Hey, wie geht’s?', outgoing: false, timestamp: '12:00' },
     { text: 'Gut und dir?', outgoing: true, timestamp: '12:01' },
@@ -41,23 +46,26 @@ export class ChatComponent {
   ];
   messages$ = this.messageService.messages$;
   inputText: string = '';
-  users: User[] = [];
   members: number = 0;
 
   constructor(
     private messageService: MessageService,
     private overlayService: OverlayService,
-    private userService: UserService,
-    public emojiService: EmojiService
+    public emojiService: EmojiService,
+    private firestore: FirestoreService,
+    private channel: ChannelService
   ) { }
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLDivElement>;
 
   ngOnInit() {
-    this.userService.users$.subscribe((users) => {
-      this.users = users;
-      this.members = users.length;
-      console.log(this.members);
+    this.channel.selectedChannelId$.subscribe((id) => {
+      if (id) this.channelId = id;
+    });
+
+    this.firestore.getChannelMembers(this.channelId).subscribe((members) => {
+      this.channelMembers = members;
+      this.members = this.channelMembers.length
     });
   }
 
@@ -101,15 +109,7 @@ export class ChatComponent {
     this.emojiService.toggleChannelPicker();
   }
 
-  showChannelMembers() {
-    this.overlayService.open('channelMembers');
-  }
-
-  showChannelInfo() {
-    this.overlayService.open('channelInfo')
-  }
-
-  openAddUserMenu() {
-    this.overlayService.open('addUser');
+  openOverlay(overlay: OverlayMenuType) {
+    this.overlayService.open(overlay);
   }
 }
