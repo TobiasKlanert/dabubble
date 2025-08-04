@@ -11,12 +11,13 @@ import {
 } from '@angular/fire/firestore';
 import { Observable, from, forkJoin, map, switchMap } from 'rxjs';
 import { User, CreateUserData, UserChatPreview, Channel, CreateChannelData } from '../models/database.model';
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 @Injectable({
   providedIn: 'root',
 })
 export class FirestoreService {
-  constructor(private firestore: Firestore) {}
+  constructor(private firestore: Firestore) { }
 
   getChannels(userId: string): Observable<Channel[]> {
     const channelRef = collection(this.firestore, 'channels');
@@ -69,9 +70,25 @@ export class FirestoreService {
     );
   }
 
-  async addUser(user: CreateUserData) {
-    const usersRef = collection(this.firestore, 'users');
-    const docRef = await addDoc(usersRef, user);
-    console.log('User erstellt mit:', docRef.id);
+  async addUser(userData: CreateUserData) {
+    try {
+      const auth = getAuth();
+      const userCredential = await createUserWithEmailAndPassword(auth, userData.email, userData.password);
+
+      const uid = userCredential.user.uid;
+
+      const { password, ...safeUserData } = userData;
+
+      const userToSave = {
+        ...safeUserData,
+        id: uid
+      };
+
+      const usersRef = collection(this.firestore, 'users');
+      await addDoc(usersRef, userToSave);
+      console.log(`User erstellt mit UID: ${uid}`);
+    } catch (error) {
+      console.error('Fehler beim Erstellen des Users:', error);
+    }
   }
 }

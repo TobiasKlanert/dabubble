@@ -59,9 +59,10 @@ export class ChooseAvatarComponent {
       email: this.formData.email,
       profilePictureUrl: this.selectedAvatar,
       joinedAt: new Date().toISOString(),
-      onlineStatus: true
+      onlineStatus: true,
+      password: this.formData.password,
     }
-    // this.firestore.addUser(user);
+    this.firestore.addUser(user);
   }
 
 }

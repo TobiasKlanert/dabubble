@@ -13,6 +13,7 @@ export interface CreateUserData {
   profilePictureUrl: string;
   joinedAt: string;
   onlineStatus: boolean;
+  password: string;
 }
 
 export interface DirectChat {

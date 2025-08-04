@@ -15,18 +15,19 @@ import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  showIntro: boolean = true;
 
-  constructor(private fb: FormBuilder){}
+showIntro: boolean = true;
 
-  form = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]]
-  })
+constructor(private fb: FormBuilder){ }
 
-  ngOnInit(): void {
-    setTimeout(() => {
-      this.showIntro = false;
-    }, 4000);
+form = this.fb.group({
+  email: ['', [Validators.required, Validators.email]],
+  password: ['', [Validators.required, Validators.minLength(6)]]
+})
+
+ngOnInit(): void {
+  setTimeout(() => {
+  this.showIntro = false;
+}, 4000);
   }
 }
