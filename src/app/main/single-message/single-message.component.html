@@ -5,13 +5,17 @@
   <!--Reaction Hover Container-->
   <div class="reaction-container flex-center" *ngIf="!showEditMode"
     [ngClass]="{ 'outgoing': outgoing, 'incoming': !outgoing }">
-    <svg id="checkBtn" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+    <svg id="checkBtn" (click)="addReactionEmoji('✅')" width="40" height="40" viewBox="0 0 40 40" fill="none"
+      xmlns="http://www.w3.org/2000/svg">
       <path
         d="M20 30C25.5228 30 30 25.5228 30 20C30 14.4772 25.5228 10 20 10C14.4772 10 10 14.4772 10 20C10 25.5228 14.4772 30 20 30Z"
         fill="#4BD37B" />
       <path d="M24.6667 14L17.6667 21.2L15.3333 18.8L13 21.2L17.6667 26L27 16.4L24.6667 14Z" fill="white" />
     </svg>
-    <svg id="likeBtn" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+    <svg id="likeBtn" (click)="addReactionEmoji('👍')" width="40" height="40" viewBox="0 0 40 40" fill="none"
+      xmlns="http://www.w3.org/2000/svg">
       <g clip-path="url(#clip0_144534_19104)">
         <path
           d="M19.9184 18.3733C19.9184 18.3733 18.3971 18.6578 19.6467 16.1689C20.5523 14.3556 20.4617 12.2578 19.6467 11.1556C18.3427 9.36001 15.7709 9.94668 16.0426 10.9778C16.9482 14.4978 14.9016 15.5467 13.833 17.7511C12.7464 20.0089 12.8731 23.1911 13.3621 26.0356C13.67 27.8133 14.4669 30 17.3647 30H21.3854L19.9184 18.3733Z"
