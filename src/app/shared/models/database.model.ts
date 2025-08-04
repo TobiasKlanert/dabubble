@@ -7,6 +7,14 @@ export interface User {
   onlineStatus: boolean;
 }
 
+export interface CreateUserData {
+  name: string;
+  email: string;
+  profilePictureUrl: string;
+  joinedAt: string;
+  onlineStatus: boolean;
+}
+
 export interface DirectChat {
   id: string;
   participants: string[];

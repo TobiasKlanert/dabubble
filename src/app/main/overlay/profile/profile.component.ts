@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OverlayService } from '../../../shared/services/overlay.service';
 import { UserService } from '../../../shared/services/user.service';
-import { User } from '../../../shared/models/user.model';
+import { User } from '../../../shared/models/database.model';
 
 @Component({
   selector: 'app-profile',

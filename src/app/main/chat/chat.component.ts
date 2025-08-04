@@ -8,8 +8,7 @@ import { SingleMessageComponent } from '../single-message/single-message.compone
 import { HoverOutsideDirective } from '../../shared/directives/hover-outside.directive';
 import { OverlayService } from '../../shared/services/overlay.service';
 import { UserService } from '../../shared/services/user.service';
-import { User } from '../../shared/models/user.model';
-import { log } from 'console';
+import { User } from '../../shared/models/database.model';
 
 @Component({
   selector: 'app-chat',

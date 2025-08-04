@@ -7,7 +7,6 @@
             <span class="fs20 mb32">Mit deinem Namen und deiner E-Mail-Adresse hast du dein neues DABubble-Konto.</span>
 
 
-
             <form [formGroup]="form">
 
                 <input class="input-name input-blue-style" formControlName="name" type="text" name="name"
@@ -50,7 +49,7 @@
                 </div>
 
                 <div class="button-wrapper flex-end">
-                    <button [routerLink]="'/choose-avatar'" [disabled]="form.invalid" class="button-primary-style">Weiter</button>
+                    <button (click)="addUser()" [routerLink]="'/choose-avatar'" [disabled]="form.invalid" class="button-primary-style">Weiter</button>
                 </div>
 
             </form>

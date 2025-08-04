@@ -10,7 +10,7 @@ import {
   where,
 } from '@angular/fire/firestore';
 import { Observable, from, forkJoin, map, switchMap } from 'rxjs';
-import { User, UserChatPreview, Channel, CreateChannelData } from '../models/database.model';
+import { User, CreateUserData, UserChatPreview, Channel, CreateChannelData } from '../models/database.model';
 
 @Injectable({
   providedIn: 'root',
@@ -67,5 +67,11 @@ export class FirestoreService {
         return from(Promise.all(chatPreviews$));
       })
     );
+  }
+
+  async addUser(user: CreateUserData) {
+    const usersRef = collection(this.firestore, 'users');
+    const docRef = await addDoc(usersRef, user);
+    console.log('User erstellt mit:', docRef.id);
   }
 }
