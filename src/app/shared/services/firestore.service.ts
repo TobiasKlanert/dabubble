@@ -6,18 +6,29 @@ import {
   doc,
   getDoc,
   addDoc,
+  docData,
   query,
   where,
 } from '@angular/fire/firestore';
-import { Observable, from, forkJoin, map, switchMap } from 'rxjs';
-import { User, CreateUserData, UserChatPreview, Channel, CreateChannelData } from '../models/database.model';
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { Observable, from, of, forkJoin, map, switchMap } from 'rxjs';
+import {
+  User,
+  CreateUserData,
+  UserChatPreview,
+  Channel,
+  CreateChannelData,
+} from '../models/database.model';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FirestoreService {
-  constructor(private firestore: Firestore) { }
+  constructor(private firestore: Firestore) {}
+
+  /*  ##########
+    Channels 
+    ##########  */
 
   getChannels(userId: string): Observable<Channel[]> {
     const channelRef = collection(this.firestore, 'channels');
@@ -25,6 +36,23 @@ export class FirestoreService {
 
     return collectionData(q, { idField: 'id' }) as Observable<Channel[]>;
   }
+
+getChannelMembers(channelId: string): Observable<User[]> {
+  const channelRef = doc(this.firestore, 'channels', channelId);
+
+  return from(getDoc(channelRef)).pipe(
+    switchMap((channelSnap) => {
+      const channelData = channelSnap.data();
+      const memberIds: string[] = channelData?.['members'] || [];
+
+      if (memberIds.length === 0) return of([]);
+
+      const userObservables = memberIds.map(id => this.getUser(id));
+      return forkJoin(userObservables);
+    })
+  );
+}
+
 
   createChannel(data: CreateChannelData): Promise<string> {
     const channelsRef = collection(this.firestore, 'channels');
@@ -38,6 +66,10 @@ export class FirestoreService {
 
     return addDoc(channelsRef, newChannel).then((docRef) => docRef.id);
   }
+
+  /*  ##########
+    Chats 
+    ##########  */
 
   getChats(userId: string): Observable<UserChatPreview[]> {
     const chatsRef = collection(this.firestore, 'chats');
@@ -70,10 +102,29 @@ export class FirestoreService {
     );
   }
 
+  /*  ##########
+    Users 
+    ##########  */
+
+  getUser(userId: string): Observable<User> {
+  const userRef = doc(this.firestore, 'users', userId);
+
+  return from(getDoc(userRef)).pipe(
+    map((snap) => {
+      return { id: userId, ...snap.data() } as User;
+    })
+  );
+}
+
+
   async addUser(userData: CreateUserData) {
     try {
       const auth = getAuth();
-      const userCredential = await createUserWithEmailAndPassword(auth, userData.email, userData.password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        userData.email,
+        userData.password
+      );
 
       const uid = userCredential.user.uid;
 
@@ -81,7 +132,7 @@ export class FirestoreService {
 
       const userToSave = {
         ...safeUserData,
-        id: uid
+        id: uid,
       };
 
       const usersRef = collection(this.firestore, 'users');
