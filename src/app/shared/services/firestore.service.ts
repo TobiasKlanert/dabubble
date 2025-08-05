@@ -37,22 +37,27 @@ export class FirestoreService {
     return collectionData(q, { idField: 'id' }) as Observable<Channel[]>;
   }
 
-getChannelMembers(channelId: string): Observable<User[]> {
-  const channelRef = doc(this.firestore, 'channels', channelId);
+  getChannel(channelId: string): Observable<Channel> {
+    const channelRef = doc(this.firestore, 'channels', channelId);
 
-  return from(getDoc(channelRef)).pipe(
-    switchMap((channelSnap) => {
-      const channelData = channelSnap.data();
-      const memberIds: string[] = channelData?.['members'] || [];
+    return docData(channelRef, {idField: 'id'}) as Observable<Channel>;
+  }
 
-      if (memberIds.length === 0) return of([]);
+  getChannelMembers(channelId: string): Observable<User[]> {
+    const channelRef = doc(this.firestore, 'channels', channelId);
 
-      const userObservables = memberIds.map(id => this.getUser(id));
-      return forkJoin(userObservables);
-    })
-  );
-}
+    return from(getDoc(channelRef)).pipe(
+      switchMap((channelSnap) => {
+        const channelData = channelSnap.data();
+        const memberIds: string[] = channelData?.['members'] || [];
 
+        if (memberIds.length === 0) return of([]);
+
+        const userObservables = memberIds.map((id) => this.getUser(id));
+        return forkJoin(userObservables);
+      })
+    );
+  }
 
   createChannel(data: CreateChannelData): Promise<string> {
     const channelsRef = collection(this.firestore, 'channels');
@@ -107,15 +112,14 @@ getChannelMembers(channelId: string): Observable<User[]> {
     ##########  */
 
   getUser(userId: string): Observable<User> {
-  const userRef = doc(this.firestore, 'users', userId);
+    const userRef = doc(this.firestore, 'users', userId);
 
-  return from(getDoc(userRef)).pipe(
-    map((snap) => {
-      return { id: userId, ...snap.data() } as User;
-    })
-  );
-}
-
+    return from(getDoc(userRef)).pipe(
+      map((snap) => {
+        return { id: userId, ...snap.data() } as User;
+      })
+    );
+  }
 
   async addUser(userData: CreateUserData) {
     try {

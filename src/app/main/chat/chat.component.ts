@@ -13,6 +13,7 @@ import {
 import { User } from '../../shared/models/database.model';
 import { FirestoreService } from '../../shared/services/firestore.service';
 import { ChannelService } from '../../shared/services/channel.service';
+import { subscribe } from 'diagnostics_channel';
 
 @Component({
   selector: 'app-chat',
@@ -30,6 +31,7 @@ import { ChannelService } from '../../shared/services/channel.service';
 })
 export class ChatComponent {
   channelId: string = '';
+  channelName: string = '';
   channelMembers: User[] = [];
 
   messages = [
@@ -55,21 +57,22 @@ export class ChatComponent {
     private overlayService: OverlayService,
     public emojiService: EmojiService,
     private firestore: FirestoreService,
-    private channel: ChannelService
+    private channelService: ChannelService
   ) {}
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLDivElement>;
 
   ngOnInit() {
-    this.channel.selectedChannelId$.subscribe((id) => {
+    this.channelService.selectedChannelId$.subscribe((id) => {
       if (id) {
         this.channelId = id;
-        this.firestore
-          .getChannelMembers(this.channelId)
-          .subscribe((members) => {
-            this.channelMembers = members;
-            this.members = this.channelMembers.length;
-          });
+        this.firestore.getChannel(id).subscribe((channel) => {
+          this.channelName = channel.name;
+        });
+        this.firestore.getChannelMembers(id).subscribe((members) => {
+          this.channelMembers = members;
+          this.members = this.channelMembers.length;
+        });
       }
     });
   }

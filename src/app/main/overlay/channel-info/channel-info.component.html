@@ -44,7 +44,10 @@
         </svg>
       </button>
     </header>
-    <div class="channel-name-container" [ngClass]="!isNameEditorActive ? 'border' : ''">
+    <div
+      class="channel-name-container"
+      [ngClass]="!isNameEditorActive ? 'border' : ''"
+    >
       <div class="channel-info-header">
         <h3 class="subheading">Channel-Name</h3>
         @if (!isNameEditorActive) {
@@ -82,7 +85,7 @@
             />
           </g>
         </svg>
-        <p>Entwicklerteam</p>
+        <p>{{ channel?.name }}</p>
       </div>
       } @else {
       <input
@@ -91,11 +94,14 @@
         name="name"
         type="text"
         class="form-input icon-input"
-        placeholder="Entwicklerteam"
+        placeholder="{{ channel?.name }}"
       />
       }
     </div>
-    <div class="channel-details" [ngClass]="!isDescriptionEditorActive ? 'border' : ''">
+    <div
+      class="channel-details"
+      [ngClass]="!isDescriptionEditorActive ? 'border' : ''"
+    >
       <div class="channel-description-container">
         <div class="channel-info-header">
           <h3 class="subheading">Beschreibung</h3>
@@ -111,9 +117,7 @@
         </div>
         @if (!isDescriptionEditorActive) {
         <p>
-          Dieser Channel ist für alles rund um #dfsdf vorgesehen. Hier kannst du
-          zusammen mit deinem Team Meetings abhalten, Dokumente teilen und
-          Entscheidungen treffen.
+          {{ channel?.description }}
         </p>
         } @else {
         <textarea
@@ -139,7 +143,7 @@
       </svg>
       <div class="channel-creator-container">
         <h3 class="subheading">Erstellt von</h3>
-        <p class="creator-name">Max Mustermann</p>
+        <p class="creator-name">{{ channelCreator }}</p>
       </div>
     </div>
     <div class="btn-container">
