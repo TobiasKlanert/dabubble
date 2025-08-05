@@ -8,7 +8,6 @@ import { UploadService } from '../shared/services/upload.service';
 import { OverlayComponent } from './overlay/overlay.component';
 import { FirestoreService } from '../shared/services/firestore.service';
 import { ChannelService } from '../shared/services/channel.service';
-import { Channel } from '../shared/models/database.model';
 
 @Component({
   selector: 'app-main',
@@ -25,7 +24,6 @@ import { Channel } from '../shared/models/database.model';
 })
 export class MainComponent {
   userId: string = 'u1';
-  channels: Channel[] = [];
   firstChannelId: string = '';
   isWorkspaceHidden: boolean = false;
 
@@ -38,8 +36,8 @@ export class MainComponent {
 
   ngOnInit() {
     this.firestore.getChannels(this.userId).subscribe((channels) => {
-      this.channels = channels;
-      this.firstChannelId = this.channels[0].id;
+      this.channelService.setChannels(channels);
+      this.firstChannelId = channels[0].id;
       this.channelService.setChannelId(this.firstChannelId);
     });
   }

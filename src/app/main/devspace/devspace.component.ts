@@ -29,11 +29,11 @@ export class DevspaceComponent {
   constructor(
     private overlayService: OverlayService,
     private firestore: FirestoreService,
-    private channel: ChannelService,
+    private channelService: ChannelService,
   ) {}
 
   ngOnInit() {
-    this.firestore.getChannels(this.userId).subscribe((channels) => {
+    this.channelService.channels$.subscribe((channels) => {
       this.channels = channels;
     });
 
@@ -47,7 +47,7 @@ export class DevspaceComponent {
   }
 
   onSelectChannel(id: string) {
-    this.channel.setChannelId(id);
+    this.channelService.setChannelId(id);
   }
 
   toggleChannels() {
