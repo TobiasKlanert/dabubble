@@ -27,11 +27,14 @@ export class ChannelMembersComponent {
 
   ngOnInit() {
     this.channel.selectedChannelId$.subscribe((id) => {
-      if (id) this.channelId = id;
-    });
-
-    this.firestore.getChannelMembers(this.channelId).subscribe((members) => {
-      this.channelMembers = members;
+      if (id) {
+        this.channelId = id;
+        this.firestore
+          .getChannelMembers(this.channelId)
+          .subscribe((members) => {
+            this.channelMembers = members;
+          });
+      }
     });
   }
 
