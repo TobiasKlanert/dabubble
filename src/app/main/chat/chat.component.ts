@@ -6,7 +6,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmojiMenuComponent } from '../emoji-menu/emoji-menu.component';
 import { SingleMessageComponent } from '../single-message/single-message.component';
 import { HoverOutsideDirective } from '../../shared/directives/hover-outside.directive';
-import { OverlayMenuType, OverlayService } from '../../shared/services/overlay.service';
+import {
+  OverlayMenuType,
+  OverlayService,
+} from '../../shared/services/overlay.service';
 import { User } from '../../shared/models/database.model';
 import { FirestoreService } from '../../shared/services/firestore.service';
 import { ChannelService } from '../../shared/services/channel.service';
@@ -26,8 +29,7 @@ import { ChannelService } from '../../shared/services/channel.service';
   styleUrl: './chat.component.scss',
 })
 export class ChatComponent {
-  // TODO: Channel may only open after clicking on Channel in Devspace, delete default value 'c1'
-  channelId: string ='c1';
+  channelId: string = '';
   channelMembers: User[] = [];
 
   messages = [
@@ -54,18 +56,21 @@ export class ChatComponent {
     public emojiService: EmojiService,
     private firestore: FirestoreService,
     private channel: ChannelService
-  ) { }
+  ) {}
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLDivElement>;
 
   ngOnInit() {
     this.channel.selectedChannelId$.subscribe((id) => {
-      if (id) this.channelId = id;
-    });
-
-    this.firestore.getChannelMembers(this.channelId).subscribe((members) => {
-      this.channelMembers = members;
-      this.members = this.channelMembers.length
+      if (id) {
+        this.channelId = id;
+        this.firestore
+          .getChannelMembers(this.channelId)
+          .subscribe((members) => {
+            this.channelMembers = members;
+            this.members = this.channelMembers.length;
+          });
+      }
     });
   }
 
@@ -103,7 +108,6 @@ export class ChatComponent {
   addTextEmoji = (emoji: string) => {
     this.inputText += emoji;
   };
-
 
   toggleEmojiPicker() {
     this.emojiService.toggleChannelPicker();

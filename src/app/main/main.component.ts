@@ -6,6 +6,9 @@ import { ThreadsComponent } from './threads/threads.component';
 import { OverlayService } from '../shared/services/overlay.service';
 import { UploadService } from '../shared/services/upload.service';
 import { OverlayComponent } from './overlay/overlay.component';
+import { FirestoreService } from '../shared/services/firestore.service';
+import { ChannelService } from '../shared/services/channel.service';
+import { Channel } from '../shared/models/database.model';
 
 @Component({
   selector: 'app-main',
@@ -21,13 +24,25 @@ import { OverlayComponent } from './overlay/overlay.component';
   styleUrl: './main.component.scss',
 })
 export class MainComponent {
-
-  isWorkspaceHidden = false;
+  userId: string = 'u1';
+  channels: Channel[] = [];
+  firstChannelId: string = '';
+  isWorkspaceHidden: boolean = false;
 
   constructor(
     public uploadService: UploadService,
-    private overlayService: OverlayService
+    private overlayService: OverlayService,
+    private firestore: FirestoreService,
+    private channelService: ChannelService
   ) {}
+
+  ngOnInit() {
+    this.firestore.getChannels(this.userId).subscribe((channels) => {
+      this.channels = channels;
+      this.firstChannelId = this.channels[0].id;
+      this.channelService.setChannelId(this.firstChannelId);
+    });
+  }
 
   onSearch(value: any, inputRef?: HTMLInputElement, event?: Event): void {
     if (event) {
