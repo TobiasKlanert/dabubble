@@ -7,6 +7,7 @@ import {
   getDoc,
   addDoc,
   docData,
+  updateDoc,
   query,
   where,
 } from '@angular/fire/firestore';
@@ -40,7 +41,7 @@ export class FirestoreService {
   getChannel(channelId: string): Observable<Channel> {
     const channelRef = doc(this.firestore, 'channels', channelId);
 
-    return docData(channelRef, {idField: 'id'}) as Observable<Channel>;
+    return docData(channelRef, { idField: 'id' }) as Observable<Channel>;
   }
 
   getChannelMembers(channelId: string): Observable<User[]> {
@@ -70,6 +71,19 @@ export class FirestoreService {
     };
 
     return addDoc(channelsRef, newChannel).then((docRef) => docRef.id);
+  }
+
+  updateChannelName(channelId: string, newName: string): Promise<void> {
+    const channelRef = doc(this.firestore, 'channels', channelId);
+    return updateDoc(channelRef, { name: newName });
+  }
+
+  updateChannelDescription(
+    channelId: string,
+    newDescription: string
+  ): Promise<void> {
+    const channelRef = doc(this.firestore, 'channels', channelId);
+    return updateDoc(channelRef, { description: newDescription });
   }
 
   /*  ##########

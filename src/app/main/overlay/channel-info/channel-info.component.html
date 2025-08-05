@@ -121,14 +121,14 @@
         </p>
         } @else {
         <textarea
-          #description
+          #inputDescription
           id="description"
           name="description"
           type="text"
           class="form-input form-textarea"
           placeholder="Dein Text hier"
           rows="1"
-          (input)="this.textareaResizeService.autoResize(description)"
+          (input)="this.textareaResizeService.autoResize(inputDescription)"
         ></textarea>
         }
       </div>
