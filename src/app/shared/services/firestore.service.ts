@@ -20,12 +20,13 @@ import {
   CreateChannelData,
 } from '../models/database.model';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { Auth, signInWithPopup, GoogleAuthProvider } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FirestoreService {
-  constructor(private firestore: Firestore) {}
+  constructor(private firestore: Firestore, private auth: Auth) {}
 
   /*  ##########
     Channels 
@@ -159,5 +160,30 @@ export class FirestoreService {
     } catch (error) {
       console.error('Fehler beim Erstellen des Users:', error);
     }
+  }
+
+  login(): Promise<User> {
+  const provider = new GoogleAuthProvider();
+  return signInWithPopup(this.auth, provider).then(result => {
+    const firebaseUser = result.user;
+
+    const appUser: User = {
+      id: firebaseUser.uid,
+      name: firebaseUser.displayName ?? '',
+      email: firebaseUser.email?? '',
+      profilePictureUrl: firebaseUser.photoURL ?? '',
+      joinedAt: new Date().toString(), // falls du keine eigene Quelle hast
+      onlineStatus: true
+    };
+
+    console.log('User angemeldet:', appUser);
+    
+
+    return appUser;
+  });
+}
+
+  logout(): Promise<void> {
+    return this.auth.signOut();
   }
 }

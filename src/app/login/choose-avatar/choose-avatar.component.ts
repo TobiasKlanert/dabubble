@@ -26,7 +26,7 @@ export class ChooseAvatarComponent {
     '/assets/img/user6.png',
   ]
 
-  constructor(private regData: RegistrationDataService, private firestore: FirestoreService) { }
+  constructor(private regData: RegistrationDataService, private firestoreService: FirestoreService) { }
 
   ngOnInit(): void {
     this.formData = this.regData.getData('form');
@@ -62,7 +62,6 @@ export class ChooseAvatarComponent {
       onlineStatus: true,
       password: this.formData.password,
     }
-    this.firestore.addUser(user);
+    this.firestoreService.addUser(user);
   }
-
 }
