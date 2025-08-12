@@ -1,7 +1,9 @@
-<!-- <div class="intro-animation flex-center" *ngIf="showIntro">
-    <img class="intro-logo-img" src="/assets/img/logo.png" alt="">
-    <span class="intro-logo-text">DABubble</span>
-</div> -->
+<div class="intro-animation flex-center" *ngIf="showIntro">
+    <div class="logo-wrapper">
+        <img class="intro-logo-img" src="/assets/img/logo.png" alt="">
+        <span class="intro-logo-text">DABubble</span>
+    </div>
+</div>
 
 <div class="login-wrapper flex-center">
     <div class="login-content flex-center flex-column">
@@ -12,22 +14,28 @@
         </div>
         <div class="login-dialog flex-column flex-center text-center">
             <h2 class="headline-style mb32">Anmeldung</h2>
-            <span class="fs20 mb32">Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit verwendest.</span>
+            <span class="fs20 mb32">Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit
+                verwendest.</span>
 
             <form [formGroup]="form">
                 <input class="input-email input-blue-style" formControlName="email" type="email" name="email"
                     placeholder="beispiel@email.com">
                 <div class="error-space">
                     <div *ngIf="form.get('email')?.invalid && form.get('email')?.touched">
-                        <div class="error-message" *ngIf="form.get('email')?.errors?.['required']">Bitte geben Sie eine Email-Adresse ein</div>
-                        <div class="error-message" *ngIf="form.get('email')?.errors?.['email']">Ihre Emailadresse ist leider ungültig</div>
+                        <div class="error-message" *ngIf="form.get('email')?.errors?.['required']">Bitte geben Sie eine
+                            Email-Adresse ein</div>
+                        <div class="error-message" *ngIf="form.get('email')?.errors?.['email']">Ihre Emailadresse ist
+                            leider ungültig</div>
                     </div>
                 </div>
-                <input class="input-password input-blue-style" formControlName="password" type="password" name="password" placeholder="Passwort">
+                <input class="input-password input-blue-style" formControlName="password" type="password"
+                    name="password" placeholder="Passwort">
                 <div class="error-space">
                     <div *ngIf="form.get('password')?.invalid && form.get('password')?.touched">
-                        <div class="error-message" *ngIf="form.get('password')?.errors?.['required']">Passwort ist erforderlich</div>
-                        <div class="error-message" *ngIf="form.get('password')?.errors?.['minlength']">Mindestens 6 Zeichen</div>
+                        <div class="error-message" *ngIf="form.get('password')?.errors?.['required']">Passwort ist
+                            erforderlich</div>
+                        <div class="error-message" *ngIf="form.get('password')?.errors?.['minlength']">Mindestens 6
+                            Zeichen</div>
                     </div>
                 </div>
             </form>
