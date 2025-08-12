@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { OverlayService } from '../../../shared/services/overlay.service';
-import { ProfileService } from '../../../shared/services/profile.service';
+import { FirestoreService } from '../../../shared/services/firestore.service';
 
 @Component({
   selector: 'app-profile-menu',
@@ -10,17 +10,26 @@ import { ProfileService } from '../../../shared/services/profile.service';
   styleUrl: './profile-menu.component.scss',
 })
 export class ProfileMenuComponent {
+  userId: string = '';
+
   constructor(
+    private firestore: FirestoreService,
     private overlayService: OverlayService,
-    private profileService: ProfileService
   ) {}
 
-  openProfile(userId: string) {
-    this.profileService.openUserProfile(userId);
+  ngOnInit() {
+    this.firestore.loggedInUserId$.subscribe((userId) => {
+      this.userId = userId;
+    })
   }
 
+  openProfile(userId: string) {
+    this.firestore.setSelectedUserId(userId);
+    this.overlayService.open('profile');
+  }
+
+  // TODO: implement logout method
   logout() {
-    //Placeholder
     this.overlayService.close();
     console.log('Logout');
   }

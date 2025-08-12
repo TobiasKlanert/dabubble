@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OverlayService } from '../../../shared/services/overlay.service';
 import { User } from '../../../shared/models/database.model';
-import { ProfileService } from '../../../shared/services/profile.service';
 import { FirestoreService } from '../../../shared/services/firestore.service';
 import { ChannelService } from '../../../shared/services/channel.service';
 
@@ -14,13 +13,12 @@ import { ChannelService } from '../../../shared/services/channel.service';
   styleUrl: './channel-members.component.scss',
 })
 export class ChannelMembersComponent {
-  channelId: string ='';
+  channelId: string = '';
 
   channelMembers: User[] = [];
 
   constructor(
     private overlayService: OverlayService,
-    private profileService: ProfileService,
     private firestore: FirestoreService,
     private channel: ChannelService
   ) {}
@@ -39,7 +37,8 @@ export class ChannelMembersComponent {
   }
 
   openProfile(userId: string) {
-    this.profileService.openUserProfile(userId);
+    this.firestore.setSelectedUserId(userId);
+    this.overlayService.open('profile');
   }
 
   openAddUserDialog() {

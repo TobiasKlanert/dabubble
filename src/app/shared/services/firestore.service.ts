@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import {
   Firestore,
   collection,
@@ -126,6 +127,23 @@ export class FirestoreService {
     Users 
     ##########  */
 
+  /* Hier wird die ID des eingeloggten Users global gespeichert -> Standardwert 'u1' bitte entfernen, wenn Login fertig implementiert */
+  private _loggedInUserId$ = new BehaviorSubject<string>('u1');
+  loggedInUserId$ = this._loggedInUserId$.asObservable();
+
+  /* Diese Methode nutzen, um ID des eingeloggten Users global zu speichern */
+  setLoggedInUserId(userId: string) {
+    this._selectedUserId$.next(userId);
+  }
+
+  /* Nur für Auswahl eines Users (z.B. Mitglied eines Channels) nutzen, nicht für den angemeldeten User! */
+  private _selectedUserId$ = new BehaviorSubject<string>('');
+  selectedUserId$ = this._selectedUserId$.asObservable();
+
+  setSelectedUserId(userId: string) {
+    this._selectedUserId$.next(userId);
+  }
+
   getUser(userId: string): Observable<User> {
     const userRef = doc(this.firestore, 'users', userId);
 
@@ -135,6 +153,10 @@ export class FirestoreService {
       })
     );
   }
+
+  /*  ##########
+    Login
+    ##########  */
 
   async addUser(userData: CreateUserData) {
     try {
@@ -163,25 +185,24 @@ export class FirestoreService {
   }
 
   login(): Promise<User> {
-  const provider = new GoogleAuthProvider();
-  return signInWithPopup(this.auth, provider).then(result => {
-    const firebaseUser = result.user;
+    const provider = new GoogleAuthProvider();
+    return signInWithPopup(this.auth, provider).then((result) => {
+      const firebaseUser = result.user;
 
-    const appUser: User = {
-      id: firebaseUser.uid,
-      name: firebaseUser.displayName ?? '',
-      email: firebaseUser.email?? '',
-      profilePictureUrl: firebaseUser.photoURL ?? '',
-      joinedAt: new Date().toString(), // falls du keine eigene Quelle hast
-      onlineStatus: true
-    };
+      const appUser: User = {
+        id: firebaseUser.uid,
+        name: firebaseUser.displayName ?? '',
+        email: firebaseUser.email ?? '',
+        profilePictureUrl: firebaseUser.photoURL ?? '',
+        joinedAt: new Date().toString(), // falls du keine eigene Quelle hast
+        onlineStatus: true,
+      };
 
-    console.log('User angemeldet:', appUser);
-    
+      console.log('User angemeldet:', appUser);
 
-    return appUser;
-  });
-}
+      return appUser;
+    });
+  }
 
   logout(): Promise<void> {
     return this.auth.signOut();

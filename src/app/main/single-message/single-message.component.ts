@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { ProfileService } from '../../shared/services/profile.service';
 import { EmojiMenuComponent } from '../emoji-menu/emoji-menu.component';
 import { Reaction } from '../../shared/models/reaction.model';
 import { HoverOutsideDirective } from '../../shared/directives/hover-outside.directive';
 import { ClickOutsideDirective } from '../../shared/directives/click-outside.directive';
 import { FormsModule } from '@angular/forms';
+import { FirestoreService } from '../../shared/services/firestore.service';
+import { OverlayService } from '../../shared/services/overlay.service';
 
 @Component({
   selector: 'app-single-message',
@@ -15,30 +16,37 @@ import { FormsModule } from '@angular/forms';
     EmojiMenuComponent,
     HoverOutsideDirective,
     ClickOutsideDirective,
-    FormsModule
+    FormsModule,
   ],
   templateUrl: './single-message.component.html',
-  styleUrl: './single-message.component.scss'
+  styleUrl: './single-message.component.scss',
 })
-
 export class SingleMessageComponent {
   @Input() text!: string;
   @Input() outgoing = false;
   @Input() timestamp?: string;
 
+  userId: string = '';
+
   inputText = this.text;
   editText = this.text;
 
-  reactions: Reaction[] = []
+  reactions: Reaction[] = [];
 
   showEmojiPicker = false;
   showEmojiPickerInEditMode = false;
   showEditMode = false;
 
-  constructor(private profileService: ProfileService) { }
+  constructor(
+    private firestore: FirestoreService,
+    private overlayService: OverlayService
+  ) {}
+
+  // TODO: Load Messages from Firestore
 
   openProfile(userId: string) {
-    this.profileService.openUserProfile(userId);
+    this.firestore.setSelectedUserId(userId);
+    this.overlayService.open('profile');
   }
 
   openEditMode() {
@@ -70,7 +78,7 @@ export class SingleMessageComponent {
   }
 
   addReactionEmoji = (emoji: string) => {
-    const existingReaction = this.reactions.find(r => r.emoji === emoji);
+    const existingReaction = this.reactions.find((r) => r.emoji === emoji);
 
     if (existingReaction) {
       existingReaction.amount += 1;
@@ -79,7 +87,7 @@ export class SingleMessageComponent {
       this.reactions.push({
         emoji,
         amount: 1,
-        userName: ['dummy-user-id']
+        userName: ['dummy-user-id'],
       });
     }
 

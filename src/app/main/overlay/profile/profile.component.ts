@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OverlayService } from '../../../shared/services/overlay.service';
-import { UserService } from '../../../shared/services/user.service';
 import { User } from '../../../shared/models/database.model';
+import { FirestoreService } from '../../../shared/services/firestore.service';
 
 @Component({
   selector: 'app-profile',
@@ -15,13 +15,15 @@ export class ProfileComponent implements OnInit {
   user: User | null = null;
 
   constructor(
-    private userService: UserService,
+    private firestore: FirestoreService,
     private overlayService: OverlayService
   ) {}
 
   ngOnInit() {
-    this.userService.selectedUser$.subscribe((user) => {
-      this.user = user;
+    this.firestore.selectedUserId$.subscribe((userId) => {
+      this.firestore.getUser(userId).subscribe((user) => {
+        this.user = user;
+      });
     });
   }
 

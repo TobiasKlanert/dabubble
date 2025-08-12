@@ -1,7 +1,8 @@
 <div class="menu-container">
   <div class="profile-menu" (click)="$event.stopPropagation()">
-    <!-- Später einfügen: openProfile(userId) -->
-    <button (click)="openProfile('1'); $event.stopPropagation()">Profil</button>
+    <button (click)="openProfile(userId); $event.stopPropagation()">
+      Profil
+    </button>
     <button (click)="logout()">Logout</button>
   </div>
 </div>

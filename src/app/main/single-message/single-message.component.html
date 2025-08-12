@@ -99,8 +99,10 @@
   <!--Message Content-->
   <div class="message-content" [ngClass]="{ 'outgoing': outgoing, 'incoming': !outgoing }">
     <div class="name-time flex-row gap20 mb8" [ngClass]="{ 'outgoing': outgoing, 'incoming': !outgoing }">
-      <!-- Später einfügen: openProfile(message.senderId) -->
-      <p class="sender" (click)="openProfile('1')">Max Mustermann</p>
+      <!--
+        TODO: Implement transfer of the correct user ID
+      -->
+      <p class="sender" (click)="openProfile('u1')">Max Mustermann</p>
       <p class="timestamp">{{ timestamp }}</p>
     </div>
     <div class="bubble-wrapper mb8" [ngClass]="{ 'outgoing': outgoing, 'incoming': !outgoing }">
