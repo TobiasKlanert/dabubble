@@ -148,7 +148,7 @@
 
     .logo-wrapper {
         position: relative;
-        background-color: rgba(0, 0, 0, 0.2);
+        // background-color: rgba(0, 0, 0, 0.2);
         width: fit-content;
         padding: 8px 12px;
         border-radius: 12px;
@@ -158,7 +158,7 @@
     }
 
     .intro-logo-img {
-        z-index: 10;
+        z-index: 100;
         display: block;
         /* Basiszustand deckungsgleich mit Keyframes */
         transform: translateX(0);
@@ -192,7 +192,7 @@
     }
 
     to {
-        transform: translateX(-220px);
+        transform: translateX(-240px);
         opacity: 1;
     }
 }
@@ -205,7 +205,7 @@
     }
 
     to {
-        transform: translateY(-50%) translateX(-180px);
+        transform: translateY(-50%) translateX(-250px);
         opacity: 1;
     }
 }
@@ -218,7 +218,7 @@
     }
 
     to {
-        transform: translate(calc(-50vw + 115px), calc(-50vh + 115px)) scale(0.4);
+        transform: translate(calc(-45vw + 115px), calc(-55vh + 115px)) scale(0.4);
         opacity: 0;
     }
 }
