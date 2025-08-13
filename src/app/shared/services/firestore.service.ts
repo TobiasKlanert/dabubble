@@ -129,14 +129,13 @@ export class FirestoreService {
     ##########  */
 
   /* Hier wird die ID des eingeloggten Users global gespeichert -> Standardwert 'u1' bitte entfernen, wenn Login fertig implementiert */
-  private _loggedInUserId$ = new BehaviorSubject<string>('u1');
+  private _loggedInUserId$ = new BehaviorSubject<string | ''>('');
   loggedInUserId$ = this._loggedInUserId$.asObservable();
 
   /* Diese Methode nutzen, um ID des eingeloggten Users global zu speichern */
-  setLoggedInUserId(userId: string) {
+  setLoggedInUserId(userId: string | '') {
     this._selectedUserId$.next(userId);
     console.log('aktiver User hat ID:', this.loggedInUserId$);
-    
   }
 
   /* Nur für Auswahl eines Users (z.B. Mitglied eines Channels) nutzen, nicht für den angemeldeten User! */
