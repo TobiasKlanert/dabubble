@@ -21,8 +21,10 @@
                     }
                 </div>
                 <div class="button-wrapper flex-end">
-                    <button [disabled]="!isAvatarChosen" class="button-primary-style" [routerLink]="'/main'">Weiter</button>
+                    <button [disabled]="!isAvatarChosen" class="button-primary-style"
+                        (click)="finishRegistration()">Weiter</button>
                 </div>
+
             </div>
         </div>
     </div>

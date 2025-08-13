@@ -17,7 +17,7 @@
             <span class="fs20 mb32">Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit
                 verwendest.</span>
 
-            <form [formGroup]="form">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
                 <input class="input-email input-blue-style" formControlName="email" type="email" name="email"
                     placeholder="beispiel@email.com">
                 <div class="error-space">
@@ -51,7 +51,8 @@
                 <a class="link-style">Anmelden mit Google</a>
             </div>
             <div class="login-buttons">
-                <button (click)="login()" class="button-primary-style">Anmelden</button>
+                <button type="submit" class="button-primary-style" [disabled]="form.invalid || loading"
+                    (click)="$event.preventDefault(); onSubmit()">Anmelden</button>
                 <button class="button-secondary-style" [routerLink]="'/main'">Gäste-Login</button>
             </div>
         </div>

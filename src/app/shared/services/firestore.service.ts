@@ -22,6 +22,7 @@ import {
 } from '../models/database.model';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { Auth, signInWithPopup, GoogleAuthProvider } from '@angular/fire/auth';
+import { log } from 'console';
 
 @Injectable({
   providedIn: 'root',
@@ -134,6 +135,8 @@ export class FirestoreService {
   /* Diese Methode nutzen, um ID des eingeloggten Users global zu speichern */
   setLoggedInUserId(userId: string) {
     this._selectedUserId$.next(userId);
+    console.log('aktiver User hat ID:', this.loggedInUserId$);
+    
   }
 
   /* Nur für Auswahl eines Users (z.B. Mitglied eines Channels) nutzen, nicht für den angemeldeten User! */

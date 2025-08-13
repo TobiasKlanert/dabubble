@@ -1,21 +1,20 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { RegistrationDataService } from '../../shared/services/registration-data.service';
-import { CreateUserData } from '../../shared/models/database.model';
+import { AuthService } from '../../shared/services/auth.service';
 import { FirestoreService } from '../../shared/services/firestore.service';
 
 @Component({
   selector: 'app-choose-avatar',
   standalone: true,
-  imports: [
-    RouterLink,
-  ],
+  imports: [RouterLink],
   templateUrl: './choose-avatar.component.html',
   styleUrl: './choose-avatar.component.scss'
 })
 export class ChooseAvatarComponent {
-  selectedAvatar: string = '';
+  selectedAvatar = '';
   formData: any;
+  loading = false;
 
   avatars: string[] = [
     '/assets/img/user1.png',
@@ -24,44 +23,48 @@ export class ChooseAvatarComponent {
     '/assets/img/user4.png',
     '/assets/img/user5.png',
     '/assets/img/user6.png',
-  ]
+  ];
 
-  constructor(private regData: RegistrationDataService, private firestoreService: FirestoreService) { }
+  constructor(
+    private regData: RegistrationDataService,
+    private auth: AuthService,
+    private router: Router,
+    private firestoreService: FirestoreService,
+  ) { }
 
   ngOnInit(): void {
     this.formData = this.regData.getData('form');
-
-    if (this.formData) {
-      console.log('Name:', this.formData.name);
-      console.log('Email:', this.formData.email);
-      console.log('Passwort:', this.formData.password);
-      console.log('Privacy akzeptiert:', this.formData.privacy);
+    if (!this.formData) {
+      console.error('Keine Formulardaten vorhanden');
     }
   }
 
   selectAvatar(avatar: string): void {
     this.selectedAvatar = avatar;
-    this.addUserToFirebase()
   }
 
   get isAvatarChosen(): boolean {
     return this.selectedAvatar !== '';
   }
 
-  addUserToFirebase(): void {
-    if (!this.formData) {
-      console.error('Keine Formulardaten vorhanden!');
-      return;
-    }
+  async finishRegistration(): Promise<void> {
+    if (!this.formData || !this.isAvatarChosen || this.loading) return;
+    this.loading = true;
 
-    const user: CreateUserData = {
-      name: this.formData.name,
-      email: this.formData.email,
-      profilePictureUrl: this.selectedAvatar,
-      joinedAt: new Date().toISOString(),
-      onlineStatus: true,
-      password: this.formData.password,
+    try {
+      const user = await this.auth.register(
+        this.formData.name,
+        this.formData.email,
+        this.formData.password,
+        this.selectedAvatar
+      );
+      console.log('UID des neu registrierten Users:', user.uid);
+      this.firestoreService.setLoggedInUserId(user.uid)
+      this.router.navigate(['/main']);
+    } catch (err) {
+      console.error('Registrierung fehlgeschlagen:', err);
+    } finally {
+      this.loading = false;
     }
-    this.firestoreService.addUser(user);
   }
 }
