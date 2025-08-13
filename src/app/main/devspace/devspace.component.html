@@ -237,7 +237,7 @@
       </div>
       <div class="messages-details-body" [class.open]="messagesOpen">
          @for (chat of chats; track chat.chatId) {
-        <button class="profile-button">
+        <button class="profile-button" (click)="openDM(chat.chatId)">
           <div class="profile-picture-container">
             <img
               class="profile-picture"

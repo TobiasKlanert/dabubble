@@ -8,6 +8,9 @@ import {
 } from '../../shared/models/database.model';
 import { FirestoreService } from '../../shared/services/firestore.service';
 import { ChannelService } from '../../shared/services/channel.service';
+import { ChatService } from '../../shared/services/chat.service';
+import { DmService } from '../../shared/services/dm.service';
+import { ChatType } from '../../shared/models/chat.enums';
 
 @Component({
   selector: 'app-devspace',
@@ -30,6 +33,8 @@ export class DevspaceComponent {
     private overlayService: OverlayService,
     private firestore: FirestoreService,
     private channelService: ChannelService,
+    private chatService: ChatService,
+    private dmService: DmService
   ) {}
 
   ngOnInit() {
@@ -46,8 +51,14 @@ export class DevspaceComponent {
     this.overlayService.open('addChannel');
   }
 
-  onSelectChannel(id: string) {
-    this.channelService.setChannelId(id);
+  onSelectChannel(channelId: string) {
+    this.channelService.setChannelId(channelId);
+    this.chatService.openChatWindow(ChatType.Channel);
+  }
+
+  openDM(dmId: string) {
+    this.chatService.openChatWindow(ChatType.DirectMessage);
+    this.dmService.setDirectMessageId(dmId);
   }
 
   toggleChannels() {
