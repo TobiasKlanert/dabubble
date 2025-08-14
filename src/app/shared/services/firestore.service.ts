@@ -19,6 +19,7 @@ import {
   UserChatPreview,
   Channel,
   CreateChannelData,
+  DirectChat
 } from '../models/database.model';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { Auth, signInWithPopup, GoogleAuthProvider } from '@angular/fire/auth';
@@ -92,6 +93,12 @@ export class FirestoreService {
   /*  ##########
     Chats 
     ##########  */
+
+  getChat(chatId: string): Observable<DirectChat> {
+    const chatRef = doc(this.firestore, 'chats', chatId);
+
+    return docData(chatRef, { idField: 'id' }) as Observable<DirectChat>;
+  }
 
   getChats(userId: string): Observable<UserChatPreview[]> {
     const chatsRef = collection(this.firestore, 'chats');
