@@ -4,6 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../shared/services/auth.service';
 import { FirestoreService } from '../../shared/services/firestore.service';
+import { RegistrationDataService } from '../../shared/services/registration-data.service';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,8 @@ export class LoginComponent {
     private auth: AuthService,
     private router: Router,
     private firestoreService: FirestoreService,
-  ) {}
+    private regData: RegistrationDataService,
+  ) { }
 
   form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -34,19 +36,44 @@ export class LoginComponent {
   }
 
   async onSubmit() {
-  if (this.form.invalid || this.loading) return;
-  this.loading = true;
+    if (this.form.invalid || this.loading) return;
+    this.loading = true;
 
-  const { email, password } = this.form.value;
-  try {
-    const cred = await this.auth.login(String(email), String(password));
-    console.log('UID des eingeloggten Users:', cred.user.uid);
-    this.firestoreService.setLoggedInUserId(cred.user.uid)
-    this.router.navigate(['/main']);
-  } catch (err: any) {
-    console.error('Login fehlgeschlagen:', err);
-  } finally {
-    this.loading = false;
+    const { email, password } = this.form.value;
+    try {
+      const cred = await this.auth.login(String(email), String(password));
+      console.log('UID des eingeloggten Users:', cred.user.uid);
+      this.firestoreService.setLoggedInUserId(cred.user.uid)
+      this.router.navigate(['/main']);
+    } catch (err: any) {
+      console.error('Login fehlgeschlagen:', err);
+    } finally {
+      this.loading = false;
+    }
   }
-}
+
+  // NEU Google Login
+  async onGoogleLogin() {
+    if (this.loading) return;
+    this.loading = true;
+    try {
+      const user = await this.auth.signInWithGoogle();
+      this.firestoreService.setLoggedInUserId(user.uid);
+
+      // Daten für ChooseAvatar vormerken
+      this.regData.setData('form', {
+        name: user.displayName ?? '',
+        email: user.email ?? '',
+        password: '',
+        google: true,
+        uid: user.uid
+      });
+
+      this.router.navigate(['/choose-avatar']);
+    } catch (err) {
+      console.error('Google Login fehlgeschlagen:', err);
+    } finally {
+      this.loading = false;
+    }
+  }
 }
