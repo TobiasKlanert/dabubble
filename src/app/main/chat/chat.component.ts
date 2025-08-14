@@ -12,7 +12,7 @@ import {
 } from '../../shared/services/overlay.service';
 import { User } from '../../shared/models/database.model';
 import { FirestoreService } from '../../shared/services/firestore.service';
-import { ChannelService } from '../../shared/services/channel.service';
+import { GlobalIdService } from '../../shared/services/global-id.service';
 import { subscribe } from 'diagnostics_channel';
 
 @Component({
@@ -57,13 +57,13 @@ export class ChatComponent {
     private overlayService: OverlayService,
     public emojiService: EmojiService,
     private firestore: FirestoreService,
-    private channelService: ChannelService
+    private globalIdService: GlobalIdService
   ) {}
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLDivElement>;
 
   ngOnInit() {
-    this.channelService.selectedChannelId$.subscribe((id) => {
+    this.globalIdService.selectedChannelId$.subscribe((id) => {
       if (id) {
         this.channelId = id;
         this.firestore.getChannel(id).subscribe((channel) => {

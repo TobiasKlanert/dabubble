@@ -7,7 +7,7 @@ import { OverlayService } from '../shared/services/overlay.service';
 import { UploadService } from '../shared/services/upload.service';
 import { OverlayComponent } from './overlay/overlay.component';
 import { FirestoreService } from '../shared/services/firestore.service';
-import { ChannelService } from '../shared/services/channel.service';
+import { GlobalIdService } from '../shared/services/global-id.service';
 
 @Component({
   selector: 'app-main',
@@ -31,14 +31,14 @@ export class MainComponent {
     public uploadService: UploadService,
     private overlayService: OverlayService,
     private firestore: FirestoreService,
-    private channelService: ChannelService
+    private globalIdService: GlobalIdService
   ) {}
 
   ngOnInit() {
     this.firestore.getChannels(this.userId).subscribe((channels) => {
-      this.channelService.setChannels(channels);
+      this.globalIdService.setChannels(channels);
       this.firstChannelId = channels[0].id;
-      this.channelService.setChannelId(this.firstChannelId);
+      this.globalIdService.setChannelId(this.firstChannelId);
     });
   }
 

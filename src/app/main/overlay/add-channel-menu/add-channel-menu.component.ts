@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ChannelService } from '../../../shared/services/channel.service';
-import { Channel } from '../../../shared/models/channel.model';
 import { OverlayService } from '../../../shared/services/overlay.service';
 import { TextareaResizeService } from '../../../shared/services/textarea-resize.service';
 import { FirestoreService } from '../../../shared/services/firestore.service';
@@ -24,7 +22,6 @@ export class AddChannelMenuComponent {
   selectedOption: string = 'none';
 
   constructor(
-    public channelService: ChannelService,
     private overlayService: OverlayService,
     private firestore: FirestoreService,
     public textareaResizeService: TextareaResizeService

@@ -7,9 +7,8 @@ import {
   User,
 } from '../../shared/models/database.model';
 import { FirestoreService } from '../../shared/services/firestore.service';
-import { ChannelService } from '../../shared/services/channel.service';
+import { GlobalIdService } from '../../shared/services/global-id.service';
 import { ChatService } from '../../shared/services/chat.service';
-import { DmService } from '../../shared/services/dm.service';
 import { ChatType } from '../../shared/models/chat.enums';
 
 @Component({
@@ -32,13 +31,12 @@ export class DevspaceComponent {
   constructor(
     private overlayService: OverlayService,
     private firestore: FirestoreService,
-    private channelService: ChannelService,
+    private globalIdService: GlobalIdService,
     private chatService: ChatService,
-    private dmService: DmService
   ) {}
 
   ngOnInit() {
-    this.channelService.channels$.subscribe((channels) => {
+    this.globalIdService.channels$.subscribe((channels) => {
       this.channels = channels;
     });
 
@@ -52,13 +50,13 @@ export class DevspaceComponent {
   }
 
   onSelectChannel(channelId: string) {
-    this.channelService.setChannelId(channelId);
+    this.globalIdService.setChannelId(channelId);
     this.chatService.openChatWindow(ChatType.Channel);
   }
 
   openDM(dmId: string) {
+    this.globalIdService.setDirectMessageId(dmId);
     this.chatService.openChatWindow(ChatType.DirectMessage);
-    this.dmService.setDirectMessageId(dmId);
   }
 
   toggleChannels() {
