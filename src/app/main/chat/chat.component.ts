@@ -12,7 +12,7 @@ import {
 } from '../../shared/services/overlay.service';
 import { User } from '../../shared/models/database.model';
 import { FirestoreService } from '../../shared/services/firestore.service';
-import { GlobalIdService } from '../../shared/services/global-id.service';
+import { ChatService } from '../../shared/services/chat.service';
 import { subscribe } from 'diagnostics_channel';
 
 @Component({
@@ -30,9 +30,10 @@ import { subscribe } from 'diagnostics_channel';
   styleUrl: './chat.component.scss',
 })
 export class ChatComponent {
-  channelId: string = '';
-  channelName: string = '';
+  chatId: string = '';
+  chatName: string = '';
   channelMembers: User[] = [];
+  currentChat: any;
 
   messages = [
     { text: 'Hey, wie geht’s?', outgoing: false, timestamp: '12:00' },
@@ -57,24 +58,22 @@ export class ChatComponent {
     private overlayService: OverlayService,
     public emojiService: EmojiService,
     private firestore: FirestoreService,
-    private globalIdService: GlobalIdService
+    private chatService: ChatService
   ) {}
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLDivElement>;
 
   ngOnInit() {
-    this.globalIdService.selectedChannelId$.subscribe((id) => {
-      if (id) {
-        this.channelId = id;
-        this.firestore.getChannel(id).subscribe((channel) => {
-          this.channelName = channel.name;
-        });
-        this.firestore.getChannelMembers(id).subscribe((members) => {
+    this.chatService.selectedChat$.subscribe(chat => {
+    if (chat) {
+      this.currentChat = chat;   
+      this.firestore.getChannelMembers(this.currentChat.id).subscribe((members) => {
           this.channelMembers = members;
           this.members = this.channelMembers.length;
         });
-      }
-    });
+      console.log("Chat geladen: ", this.currentChat);
+    }
+  });
   }
 
   ngAfterViewInit() {

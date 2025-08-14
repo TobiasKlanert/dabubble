@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { OverlayService } from '../../../shared/services/overlay.service';
 import { User } from '../../../shared/models/database.model';
 import { FirestoreService } from '../../../shared/services/firestore.service';
-import { GlobalIdService } from '../../../shared/services/global-id.service';
+import { ChatService } from '../../../shared/services/chat.service';
 
 @Component({
   selector: 'app-channel-members',
@@ -20,20 +20,19 @@ export class ChannelMembersComponent {
   constructor(
     private overlayService: OverlayService,
     private firestore: FirestoreService,
-    private globalIdService: GlobalIdService
+    private chatService: ChatService,
   ) {}
 
   ngOnInit() {
-    this.globalIdService.selectedChannelId$.subscribe((id) => {
-      if (id) {
-        this.channelId = id;
+    this.chatService.selectedChat$.subscribe((chat) => {
+      if (chat.id) {
         this.firestore
-          .getChannelMembers(this.channelId)
+          .getChannelMembers(chat.id)
           .subscribe((members) => {
             this.channelMembers = members;
           });
       }
-    });
+    })
   }
 
   openProfile(userId: string) {

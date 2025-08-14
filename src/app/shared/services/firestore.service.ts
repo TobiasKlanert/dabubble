@@ -136,7 +136,7 @@ export class FirestoreService {
     ##########  */
 
   /* Hier wird die ID des eingeloggten Users global gespeichert -> Standardwert '' mit Dummy-User-Daten ersetzen */
-  private _loggedInUserId$ = new BehaviorSubject<string | ''>('');
+  private _loggedInUserId$ = new BehaviorSubject<string | ''>('u1');
   loggedInUserId$ = this._loggedInUserId$.asObservable();
 
   /* Diese Methode nutzen, um ID des eingeloggten Users global zu speichern */

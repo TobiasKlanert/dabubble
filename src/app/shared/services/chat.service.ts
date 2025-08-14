@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { ChatType } from '../models/chat.enums';
+import { BehaviorSubject, Subscription } from 'rxjs';
+/* import { ChatType } from '../models/chat.enums'; */
 import { Channel, DirectChat } from '../models/database.model';
-import { FirestoreService } from './firestore.service';
-import { GlobalIdService } from './global-id.service';
+/* import { FirestoreService } from './firestore.service';
+import { GlobalIdService } from './global-id.service'; */
 
 @Injectable({
   providedIn: 'root',
@@ -11,15 +11,22 @@ import { GlobalIdService } from './global-id.service';
 export class ChatService {
   channel: Channel | null = null;
   dm: DirectChat | null = null;
-  private dmSubscription?: Subscription;
-  private channelSubscription?: Subscription;
+/*   private dmSubscription?: Subscription;
+  private channelSubscription?: Subscription; */
+
+  private selectedChatSource = new BehaviorSubject<any>(null);
+  selectedChat$ = this.selectedChatSource.asObservable();
 
   constructor(
-    private firestore: FirestoreService,
-    private globalIdService: GlobalIdService
+    /* private firestore: FirestoreService,
+    private globalIdService: GlobalIdService */
   ) {}
 
-  openChatWindow(type: ChatType) {
+  selectChat(chat: any) {
+    this.selectedChatSource.next(chat);
+  }
+
+/*   loadChatData(type: ChatType) {
     if (type === ChatType.DirectMessage) {
       let dmId = this.globalIdService.getCurrentDirectMessageId();
 
@@ -45,5 +52,7 @@ export class ChatService {
           console.log('Channel: ', this.channel);
         });
     }
-  }
+  } */
+
+
 }

@@ -112,7 +112,7 @@
       </div>
       <div class="channels-details-body" [class.open]="channelsOpen">
         @for (channel of channels; track channel.id) {
-        <button class="btn-channel" (click)="onSelectChannel(channel.id)">
+        <button class="btn-channel" (click)="onSelectChat(channel)">
           <svg
             width="24"
             height="25"
@@ -237,7 +237,7 @@
       </div>
       <div class="messages-details-body" [class.open]="messagesOpen">
          @for (chat of chats; track chat.chatId) {
-        <button class="profile-button" (click)="openDM(chat.chatId)">
+        <button class="profile-button" (click)="onSelectChat(chat)">
           <div class="profile-picture-container">
             <img
               class="profile-picture"

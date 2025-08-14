@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { OverlayService } from '../../../shared/services/overlay.service';
 import { TextareaResizeService } from '../../../shared/services/textarea-resize.service';
 import { FirestoreService } from '../../../shared/services/firestore.service';
-import { GlobalIdService } from '../../../shared/services/global-id.service';
+import { ChatService } from '../../../shared/services/chat.service';
 import { Channel } from '../../../shared/models/database.model';
 
 @Component({
@@ -27,22 +27,20 @@ export class ChannelInfoComponent {
   constructor(
     private overlayService: OverlayService,
     private firestore: FirestoreService,
-    private globalIdService: GlobalIdService,
+    private chatService: ChatService,
     public textareaResizeService: TextareaResizeService
   ) {}
 
   ngOnInit() {
-    this.globalIdService.selectedChannelId$.subscribe((id) => {
-      if (id) {
-        this.channelId = id;
-        this.firestore.getChannel(id).subscribe((channel) => {
+    this.chatService.selectedChat$.subscribe((chat) => {
+      this.channelId = chat.id;
+      this.firestore.getChannel(chat.id).subscribe((channel) => {
           this.channel = channel;
           this.firestore.getUser(channel.creatorId).subscribe((user) => {
             this.channelCreator = user.name;
           });
         });
-      }
-    });
+    })
   }
 
   closeOverlay() {
