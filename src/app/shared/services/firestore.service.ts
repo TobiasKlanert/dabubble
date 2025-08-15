@@ -70,7 +70,7 @@ export class FirestoreService {
       this.firestore,
       `channels/${channelId}/messages`
     );
-    const q = query(messagesRef, orderBy('timestamp', 'asc'));
+    const q = query(messagesRef, orderBy('createdAt', 'asc'));
     return collectionData(q, { idField: 'id' }) as Observable<any>;
   }
 

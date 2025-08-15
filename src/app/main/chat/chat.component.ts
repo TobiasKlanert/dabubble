@@ -1,5 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Subject, takeUntil, switchMap, tap } from 'rxjs';
 import { MessageService } from './../../shared/services/message.service';
 import { EmojiService } from '../../shared/services/emoji.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -54,6 +55,8 @@ export class ChatComponent {
   inputText: string = '';
   members: number = 0;
 
+  private destroy$ = new Subject<void>();
+
   constructor(
     private messageService: MessageService,
     private overlayService: OverlayService,
@@ -65,19 +68,34 @@ export class ChatComponent {
   @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLDivElement>;
 
   ngOnInit() {
-    this.chatService.selectedChat$.subscribe(chat => {
-    if (chat) {
-      this.currentChat = chat;   
-      this.firestore.getChannelMembers(this.currentChat.id).subscribe((members) => {
+    this.chatService.selectedChat$
+      .pipe(
+        takeUntil(this.destroy$),
+        tap((chat) => {
+          this.currentChat = chat;
+        }),
+        switchMap((chat) =>
+          chat ? this.firestore.getChannelMembers(chat.id) : []
+        ),
+        tap((members) => {
           this.channelMembers = members;
-          this.members = this.channelMembers.length;
-          this.firestore.getChannelMessages(this.currentChat.id).subscribe((chMessages) => {
-            this.chatMessages = chMessages;
-          })
-        });
-      console.log("Chat geladen: ", this.chatMessages);
-    }
-  });
+          this.members = members.length;
+        }),
+        switchMap(() =>
+          this.currentChat
+            ? this.firestore.getChannelMessages(this.currentChat.id)
+            : []
+        )
+      )
+      .subscribe((chMessages) => {
+        this.chatMessages = chMessages;
+        console.log('Chat geladen: ', this.chatMessages);
+      });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   ngAfterViewInit() {
