@@ -14,6 +14,7 @@ import {
 import { User } from '../../shared/models/database.model';
 import { FirestoreService } from '../../shared/services/firestore.service';
 import { ChatService } from '../../shared/services/chat.service';
+import { ChatType } from '../../shared/models/chat.enums';
 import { subscribe } from 'diagnostics_channel';
 
 @Component({
@@ -34,6 +35,8 @@ export class ChatComponent {
   chatId: string = '';
   chatName: string = '';
   channelMembers: User[] = [];
+
+  // TODO: avoid any type
   currentChat: any;
   chatMessages: any;
 
@@ -67,6 +70,7 @@ export class ChatComponent {
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLDivElement>;
 
+  // TODO: Build in switch case to load channel- or direct chat messages
   ngOnInit() {
     this.chatService.selectedChat$
       .pipe(
@@ -83,7 +87,7 @@ export class ChatComponent {
         }),
         switchMap(() =>
           this.currentChat
-            ? this.firestore.getChannelMessages(this.currentChat.id)
+            ? this.firestore.getChatMessages(this.currentChat.id, ChatType.Channel)
             : []
         )
       )

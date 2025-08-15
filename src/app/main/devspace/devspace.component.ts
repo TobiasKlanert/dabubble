@@ -49,6 +49,7 @@ export class DevspaceComponent {
     this.overlayService.open('addChannel');
   }
 
+  // TODO: avoid any type
   onSelectChat(chat: any) {
     this.chatService.selectChat(chat);
   }

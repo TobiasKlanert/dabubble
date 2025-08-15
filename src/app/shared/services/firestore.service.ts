@@ -22,6 +22,7 @@ import {
   CreateChannelData,
   DirectChat,
 } from '../models/database.model';
+import { ChatType } from '../models/chat.enums';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { Auth, signInWithPopup, GoogleAuthProvider } from '@angular/fire/auth';
 import { log } from 'console';
@@ -65,15 +66,6 @@ export class FirestoreService {
     );
   }
 
-  getChannelMessages(channelId: string): Observable<any> {
-    const messagesRef = collection(
-      this.firestore,
-      `channels/${channelId}/messages`
-    );
-    const q = query(messagesRef, orderBy('createdAt', 'asc'));
-    return collectionData(q, { idField: 'id' }) as Observable<any>;
-  }
-
   createChannel(data: CreateChannelData): Promise<string> {
     const channelsRef = collection(this.firestore, 'channels');
     const newChannel = {
@@ -115,6 +107,7 @@ export class FirestoreService {
     const q = query(chatsRef, where('participants', 'array-contains', userId));
 
     return collectionData(q, { idField: 'id' }).pipe(
+      // TODO: avoid any type
       switchMap((chats: any[]) => {
         const chatPreviews$ = chats.map(async (chat) => {
           const partnerId = chat.participants.find(
@@ -139,6 +132,17 @@ export class FirestoreService {
         return from(Promise.all(chatPreviews$));
       })
     );
+  }
+
+  // TODO: avoid any type
+  getChatMessages(channelId: string, chatType: ChatType
+  ): Observable<any> {
+    const messagesRef = collection(  
+      this.firestore,
+      `${chatType}/${channelId}/messages`
+    );
+    const q = query(messagesRef, orderBy('createdAt', 'asc'));
+    return collectionData(q, { idField: 'id' }) as Observable<any>;
   }
 
   /*  ##########
