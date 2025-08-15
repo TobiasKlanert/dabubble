@@ -11,6 +11,7 @@ import {
   updateDoc,
   query,
   where,
+  orderBy,
 } from '@angular/fire/firestore';
 import { Observable, from, of, forkJoin, map, switchMap } from 'rxjs';
 import {
@@ -19,7 +20,7 @@ import {
   UserChatPreview,
   Channel,
   CreateChannelData,
-  DirectChat
+  DirectChat,
 } from '../models/database.model';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { Auth, signInWithPopup, GoogleAuthProvider } from '@angular/fire/auth';
@@ -62,6 +63,15 @@ export class FirestoreService {
         return forkJoin(userObservables);
       })
     );
+  }
+
+  getChannelMessages(channelId: string): Observable<any> {
+    const messagesRef = collection(
+      this.firestore,
+      `channels/${channelId}/messages`
+    );
+    const q = query(messagesRef, orderBy('timestamp', 'asc'));
+    return collectionData(q, { idField: 'id' }) as Observable<any>;
   }
 
   createChannel(data: CreateChannelData): Promise<string> {

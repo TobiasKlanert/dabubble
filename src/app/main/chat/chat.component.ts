@@ -34,6 +34,7 @@ export class ChatComponent {
   chatName: string = '';
   channelMembers: User[] = [];
   currentChat: any;
+  chatMessages: any;
 
   messages = [
     { text: 'Hey, wie geht’s?', outgoing: false, timestamp: '12:00' },
@@ -70,8 +71,11 @@ export class ChatComponent {
       this.firestore.getChannelMembers(this.currentChat.id).subscribe((members) => {
           this.channelMembers = members;
           this.members = this.channelMembers.length;
+          this.firestore.getChannelMessages(this.currentChat.id).subscribe((chMessages) => {
+            this.chatMessages = chMessages;
+          })
         });
-      console.log("Chat geladen: ", this.currentChat);
+      console.log("Chat geladen: ", this.chatMessages);
     }
   });
   }
