@@ -8,7 +8,6 @@ import {
 } from '../../shared/models/database.model';
 import { FirestoreService } from '../../shared/services/firestore.service';
 import { ChatService } from '../../shared/services/chat.service';
-import { ChatType } from '../../shared/models/chat.enums';
 
 @Component({
   selector: 'app-devspace',
@@ -27,19 +26,17 @@ export class DevspaceComponent {
   chats: UserChatPreview[] = [];
   members: User[] = [];
 
-  public ChatType = ChatType;
-
   constructor(
     private overlayService: OverlayService,
     private firestore: FirestoreService,
-    private chatService: ChatService,
+    private chatService: ChatService
   ) {}
 
   ngOnInit() {
     this.firestore.getChannels(this.userId).subscribe((channels) => {
       this.channels = channels;
       if (this.channels.length > 0) {
-        this.onSelectChat(this.channels[0], ChatType.Channel);
+        this.chatService.selectChat(this.channels[0]);
       }
     });
 
@@ -53,10 +50,8 @@ export class DevspaceComponent {
   }
 
   // TODO: avoid any type
-  onSelectChat(chat: any, chatType: ChatType) {
-    /* this.chatService.setSelectedChatId(chat.id); */
+  onSelectChat(chat: any) {
     this.chatService.selectChat(chat);
-    this.chatService.selectChatType(chatType);
   }
 
   toggleChannels() {

@@ -135,11 +135,11 @@ export class FirestoreService {
   }
 
   // TODO: avoid any type
-  getChatMessages(chatId: string, chatType: ChatType): Observable<any> {
-    if (!chatId) return of([]);
-    const messagesRef = collection(
+  getChatMessages(channelId: string, chatType: ChatType
+  ): Observable<any> {
+    const messagesRef = collection(  
       this.firestore,
-      `${chatType}/${chatId}/messages`
+      `${chatType}/${channelId}/messages`
     );
     const q = query(messagesRef, orderBy('createdAt', 'asc'));
     return collectionData(q, { idField: 'id' }) as Observable<any>;
