@@ -11,7 +11,7 @@ import {
   OverlayMenuType,
   OverlayService,
 } from '../../shared/services/overlay.service';
-import { User } from '../../shared/models/database.model';
+import { User, Message } from '../../shared/models/database.model';
 import { FirestoreService } from '../../shared/services/firestore.service';
 import { ChatService } from '../../shared/services/chat.service';
 import { ChatType } from '../../shared/models/chat.enums';
@@ -32,13 +32,14 @@ import { subscribe } from 'diagnostics_channel';
   styleUrl: './chat.component.scss',
 })
 export class ChatComponent {
-  chatId: string = '';
+  currentChatType: ChatType = ChatType.Channel;
+  currentChatId: string = '';
   chatName: string = '';
   channelMembers: User[] = [];
 
   // TODO: avoid any type
   currentChat: any;
-  chatMessages: any;
+  chatMessages: Message[] = [];
 
   messages = [
     { text: 'Hey, wie geht’s?', outgoing: false, timestamp: '12:00' },
@@ -70,31 +71,31 @@ export class ChatComponent {
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLDivElement>;
 
-  // TODO: Build in switch case to load channel- or direct chat messages
   ngOnInit() {
-    this.chatService.selectedChat$
-      .pipe(
-        takeUntil(this.destroy$),
-        tap((chat) => {
+    this.chatService.getSelectedChatType().subscribe((chatType) => {
+      this.currentChatType = chatType;
+    })
+    this.chatService.selectedChatId$.subscribe((chatId) => {
+      this.currentChatId = chatId;
+      console.log('Chat ID in Chat Component: ', this.currentChatId);
+      this.firestore
+        .getChat(this.currentChatType, this.currentChatId)
+        .subscribe((chat) => {
           this.currentChat = chat;
-        }),
-        switchMap((chat) =>
-          chat ? this.firestore.getChannelMembers(chat.id) : []
-        ),
-        tap((members) => {
+        });
+      this.firestore
+        .getChannelMembers(this.currentChatId, this.currentChatType)
+        .subscribe((members) => {
           this.channelMembers = members;
-          this.members = members.length;
-        }),
-        switchMap(() =>
-          this.currentChat
-            ? this.firestore.getChatMessages(this.currentChat.id, ChatType.Channel)
-            : []
-        )
-      )
-      .subscribe((chMessages) => {
-        this.chatMessages = chMessages;
-        console.log('Chat geladen: ', this.chatMessages);
-      });
+          this.members = this.channelMembers.length;
+        });
+      this.firestore
+        .getChatMessages(this.currentChatType, this.currentChatId)
+        .subscribe((messages) => {
+          this.chatMessages = Array.isArray(messages) ? messages : [messages];
+          console.log(this.chatMessages);
+        });
+    });
   }
 
   ngOnDestroy() {

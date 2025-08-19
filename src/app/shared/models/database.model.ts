@@ -61,6 +61,17 @@ export interface ChannelMessage {
   thread: ThreadMessage[];
 }
 
+export interface Message {
+  id: string;
+  senderId: string;
+  text: string; 
+  createdAt: string;
+  reactions: Reaction;
+  editedAt?: string | null;
+  repliesCount?: number;
+  thread?: ThreadMessage[];
+}
+
 export interface Reaction {
   [emoji: string]: {
     count: number;

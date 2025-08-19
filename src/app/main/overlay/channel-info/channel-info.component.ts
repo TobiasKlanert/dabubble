@@ -32,9 +32,9 @@ export class ChannelInfoComponent {
   ) {}
 
   ngOnInit() {
-    this.chatService.selectedChat$.subscribe((chat) => {
-      this.channelId = chat.id;
-      this.firestore.getChannel(chat.id).subscribe((channel) => {
+    this.chatService.selectedChatId$.subscribe((chatId) => {
+      this.channelId = chatId;
+      this.firestore.getChannel(chatId).subscribe((channel) => {
           this.channel = channel;
           this.firestore.getUser(channel.creatorId).subscribe((user) => {
             this.channelCreator = user.name;

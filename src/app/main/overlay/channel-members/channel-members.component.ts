@@ -4,6 +4,7 @@ import { OverlayService } from '../../../shared/services/overlay.service';
 import { User } from '../../../shared/models/database.model';
 import { FirestoreService } from '../../../shared/services/firestore.service';
 import { ChatService } from '../../../shared/services/chat.service';
+import { ChatType } from '../../../shared/models/chat.enums';
 
 @Component({
   selector: 'app-channel-members',
@@ -24,10 +25,10 @@ export class ChannelMembersComponent {
   ) {}
 
   ngOnInit() {
-    this.chatService.selectedChat$.subscribe((chat) => {
-      if (chat.id) {
+    this.chatService.selectedChatId$.subscribe((chatId) => {
+      if (chatId) {
         this.firestore
-          .getChannelMembers(chat.id)
+          .getChannelMembers(chatId, ChatType.Channel)
           .subscribe((members) => {
             this.channelMembers = members;
           });

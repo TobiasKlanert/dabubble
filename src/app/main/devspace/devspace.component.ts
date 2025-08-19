@@ -8,6 +8,7 @@ import {
 } from '../../shared/models/database.model';
 import { FirestoreService } from '../../shared/services/firestore.service';
 import { ChatService } from '../../shared/services/chat.service';
+import { ChatType } from '../../shared/models/chat.enums';
 
 @Component({
   selector: 'app-devspace',
@@ -17,6 +18,7 @@ import { ChatService } from '../../shared/services/chat.service';
   styleUrl: './devspace.component.scss',
 })
 export class DevspaceComponent {
+  public ChatType = ChatType;
   userId: string = 'u1';
 
   channelsOpen: boolean = true;
@@ -36,7 +38,7 @@ export class DevspaceComponent {
     this.firestore.getChannels(this.userId).subscribe((channels) => {
       this.channels = channels;
       if (this.channels.length > 0) {
-        this.chatService.selectChat(this.channels[0]);
+        this.onSelectChat(this.channels[0].id, ChatType.Channel);
       }
     });
 
@@ -49,9 +51,9 @@ export class DevspaceComponent {
     this.overlayService.open('addChannel');
   }
 
-  // TODO: avoid any type
-  onSelectChat(chat: any) {
-    this.chatService.selectChat(chat);
+  onSelectChat(chatId: string, chatType: ChatType) {
+    this.chatService.selectChatId(chatId);
+    this.chatService.selectChatType(chatType);
   }
 
   toggleChannels() {
