@@ -71,6 +71,7 @@ export class ChatComponent {
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLDivElement>;
 
+  // TODO: Optimize the ngOnInit method and set the ID of the first channel as currentChatId during initialization (as in devspace.component).
   ngOnInit() {
     this.chatService.getSelectedChatType().subscribe((chatType) => {
       this.currentChatType = chatType;
