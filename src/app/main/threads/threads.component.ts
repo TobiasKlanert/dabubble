@@ -7,6 +7,7 @@ import {
 } from '../../shared/services/overlay.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HoverOutsideDirective } from '../../shared/directives/hover-outside.directive';
 
 @Component({
   selector: 'app-threads',
@@ -14,7 +15,8 @@ import { FormsModule } from '@angular/forms';
   imports: [
     EmojiMenuComponent,
     CommonModule,
-    FormsModule
+    FormsModule,
+    HoverOutsideDirective,
   ],
   templateUrl: './threads.component.html',
   styleUrl: './threads.component.scss'
@@ -64,7 +66,7 @@ export class ThreadsComponent {
   };
 
   toggleEmojiPicker() {
-    this.emojiService.toggleChannelPicker();
+    this.emojiService.toggleThreadsPicker();
   }
 
   openOverlay(overlay: OverlayMenuType) {

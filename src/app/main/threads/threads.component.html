@@ -18,12 +18,12 @@
     </div>
 
     <div #scrollContainer class="message-container">
-        
+
     </div>
 
     <div class="textarea-container">
-        <app-emoji-menu [onTextEmojiSelected]="addTextEmoji" *ngIf="emojiService._showPickerInChannels" hover-outside
-            (hoverOutside)="emojiService.closePickerInChannels()"></app-emoji-menu>
+        <app-emoji-menu [onTextEmojiSelected]="addTextEmoji" *ngIf="emojiService._showPickerInThreads" hover-outside
+            (hoverOutside)="emojiService.closePickerInThreads()"></app-emoji-menu>
         <div class="button-wrapper flex-row flex-sb">
             <div class="flex-row">
                 <svg (click)="toggleEmojiPicker()" class="textarea-icon" width="40" height="40" viewBox="0 0 40 40"

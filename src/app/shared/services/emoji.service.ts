@@ -6,7 +6,9 @@ import { Injectable } from "@angular/core";
 
 export class EmojiService {
     public _showPickerInChannels = false;
+    public _showPickerInThreads = false;
     public _activeCategory = 'smileys';
+
     emojis: any = {
         "smileys": [
             "😀", "😃", "😄", "😁", "😆", "😅", "😂", "🤣", "😊", "😇",
@@ -55,21 +57,34 @@ export class EmojiService {
 
     constructor() { }
 
-    toggleChannelPicker() { 
-        this._showPickerInChannels = !this._showPickerInChannels; 
+    toggleChannelPicker() {
+        this._showPickerInChannels = !this._showPickerInChannels;
     }
 
-    closePickerInChannels() { 
+    closePickerInChannels() {
         this._showPickerInChannels = false;
         this._activeCategory = 'smileys';
     }
 
-    selectCategory(cat: string) { 
-        this._activeCategory = cat; 
+    toggleThreadsPicker() {
+        this._showPickerInThreads = !this._showPickerInThreads;
     }
 
-    get showPickerInChannels() { 
+    closePickerInThreads() {
+        this._showPickerInThreads = false;
+        this._activeCategory = 'smileys';
+    }
+
+    selectCategory(cat: string) {
+        this._activeCategory = cat;
+    }
+
+    get showPickerInChannels() {
         return this._showPickerInChannels;
+    }
+
+    get showPickerInThreads() {
+        return this._showPickerInThreads;
     }
 
     get displayedEmojis(): string[] {
