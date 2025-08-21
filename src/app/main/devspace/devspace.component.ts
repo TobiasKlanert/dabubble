@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Subject, switchMap, tap, takeUntil } from 'rxjs';
 import { OverlayService } from '../../shared/services/overlay.service';
 import {
   UserChatPreview,
@@ -9,6 +10,7 @@ import {
 import { FirestoreService } from '../../shared/services/firestore.service';
 import { ChatService } from '../../shared/services/chat.service';
 import { ChatType } from '../../shared/models/chat.enums';
+import { user } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-devspace',
@@ -19,7 +21,9 @@ import { ChatType } from '../../shared/models/chat.enums';
 })
 export class DevspaceComponent {
   public ChatType = ChatType;
-  userId: string = 'u1';
+  private destroy$ = new Subject<void>();
+
+  userId: string = '';
 
   channelsOpen: boolean = true;
   messagesOpen: boolean = true;
@@ -35,16 +39,33 @@ export class DevspaceComponent {
   ) {}
 
   ngOnInit() {
-    this.firestore.getChannels(this.userId).subscribe((channels) => {
-      this.channels = channels;
-      if (this.channels.length > 0) {
-        this.onSelectChat(this.channels[0].id, ChatType.Channel);
-      }
-    });
+    this.firestore.loggedInUserId$
+      .pipe(
+        takeUntil(this.destroy$),
+        tap((userId) => {
+          this.userId = userId;
+        }),
+        switchMap((userId) =>
+          this.firestore.getChannels(userId).pipe(
+            tap((channels) => {
+              this.channels = channels;
+              if (channels.length > 0) {
+                this.onSelectChat(channels[0].id, ChatType.Channel);
+              }
+            }),
+            switchMap(() => this.firestore.getChats(userId)),
+            tap((chats) => {
+              this.chats = chats;
+            })
+          )
+        )
+      )
+      .subscribe();
+  }
 
-    this.firestore.getChats(this.userId).subscribe((chats) => {
-      this.chats = chats;
-    });
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   onAddChannel() {
