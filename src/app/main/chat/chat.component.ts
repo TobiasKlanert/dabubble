@@ -69,6 +69,7 @@ export class ChatComponent {
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLDivElement>;
 
+  // TODO: Add outgoing status as part of every message in Firestore
   ngOnInit() {
     combineLatest([
       this.chatService.selectedChatId$.pipe(filter((chatId) => !!chatId)),
@@ -120,6 +121,7 @@ export class ChatComponent {
     this.scrollToBottom();
   }
 
+  // TODO: Revise sendMessage method -> Synchronization with Firebase
   sendMessage() {
     if (this.inputText.trim()) {
       const msg = {
