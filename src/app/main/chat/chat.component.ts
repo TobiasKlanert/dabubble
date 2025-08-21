@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Subject, takeUntil, switchMap, tap } from 'rxjs';
+import { Subject, combineLatest, filter, of, switchMap, takeUntil, tap } from 'rxjs';
 import { MessageService } from './../../shared/services/message.service';
 import { EmojiService } from '../../shared/services/emoji.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -11,12 +11,10 @@ import {
   OverlayMenuType,
   OverlayService,
 } from '../../shared/services/overlay.service';
-import { User, Message } from '../../shared/models/database.model';
+import { User, Message, Channel } from '../../shared/models/database.model';
 import { FirestoreService } from '../../shared/services/firestore.service';
 import { ChatService } from '../../shared/services/chat.service';
 import { ChatType } from '../../shared/models/chat.enums';
-import { subscribe } from 'diagnostics_channel';
-import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-chat',
@@ -38,7 +36,6 @@ export class ChatComponent {
   chatName: string = '';
   channelMembers: User[] = [];
 
-  // TODO: avoid any type
   currentChat: any;
   chatMessages: Message[] = [];
 
@@ -72,36 +69,45 @@ export class ChatComponent {
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLDivElement>;
 
-  // TODO: Optimize the ngOnInit method and set the ID of the first channel as currentChatId during initialization (as in devspace.component).
   ngOnInit() {
-    this.chatService.selectedChatId$
+    combineLatest([
+      this.chatService.selectedChatId$.pipe(filter((chatId) => !!chatId)),
+      this.chatService.selectedChatType$,
+    ])
       .pipe(
-        filter((chatId) => !!chatId), // Nur wenn chatId nicht leer ist!
-        tap((chatId) => {
+        takeUntil(this.destroy$),
+        tap(([chatId, chatType]) => {
           this.currentChatId = chatId;
-          console.log('Chat ID in Chat Component: ', this.currentChatId);
-        })
+          this.currentChatType = chatType;
+        }),
+        switchMap(([chatId, chatType]) =>
+          this.firestore.getChat(chatType, chatId).pipe(
+            tap((chat) => {
+                this.currentChat = chat;
+            }),
+            switchMap(() => {
+              if (chatType === ChatType.Channel) {
+                return this.firestore
+                  .getChannelMembers(chatId, chatType)
+                  .pipe(
+                    tap((members) => {
+                      this.channelMembers = members;
+                      this.members = members.length;
+                    }),
+                    switchMap(() =>
+                      this.firestore.getChatMessages(chatType, chatId)
+                    )
+                  );
+              } else {
+                return this.firestore.getChatMessages(chatType, chatId);
+              }
+            })
+          )
+        )
       )
-      .subscribe((chatId) => {
-        this.firestore
-          .getChat(this.currentChatType, chatId)
-          .subscribe((chat) => {
-            this.currentChat = chat;
-          });
-        if (this.currentChatType === ChatType.Channel) {
-          this.firestore
-            .getChannelMembers(chatId, this.currentChatType)
-            .subscribe((members) => {
-              this.channelMembers = members;
-              this.members = this.channelMembers.length;
-            });
-        }
-        this.firestore
-          .getChatMessages(this.currentChatType, chatId)
-          .subscribe((messages) => {
-            this.chatMessages = Array.isArray(messages) ? messages : [messages];
-            console.log(this.chatMessages);
-          });
+      .subscribe((messages) => {
+        this.chatMessages = Array.isArray(messages) ? messages : [messages];
+        console.log(this.chatMessages);
       });
   }
 

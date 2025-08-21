@@ -110,7 +110,6 @@ export class FirestoreService {
     const q = query(chatsRef, where('participants', 'array-contains', userId));
 
     return collectionData(q, { idField: 'id' }).pipe(
-      // TODO: avoid any type
       switchMap((chats: any[]) => {
         const chatPreviews$ = chats.map(async (chat) => {
           const partnerId = chat.participants.find(
