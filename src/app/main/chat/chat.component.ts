@@ -16,6 +16,7 @@ import { FirestoreService } from '../../shared/services/firestore.service';
 import { ChatService } from '../../shared/services/chat.service';
 import { ChatType } from '../../shared/models/chat.enums';
 import { subscribe } from 'diagnostics_channel';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-chat',
@@ -73,30 +74,35 @@ export class ChatComponent {
 
   // TODO: Optimize the ngOnInit method and set the ID of the first channel as currentChatId during initialization (as in devspace.component).
   ngOnInit() {
-    this.chatService.getSelectedChatType().subscribe((chatType) => {
-      this.currentChatType = chatType;
-    })
-    this.chatService.selectedChatId$.subscribe((chatId) => {
-      this.currentChatId = chatId;
-      console.log('Chat ID in Chat Component: ', this.currentChatId);
-      this.firestore
-        .getChat(this.currentChatType, this.currentChatId)
-        .subscribe((chat) => {
-          this.currentChat = chat;
-        });
-      this.firestore
-        .getChannelMembers(this.currentChatId, this.currentChatType)
-        .subscribe((members) => {
-          this.channelMembers = members;
-          this.members = this.channelMembers.length;
-        });
-      this.firestore
-        .getChatMessages(this.currentChatType, this.currentChatId)
-        .subscribe((messages) => {
-          this.chatMessages = Array.isArray(messages) ? messages : [messages];
-          console.log(this.chatMessages);
-        });
-    });
+    this.chatService.selectedChatId$
+      .pipe(
+        filter((chatId) => !!chatId), // Nur wenn chatId nicht leer ist!
+        tap((chatId) => {
+          this.currentChatId = chatId;
+          console.log('Chat ID in Chat Component: ', this.currentChatId);
+        })
+      )
+      .subscribe((chatId) => {
+        this.firestore
+          .getChat(this.currentChatType, chatId)
+          .subscribe((chat) => {
+            this.currentChat = chat;
+          });
+        if (this.currentChatType === ChatType.Channel) {
+          this.firestore
+            .getChannelMembers(chatId, this.currentChatType)
+            .subscribe((members) => {
+              this.channelMembers = members;
+              this.members = this.channelMembers.length;
+            });
+        }
+        this.firestore
+          .getChatMessages(this.currentChatType, chatId)
+          .subscribe((messages) => {
+            this.chatMessages = Array.isArray(messages) ? messages : [messages];
+            console.log(this.chatMessages);
+          });
+      });
   }
 
   ngOnDestroy() {
