@@ -105,21 +105,21 @@ export class ChatComponent {
 
   // TODO: Revise sendMessage method -> Synchronization with Firebase
   sendMessage() {
-    /* if (this.inputText.trim()) {
+    if (this.inputText.trim()) {
       const msg = {
         text: this.inputText.trim(),
         outgoing: true,
-        timestamp: new Date().toLocaleTimeString('de-DE', {
+        createdAt: new Date().toLocaleTimeString('de-DE', {
           hour: '2-digit',
           minute: '2-digit',
         }),
       };
       console.log(msg);
-      this.messages.push(msg);
+      /* this.messages.push(msg); */
       // this.messageService.addMessage(msg);
       this.inputText = '';
       setTimeout(() => this.scrollToBottom(), 0);
-    } */
+    }
   }
 
   private scrollToBottom(): void {

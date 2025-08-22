@@ -88,9 +88,8 @@
       [ngStyle]="{
       'padding-top': i === 0 ? '16px' : '0px',
       }"
-      [text]="msg.text"
-      [outgoing]="msg.outgoing"
-      [createdAt]="msg.createdAt"
+      [message]="msg"
+      [chatId]="currentChatId"
     ></app-single-message>
   </div>
   <div class="textarea-container">
