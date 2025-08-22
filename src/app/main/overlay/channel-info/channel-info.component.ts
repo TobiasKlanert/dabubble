@@ -1,5 +1,6 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Subject, takeUntil, switchMap, tap } from 'rxjs';
 import { OverlayService } from '../../../shared/services/overlay.service';
 import { TextareaResizeService } from '../../../shared/services/textarea-resize.service';
 import { FirestoreService } from '../../../shared/services/firestore.service';
@@ -24,6 +25,8 @@ export class ChannelInfoComponent {
   isNameEditorActive: boolean = false;
   isDescriptionEditorActive: boolean = false;
 
+  private destroy$ = new Subject<void>();
+
   constructor(
     private overlayService: OverlayService,
     private firestore: FirestoreService,
@@ -32,15 +35,21 @@ export class ChannelInfoComponent {
   ) {}
 
   ngOnInit() {
-    this.chatService.selectedChatId$.subscribe((chatId) => {
-      this.channelId = chatId;
-      this.firestore.getChannel(chatId).subscribe((channel) => {
-          this.channel = channel;
-          this.firestore.getUser(channel.creatorId).subscribe((user) => {
-            this.channelCreator = user.name;
-          });
-        });
-    })
+    this.chatService.selectedChatId$
+      .pipe(
+        takeUntil(this.destroy$),
+        tap(chatId => this.channelId = chatId),
+        switchMap(chatId => this.firestore.getChannel(chatId)),
+        tap(channel => this.channel = channel),
+        switchMap(channel => this.firestore.getUser(channel.creatorId)),
+        tap(user => this.channelCreator = user.name)
+      )
+      .subscribe();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   closeOverlay() {
