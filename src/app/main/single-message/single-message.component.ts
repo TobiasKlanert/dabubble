@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, input, Input } from '@angular/core';
 import { EmojiMenuComponent } from '../emoji-menu/emoji-menu.component';
 import { Reaction } from '../../shared/models/reaction.model';
+import { Message, ThreadMessage } from '../../shared/models/database.model';
 import { HoverOutsideDirective } from '../../shared/directives/hover-outside.directive';
 import { ClickOutsideDirective } from '../../shared/directives/click-outside.directive';
 import { FormsModule } from '@angular/forms';
@@ -22,15 +23,13 @@ import { OverlayService } from '../../shared/services/overlay.service';
   styleUrl: './single-message.component.scss',
 })
 export class SingleMessageComponent {
-  @Input() text!: string;
-  @Input() outgoing = false;
-  @Input() createdAt?: string;
+  @Input() message!: Message;
+  @Input() chatId!: string;
 
   userId: string = '';
+  editText = '';
 
-  inputText = this.text;
-  editText = this.text;
-
+  thread!: ThreadMessage[];
   reactions: Reaction[] = [];
 
   showEmojiPicker = false;
@@ -42,7 +41,15 @@ export class SingleMessageComponent {
     private overlayService: OverlayService
   ) {}
 
-  // TODO: Load Messages from Firestore
+  ngOnInit() {
+    this.firestore
+      .getThread(this.chatId, this.message.id)
+      .subscribe((thread) => {
+        if (thread.length > 0) {
+          this.thread = thread;
+        }
+      });
+  }
 
   openProfile(userId: string) {
     this.firestore.setSelectedUserId(userId);
@@ -51,13 +58,14 @@ export class SingleMessageComponent {
 
   openEditMode() {
     this.showEditMode = true;
-    this.editText = this.text;
+    this.editText = this.message.text;
   }
 
   closeEditMode() {
     this.showEditMode = false;
   }
 
+  // TODO: Revise the saveEditedMessage method so that synchronization with Firestore takes place
   saveEditedMessage() {
     if (this.editText.trim()) {
       const msg = {
@@ -77,6 +85,7 @@ export class SingleMessageComponent {
     this.showEmojiPickerInEditMode = !this.showEmojiPickerInEditMode;
   }
 
+  // TODO: Revise the addReactionEmoji method so that synchronization with Firestore takes place
   addReactionEmoji = (emoji: string) => {
     const existingReaction = this.reactions.find((r) => r.emoji === emoji);
 

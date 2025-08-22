@@ -21,12 +21,13 @@ import {
   Channel,
   CreateChannelData,
   DirectChat,
-  Message
+  Message,
 } from '../models/database.model';
 import { ChatType } from '../models/chat.enums';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { Auth, signInWithPopup, GoogleAuthProvider } from '@angular/fire/auth';
 import { log } from 'console';
+import { channel } from 'diagnostics_channel';
 
 @Injectable({
   providedIn: 'root',
@@ -53,7 +54,7 @@ export class FirestoreService {
 
   getChannelMembers(channelId: string, chatType: ChatType): Observable<User[]> {
     if (chatType === ChatType.DirectMessage) return of([]);
-    
+
     const channelRef = doc(this.firestore, 'channels', channelId);
 
     return from(getDoc(channelRef)).pipe(
@@ -136,14 +137,27 @@ export class FirestoreService {
     );
   }
 
-  getChatMessages(chatType: ChatType, chatId: string
-  ): Observable<Message> {
-    const messagesRef = collection(  
+  getChatMessages(chatType: ChatType, chatId: string): Observable<Message> {
+    const messagesRef = collection(
       this.firestore,
       `${chatType}/${chatId}/messages`
     );
     const q = query(messagesRef, orderBy('createdAt', 'asc'));
     return collectionData(q, { idField: 'id' }) as Observable<any>;
+  }
+
+  getThread(
+    /* chatType: ChatType, */
+    chatId: string,
+    messageId: string
+  ): Observable<Message[]> {
+    // Die Threads liegen als Subcollection unter der Message: z.B. channels/{chatId}/messages/{messageId}/thread
+    const threadRef = collection(
+      this.firestore,
+      `channels/${chatId}/messages/${messageId}/thread`
+    );
+    const q = query(threadRef, orderBy('createdAt', 'asc'));
+    return collectionData(q, { idField: 'id' }) as Observable<Message[]>;
   }
 
   /*  ##########
