@@ -1,7 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subject, combineLatest, filter, of, switchMap, takeUntil, tap } from 'rxjs';
-import { MessageService } from './../../shared/services/message.service';
 import { EmojiService } from '../../shared/services/emoji.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmojiMenuComponent } from '../emoji-menu/emoji-menu.component';
@@ -11,7 +10,7 @@ import {
   OverlayMenuType,
   OverlayService,
 } from '../../shared/services/overlay.service';
-import { User, Message, Channel } from '../../shared/models/database.model';
+import { User, Message } from '../../shared/models/database.model';
 import { FirestoreService } from '../../shared/services/firestore.service';
 import { ChatService } from '../../shared/services/chat.service';
 import { ChatType } from '../../shared/models/chat.enums';
@@ -39,28 +38,12 @@ export class ChatComponent {
   currentChat: any;
   chatMessages: Message[] = [];
 
-  messages = [
-    { text: 'Hey, wie geht’s?', outgoing: false, timestamp: '12:00' },
-    { text: 'Gut und dir?', outgoing: true, timestamp: '12:01' },
-    { text: 'Auch gut!', outgoing: false, timestamp: '12:02' },
-    { text: 'Hey, wie geht’s?', outgoing: false, timestamp: '12:00' },
-    { text: 'Gut und dir?', outgoing: true, timestamp: '12:01' },
-    { text: 'Auch gut!', outgoing: false, timestamp: '12:02' },
-    { text: 'Hey, wie geht’s?', outgoing: false, timestamp: '12:00' },
-    { text: 'Gut und dir?', outgoing: true, timestamp: '12:01' },
-    { text: 'Auch gut!', outgoing: false, timestamp: '12:02' },
-    { text: 'Hey, wie geht’s?', outgoing: false, timestamp: '12:00' },
-    { text: 'Gut und dir?', outgoing: true, timestamp: '12:01' },
-    { text: 'Auch gut!', outgoing: false, timestamp: '12:02' },
-  ];
-  messages$ = this.messageService.messages$;
   inputText: string = '';
   members: number = 0;
 
   private destroy$ = new Subject<void>();
 
   constructor(
-    private messageService: MessageService,
     private overlayService: OverlayService,
     public emojiService: EmojiService,
     private firestore: FirestoreService,
@@ -69,7 +52,6 @@ export class ChatComponent {
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLDivElement>;
 
-  // TODO: Add outgoing status as part of every message in Firestore
   ngOnInit() {
     combineLatest([
       this.chatService.selectedChatId$.pipe(filter((chatId) => !!chatId)),
@@ -123,7 +105,7 @@ export class ChatComponent {
 
   // TODO: Revise sendMessage method -> Synchronization with Firebase
   sendMessage() {
-    if (this.inputText.trim()) {
+    /* if (this.inputText.trim()) {
       const msg = {
         text: this.inputText.trim(),
         outgoing: true,
@@ -137,7 +119,7 @@ export class ChatComponent {
       // this.messageService.addMessage(msg);
       this.inputText = '';
       setTimeout(() => this.scrollToBottom(), 0);
-    }
+    } */
   }
 
   private scrollToBottom(): void {

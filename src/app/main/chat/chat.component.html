@@ -84,13 +84,13 @@
     -->
     <app-single-message
       class="single-message"
-      *ngFor="let msg of messages; let i = index; let last = last"
+      *ngFor="let msg of chatMessages; let i = index; let last = last"
       [ngStyle]="{
       'padding-top': i === 0 ? '16px' : '0px',
       }"
       [text]="msg.text"
       [outgoing]="msg.outgoing"
-      [timestamp]="msg.timestamp"
+      [createdAt]="msg.createdAt"
     ></app-single-message>
   </div>
   <div class="textarea-container">

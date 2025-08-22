@@ -24,7 +24,7 @@ import { OverlayService } from '../../shared/services/overlay.service';
 export class SingleMessageComponent {
   @Input() text!: string;
   @Input() outgoing = false;
-  @Input() timestamp?: string;
+  @Input() createdAt?: string;
 
   userId: string = '';
 

@@ -103,7 +103,7 @@
         TODO: Implement transfer of the correct user ID
       -->
       <p class="sender" (click)="openProfile('u1')">Max Mustermann</p>
-      <p class="timestamp">{{ timestamp }}</p>
+      <p class="timestamp">{{ createdAt }}</p>
     </div>
     <div class="bubble-wrapper mb8" [ngClass]="{ 'outgoing': outgoing, 'incoming': !outgoing }">
       <div class="bubble flex-center text-center" [ngClass]="{ 'outgoing': outgoing, 'incoming': !outgoing }">
@@ -134,7 +134,7 @@
       <a href="" class="text-link-style">2 Antworten</a>
       <div class="flex-row gap4">
         <p>Letzte Antwort</p>
-        <p class="timestamp">{{ timestamp }}</p>
+        <p class="timestamp">{{ createdAt }}</p>
       </div>
     </div>
 
