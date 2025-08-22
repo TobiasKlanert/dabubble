@@ -20,6 +20,7 @@ export interface DirectChat {
   id: string;
   participants: string[];
   createdAt: string;
+  outgoing: boolean;
 }
 
 export interface UserChatPreview {
@@ -67,6 +68,7 @@ export interface Message {
   text: string; 
   createdAt: string;
   reactions: Reaction;
+  outgoing: boolean;
   editedAt?: string | null;
   repliesCount?: number;
   thread?: ThreadMessage[];
@@ -85,4 +87,5 @@ export interface ThreadMessage {
   text: string;
   createdAt: string;
   editedAt?: string | null;
+  outgoing: boolean;
 }

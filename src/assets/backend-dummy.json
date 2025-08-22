@@ -77,9 +77,33 @@
               "senderId": "u1",
               "text": "Danke Bob!",
               "createdAt": "2024-03-01T10:10:00Z",
-              "editedAt": null
+              "editedAt": null,
+              "outgoing": false
             }
-          ]
+          ],
+          "outgoing": false
+        },
+        {
+          "id": "m4",
+          "senderId": "u1",
+          "text": "Guten Morgen zusammen!",
+          "createdAt": "2024-03-01T10:15:00Z",
+          "editedAt": null,
+          "repliesCount": 0,
+          "reactions": {},
+          "thread": [],
+          "outgoing": true
+        },
+        {
+          "id": "m5",
+          "senderId": "u3",
+          "text": "Hat jemand die Präsentation gesehen?",
+          "createdAt": "2024-03-01T10:20:00Z",
+          "editedAt": null,
+          "repliesCount": 0,
+          "reactions": {},
+          "thread": [],
+          "outgoing": false
         }
       ]
     },
@@ -104,7 +128,30 @@
               "userIds": ["u4", "u5"]
             }
           },
-          "thread": []
+          "thread": [],
+          "outgoing": true
+        },
+        {
+          "id": "m6",
+          "senderId": "u4",
+          "text": "Sieht super aus!",
+          "createdAt": "2024-04-02T09:30:00Z",
+          "editedAt": null,
+          "repliesCount": 0,
+          "reactions": {},
+          "thread": [],
+          "outgoing": false
+        },
+        {
+          "id": "m7",
+          "senderId": "u5",
+          "text": "Ich habe noch einen Bug gefunden.",
+          "createdAt": "2024-04-02T09:45:00Z",
+          "editedAt": null,
+          "repliesCount": 0,
+          "reactions": {},
+          "thread": [],
+          "outgoing": false
         }
       ]
     },
@@ -135,9 +182,33 @@
               "senderId": "u2",
               "text": "Warum können Geister so schlecht lügen? Weil man durch sie hindurchsehen kann!",
               "createdAt": "2024-04-15T13:20:00Z",
-              "editedAt": null
+              "editedAt": null,
+              "outgoing": false
             }
-          ]
+          ],
+          "outgoing": false
+        },
+        {
+          "id": "m8",
+          "senderId": "u2",
+          "text": "Ich kenne einen: Was macht ein Pirat am Computer? Er drückt die Enter-Taste!",
+          "createdAt": "2024-04-15T13:25:00Z",
+          "editedAt": null,
+          "repliesCount": 0,
+          "reactions": {},
+          "thread": [],
+          "outgoing": true
+        },
+        {
+          "id": "m9",
+          "senderId": "u1",
+          "text": "Haha, der ist gut!",
+          "createdAt": "2024-04-15T13:30:00Z",
+          "editedAt": null,
+          "repliesCount": 0,
+          "reactions": {},
+          "thread": [],
+          "outgoing": true
         }
       ]
     }
@@ -159,7 +230,8 @@
               "count": 1,
               "userIds": ["u3"]
             }
-          }
+          },
+          "outgoing": true
         },
         {
           "id": "dm2",
@@ -167,7 +239,26 @@
           "text": "Ja, bin schon dran!",
           "createdAt": "2024-05-10T15:02:00Z",
           "editedAt": null,
-          "reactions": {}
+          "reactions": {},
+          "outgoing": false
+        },
+        {
+          "id": "dm4",
+          "senderId": "u1",
+          "text": "Super, danke!",
+          "createdAt": "2024-05-10T15:03:00Z",
+          "editedAt": null,
+          "reactions": {},
+          "outgoing": true
+        },
+        {
+          "id": "dm5",
+          "senderId": "u3",
+          "text": "Kein Problem!",
+          "createdAt": "2024-05-10T15:04:00Z",
+          "editedAt": null,
+          "reactions": {},
+          "outgoing": false
         }
       ]
     },
@@ -187,7 +278,26 @@
               "count": 1,
               "userIds": ["u6"]
             }
-          }
+          },
+          "outgoing": false
+        },
+        {
+          "id": "dm6",
+          "senderId": "u1",
+          "text": "Ja, ich bin dabei!",
+          "createdAt": "2024-06-20T17:02:00Z",
+          "editedAt": null,
+          "reactions": {},
+          "outgoing": true
+        },
+        {
+          "id": "dm7",
+          "senderId": "u6",
+          "text": "Perfekt, bis morgen!",
+          "createdAt": "2024-06-20T17:03:00Z",
+          "editedAt": null,
+          "reactions": {},
+          "outgoing": false
         }
       ]
     }
