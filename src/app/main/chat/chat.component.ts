@@ -90,7 +90,6 @@ export class ChatComponent {
       )
       .subscribe((messages) => {
         this.chatMessages = Array.isArray(messages) ? messages : [messages];
-        console.log(this.chatMessages);
       });
   }
 

@@ -1,8 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, input, Input } from '@angular/core';
+import { combineLatest } from 'rxjs';
 import { EmojiMenuComponent } from '../emoji-menu/emoji-menu.component';
 import { Reaction } from '../../shared/models/reaction.model';
-import { Message, ThreadMessage } from '../../shared/models/database.model';
+import {
+  Message,
+  ThreadMessage,
+  User,
+} from '../../shared/models/database.model';
 import { HoverOutsideDirective } from '../../shared/directives/hover-outside.directive';
 import { ClickOutsideDirective } from '../../shared/directives/click-outside.directive';
 import { FormsModule } from '@angular/forms';
@@ -29,6 +34,7 @@ export class SingleMessageComponent {
   userId: string = '';
   editText = '';
 
+  sender!: User;
   thread!: ThreadMessage[];
   reactions: Reaction[] = [];
 
@@ -42,13 +48,13 @@ export class SingleMessageComponent {
   ) {}
 
   ngOnInit() {
-    this.firestore
-      .getThread(this.chatId, this.message.id)
-      .subscribe((thread) => {
-        if (thread.length > 0) {
-          this.thread = thread;
-        }
-      });
+    combineLatest([
+      this.firestore.getThread(this.chatId, this.message.id),
+      this.firestore.getUser(this.message.senderId),
+    ]).subscribe(([thread, sender]) => {
+      this.thread = thread.length > 0 ? thread : [];
+      this.sender = sender;
+    });
   }
 
   openProfile(userId: string) {
