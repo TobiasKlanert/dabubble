@@ -6,11 +6,11 @@ import {
   UserChatPreview,
   Channel,
   User,
+  ChatPartner
 } from '../../shared/models/database.model';
 import { FirestoreService } from '../../shared/services/firestore.service';
 import { ChatService } from '../../shared/services/chat.service';
 import { ChatType } from '../../shared/models/chat.enums';
-import { user } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-devspace',
@@ -72,9 +72,13 @@ export class DevspaceComponent {
     this.overlayService.open('addChannel');
   }
 
-  onSelectChat(chatId: string, chatType: ChatType) {
+  onSelectChat(chatId: string, chatType: ChatType, chatPartner?: ChatPartner) {
     this.chatService.selectChatId(chatId);
     this.chatService.selectChatType(chatType);
+    
+    if (chatPartner) {
+      this.chatService.selectChatPartner(chatPartner);
+    }
   }
 
   toggleChannels() {

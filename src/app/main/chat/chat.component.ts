@@ -1,6 +1,14 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Subject, combineLatest, filter, of, switchMap, takeUntil, tap } from 'rxjs';
+import {
+  Subject,
+  combineLatest,
+  filter,
+  of,
+  switchMap,
+  takeUntil,
+  tap,
+} from 'rxjs';
 import { EmojiService } from '../../shared/services/emoji.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmojiMenuComponent } from '../emoji-menu/emoji-menu.component';
@@ -10,7 +18,7 @@ import {
   OverlayMenuType,
   OverlayService,
 } from '../../shared/services/overlay.service';
-import { User, Message } from '../../shared/models/database.model';
+import { User, Message, ChatPartner } from '../../shared/models/database.model';
 import { FirestoreService } from '../../shared/services/firestore.service';
 import { ChatService } from '../../shared/services/chat.service';
 import { ChatType } from '../../shared/models/chat.enums';
@@ -36,12 +44,19 @@ export class ChatComponent {
   channelMembers: User[] = [];
 
   currentChat: any;
+  currentChatPartner: ChatPartner = {
+    id: '',
+    name: '',
+    profilePictureUrl: '',
+    onlineStatus: false,
+  };
   chatMessages: Message[] = [];
 
   inputText: string = '';
   members: number = 0;
 
   private destroy$ = new Subject<void>();
+  public ChatType = ChatType;
 
   constructor(
     private overlayService: OverlayService,
@@ -56,31 +71,31 @@ export class ChatComponent {
     combineLatest([
       this.chatService.selectedChatId$.pipe(filter((chatId) => !!chatId)),
       this.chatService.selectedChatType$,
+      this.chatService.selectedChatPartner$,
     ])
       .pipe(
         takeUntil(this.destroy$),
-        tap(([chatId, chatType]) => {
+        tap(([chatId, chatType, ChatPartner]) => {
           this.currentChatId = chatId;
           this.currentChatType = chatType;
+          this.currentChatPartner = ChatPartner;
         }),
         switchMap(([chatId, chatType]) =>
           this.firestore.getChat(chatType, chatId).pipe(
             tap((chat) => {
-                this.currentChat = chat;
+              this.currentChat = chat;
             }),
             switchMap(() => {
               if (chatType === ChatType.Channel) {
-                return this.firestore
-                  .getChannelMembers(chatId, chatType)
-                  .pipe(
-                    tap((members) => {
-                      this.channelMembers = members;
-                      this.members = members.length;
-                    }),
-                    switchMap(() =>
-                      this.firestore.getChatMessages(chatType, chatId)
-                    )
-                  );
+                return this.firestore.getChannelMembers(chatId, chatType).pipe(
+                  tap((members) => {
+                    this.channelMembers = members;
+                    this.members = members.length;
+                  }),
+                  switchMap(() =>
+                    this.firestore.getChatMessages(chatType, chatId)
+                  )
+                );
               } else {
                 return this.firestore.getChatMessages(chatType, chatId);
               }
@@ -140,5 +155,10 @@ export class ChatComponent {
 
   openOverlay(overlay: OverlayMenuType) {
     this.overlayService.open(overlay);
+  }
+
+  openProfile(userId: string) {
+    this.firestore.setSelectedUserId(userId);
+    this.overlayService.open('profile');
   }
 }

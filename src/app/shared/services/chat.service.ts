@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { ChatType } from '../models/chat.enums';
+import { ChatPartner } from '../models/database.model';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +12,9 @@ export class ChatService {
 
   private selectedChatType = new BehaviorSubject<ChatType>(ChatType.Channel);
   selectedChatType$ = this.selectedChatType.asObservable();
+
+  private selectedChatPartner = new BehaviorSubject<ChatPartner>({id: '', name: '', profilePictureUrl: '', onlineStatus: false});
+  selectedChatPartner$ = this.selectedChatPartner.asObservable();
 
   constructor() {}
 
@@ -24,5 +28,9 @@ export class ChatService {
 
   getSelectedChatType() {
     return this.selectedChatType$;
+  }
+
+  selectChatPartner(partner: ChatPartner) {
+    this.selectedChatPartner.next(partner);
   }
 }

@@ -34,6 +34,13 @@ export interface UserChatPreview {
   };
 }
 
+export interface ChatPartner {
+  id: string;
+  name: string;
+  profilePictureUrl: string;
+  onlineStatus: boolean;
+}
+
 export interface Channel {
   id: string;
   name: string;

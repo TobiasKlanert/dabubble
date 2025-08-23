@@ -237,7 +237,7 @@
       </div>
       <div class="messages-details-body" [class.open]="messagesOpen">
          @for (chat of chats; track chat.chatId) {
-        <button class="profile-button" (click)="onSelectChat(chat.chatId, ChatType.DirectMessage)">
+        <button class="profile-button" (click)="onSelectChat(chat.chatId, ChatType.DirectMessage, chat.partner)">
           <div class="profile-picture-container">
             <img
               class="profile-picture"
