@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Subject, combineLatest, switchMap, takeUntil } from 'rxjs';
 import { OverlayService } from '../../../shared/services/overlay.service';
 import { User } from '../../../shared/models/database.model';
 import { FirestoreService } from '../../../shared/services/firestore.service';
@@ -12,7 +13,17 @@ import { FirestoreService } from '../../../shared/services/firestore.service';
   styleUrl: './profile.component.scss',
 })
 export class ProfileComponent implements OnInit {
-  user: User | null = null;
+  user: User = {
+    id: '',
+    name: '',
+    email: '',
+    profilePictureUrl: '',
+    joinedAt: '',
+    onlineStatus: false,
+  };
+  isOwnProfile: boolean = true;
+
+  private destroy$ = new Subject<void>();
 
   constructor(
     private firestore: FirestoreService,
@@ -20,11 +31,25 @@ export class ProfileComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.firestore.selectedUserId$.subscribe((userId) => {
-      this.firestore.getUser(userId).subscribe((user) => {
+    this.firestore.selectedUserId$
+      .pipe(
+        switchMap((userId) =>
+          combineLatest([
+            this.firestore.getUser(userId),
+            this.firestore.loggedInUserId$,
+          ])
+        ),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(([user, loggedInUser]) => {
         this.user = user;
+        this.isOwnProfile = user.id === loggedInUser;
       });
-    });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   closeOverlay() {

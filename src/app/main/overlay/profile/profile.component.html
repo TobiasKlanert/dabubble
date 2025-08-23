@@ -17,19 +17,19 @@
     </button>
   </header>
   <div class="profile-picture-container">
-    <img src="{{ user?.profilePictureUrl }}" alt="Profilbild" />
+    <img src="{{ user.profilePictureUrl }}" alt="Profilbild" />
   </div>
   <div class="user-info">
     <div class="user-details">
-      <p>{{ user?.name }}</p>
-      <button>Bearbeiten</button>
+      <p>{{ user.name }}</p>
+      <button *ngIf="isOwnProfile">Bearbeiten</button>
     </div>
     <div class="user-status">
-      <span class="online-marker" [ngStyle]="{ 'background-color': user?.onlineStatus ? '#92C83E' : '#686868'}"></span>
-      @if (user?.onlineStatus) {
+      <span class="online-marker" [ngStyle]="{ 'background-color': user.onlineStatus ? '#92C83E' : '#686868'}"></span>
+      @if (user.onlineStatus) {
         <p>Aktiv</p>
       }
-      @if (!user?.onlineStatus) {
+      @if (!user.onlineStatus) {
         <p>Offline</p>
       }
     </div>
@@ -39,11 +39,11 @@
       <img src="./assets/img/mail.svg" alt="E-Mail" />
       <p>E-Mail-Adresse</p>
     </div>
-    <a class="a-mail" href="mailto: {{ user?.email }}"
-      >{{ user?.email }}</a
+    <a class="a-mail" href="mailto: {{ user.email }}"
+      >{{ user.email }}</a
     >
   </div>
-  <div class="btn-container">
+  <div class="btn-container" *ngIf="!isOwnProfile">
     <button class="button-primary-style">
       <img src="./assets/img/message-icon.svg" />
       <p>Nachricht</p>

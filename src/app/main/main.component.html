@@ -31,12 +31,12 @@
         </form>
       </div>
       <div class="right-column">
-        <button class="profile-button" (click)="openProfileMenu()">
-          <p>Max Mustermann</p>
+        <button class="profile-button" *ngIf="user" (click)="openProfileMenu()">
+          <p>{{ user.name }}</p>
           <div class="profile-picture-container">
             <img
               class="profile-picture"
-              src="./assets/img/user1.png"
+              src="{{ user.profilePictureUrl }}"
               alt="Profilbild"
             />
             <span class="online-marker"></span>
