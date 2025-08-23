@@ -207,7 +207,7 @@
         [ngClass]="{ outgoing: message.outgoing, incoming: !message.outgoing }"
       >
         <p class="sender" (click)="openProfile(sender.id)">{{ sender.name }}</p>
-        <p class="timestamp">{{ message.createdAt }}</p>
+        <p class="timestamp">{{ message.createdAt | date:'HH:mm' }}</p>
       </div>
       <div
         class="bubble-wrapper mb8"
@@ -282,7 +282,7 @@
           <div class="flex-row gap4">
             @if (thread) {
             <p>Letzte Antwort</p>
-            <p class="timestamp">{{ thread[thread.length - 1].createdAt }}</p>
+            <p class="timestamp">{{ thread[thread.length - 1].createdAt  | date:'HH:mm' }}</p>
             }
           </div>
         </ng-container>
