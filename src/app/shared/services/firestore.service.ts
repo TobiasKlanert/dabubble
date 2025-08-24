@@ -164,12 +164,12 @@ export class FirestoreService {
   async addMessage(chatType: ChatType, chatId: string, msg: Partial<Message>) {
     const messagesRef = collection(this.firestore, `${chatType}/${chatId}/messages`);
 
-    const senderId = this._loggedInUserId$.getValue() || 'u1'; // Gast als Fallback
+    const senderId = this._loggedInUserId$.getValue() || 'u1'; // hier setzten wir Gast als Fallback
 
     const newMessage: Omit<Message, 'id'> = {
       senderId,
       text: msg.text ?? '',
-      createdAt: new Date().toISOString(), // alternativ serverTimestamp(), siehe Hinweis unten
+      createdAt: new Date().toISOString(),
       outgoing: true,
       reactions: {},
       editedAt: null,
@@ -177,7 +177,8 @@ export class FirestoreService {
       thread: [],
     };
     console.log(newMessage);
-    
+    const docRef = await addDoc(messagesRef, newMessage);
+    return { id: docRef.id, ...newMessage };
   }
 
   // id: string;
