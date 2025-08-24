@@ -74,7 +74,7 @@ export interface Message {
   senderId: string;
   text: string; 
   createdAt: string;
-  reactions: Reaction;
+  reactions?: Reaction;
   outgoing: boolean;
   editedAt?: string | null;
   repliesCount?: number;

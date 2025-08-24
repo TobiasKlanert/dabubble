@@ -1,6 +1,6 @@
 <div class="chat-container flex-column">
   <div class="header-container flex-row flex-sb flex-center">
-    <ng-container *ngIf="currentChatType === ChatType.Channel">
+    <ng-container *ngIf="currentChatType === chatType.Channel">
       <div class="headline-container">
         <button class="btn-channel-info" (click)="openOverlay('channelInfo')">
           <svg
@@ -79,7 +79,7 @@
         </button>
       </div>
     </ng-container>
-    <ng-container *ngIf="currentChatType === ChatType.DirectMessage && currentChat">
+    <ng-container *ngIf="currentChatType === chatType.DirectMessage && currentChat">
       <button class="profile-button" (click)="openProfile(currentChatPartner.id)">
           <div class="profile-picture-container">
             <img

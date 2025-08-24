@@ -53,7 +53,7 @@
             <div class="login-buttons">
                 <button type="submit" class="button-primary-style" [disabled]="form.invalid || loading"
                     (click)="$event.preventDefault(); onSubmit()">Anmelden</button>
-                <button class="button-secondary-style" [routerLink]="'/main'">Gäste-Login</button>
+                <button class="button-secondary-style" (click)="onGuestLogin()">Gäste-Login</button>
             </div>
         </div>
         <div class="create-account-responsive flex-column">

@@ -56,7 +56,7 @@ export class ChatComponent {
   members: number = 0;
 
   private destroy$ = new Subject<void>();
-  public ChatType = ChatType;
+  public chatType = ChatType;
 
   constructor(
     private overlayService: OverlayService,
@@ -128,9 +128,8 @@ export class ChatComponent {
           minute: '2-digit',
         }),
       };
-      console.log(msg);
-      /* this.messages.push(msg); */
-      // this.messageService.addMessage(msg);
+      this.firestore.addMessage(this.currentChatType, this.currentChatId, msg);
+
       this.inputText = '';
       setTimeout(() => this.scrollToBottom(), 0);
     }

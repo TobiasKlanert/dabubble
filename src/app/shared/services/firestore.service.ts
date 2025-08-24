@@ -7,6 +7,7 @@ import {
   doc,
   getDoc,
   addDoc,
+  setDoc,
   docData,
   updateDoc,
   query,
@@ -33,7 +34,7 @@ import { channel } from 'diagnostics_channel';
   providedIn: 'root',
 })
 export class FirestoreService {
-  constructor(private firestore: Firestore, private auth: Auth) {}
+  constructor(private firestore: Firestore, private auth: Auth) { }
 
   /*  ##########
     Channels 
@@ -160,18 +161,53 @@ export class FirestoreService {
     return collectionData(q, { idField: 'id' }) as Observable<Message[]>;
   }
 
+  async addMessage(chatType: ChatType, chatId: string, msg: Partial<Message>) {
+    const messagesRef = collection(this.firestore, `${chatType}/${chatId}/messages`);
+
+    const senderId = this._loggedInUserId$.getValue() || 'u1'; // Gast als Fallback
+
+    const newMessage: Omit<Message, 'id'> = {
+      senderId,
+      text: msg.text ?? '',
+      createdAt: new Date().toISOString(), // alternativ serverTimestamp(), siehe Hinweis unten
+      outgoing: true,
+      reactions: {},
+      editedAt: null,
+      repliesCount: 0,
+      thread: [],
+    };
+    console.log(newMessage);
+    
+  }
+
+  // id: string;
+  // senderId: string;
+  // text: string; 
+  // createdAt: string;
+  // reactions?: Reaction;
+  // outgoing: boolean;
+  // editedAt?: string | null;
+  // repliesCount?: number;
+  // thread?: ThreadMessage[];
+
+
+
   /*  ##########
     Users 
     ##########  */
 
   /* Hier wird die ID des eingeloggten Users global gespeichert -> Standardwert '' mit Dummy-User-Daten ersetzen */
-  private _loggedInUserId$ = new BehaviorSubject<string | ''>('u1');
+  private _loggedInUserId$ = new BehaviorSubject<string>('');
   loggedInUserId$ = this._loggedInUserId$.asObservable();
 
   /* Diese Methode nutzen, um ID des eingeloggten Users global zu speichern */
-  setLoggedInUserId(userId: string | '') {
-    this._selectedUserId$.next(userId);
+  setLoggedInUserId(userId: string) {
+    this._loggedInUserId$.next(userId);
     console.log('aktiver User hat ID:', userId);
+  }
+
+  get loggedInUserId() {
+    return this._loggedInUserId$.getValue();
   }
 
   /* Nur für Auswahl eines Users (z.B. Mitglied eines Channels) nutzen, nicht für den angemeldeten User! */
@@ -245,4 +281,33 @@ export class FirestoreService {
   logout(): Promise<void> {
     return this.auth.signOut();
   }
+
+
+
+  /*  ########## Guest User ##########  */
+
+  private readonly GUEST_USER_ID = 'u1';
+
+  async useGuestUser() {
+    await this.ensureGuestUserDoc();
+    this.setLoggedInUserId(this.GUEST_USER_ID);
+  }
+
+  private async ensureGuestUserDoc() {
+    const userRef = doc(this.firestore, 'users', this.GUEST_USER_ID);
+    const snap = await getDoc(userRef);
+    if (!snap.exists()) {
+      await setDoc(userRef, {
+        id: this.GUEST_USER_ID,
+        name: 'Guest',
+        email: 'guest@example.com',
+        profilePictureUrl: '',
+        joinedAt: new Date().toISOString(),
+        onlineStatus: true
+      });
+    }
+  }
 }
+
+
+

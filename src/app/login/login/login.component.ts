@@ -76,4 +76,15 @@ export class LoginComponent {
       this.loading = false;
     }
   }
+
+  async onGuestLogin() {
+    if (this.loading) return;
+    this.loading = true;
+    try {
+      await this.firestoreService.useGuestUser();
+      this.router.navigate(['/main']);
+    } finally {
+      this.loading = false;
+    }
+  }
 }
