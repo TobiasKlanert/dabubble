@@ -12,7 +12,7 @@ import { FirestoreService } from '../../../shared/services/firestore.service';
   styleUrl: './add-channel-menu.component.scss',
 })
 export class AddChannelMenuComponent {
-  userId: string = 'u1';
+  userId: string = '';
 
   showFirstMenu: boolean = true;
   isInputEmpty: boolean = true;
@@ -26,6 +26,14 @@ export class AddChannelMenuComponent {
     private firestore: FirestoreService,
     public textareaResizeService: TextareaResizeService
   ) {}
+
+  ngOnInit() {
+    this.setUserId()
+  }
+
+  setUserId() {
+    this.userId = this.firestore.loggedInUserId;
+  }
 
   toggleMenus() {
     this.showFirstMenu = !this.showFirstMenu;
