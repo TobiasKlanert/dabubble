@@ -10,15 +10,15 @@ export class AuthService {
     // Observable mit dem aktuellen User, nützlich für Guards und UI
     user$ = user(this.auth);
 
-    async register(name: string, email: string, password: string, photoURL: string) {
+    async register(name: string, email: string, password: string, profilePictureUrl: string) {
         const cred = await createUserWithEmailAndPassword(this.auth, email, password);  // Konto erstellen
-        await updateProfile(cred.user, { displayName: name, photoURL });                // Profil setzen
+        await updateProfile(cred.user, { displayName: name, photoURL: profilePictureUrl });                // Profil setzen
         // User Dokument schreiben, aber ohne Passwort
         await setDoc(doc(this.db, 'users', cred.user.uid), {
             uid: cred.user.uid,
             name,
             email: cred.user.email,
-            photoURL,
+            profilePictureUrl,
             joinedAt: serverTimestamp(),
             onlineStatus: true
         });
@@ -45,7 +45,7 @@ export class AuthService {
                 uid: cred.user.uid,
                 name: cred.user.displayName ?? '',
                 email: cred.user.email ?? '',
-                photoURL: cred.user.photoURL ?? '',
+                profilePictureUrl: cred.user.photoURL ?? '',
                 joinedAt: serverTimestamp(),
                 onlineStatus: true
             },
@@ -56,13 +56,14 @@ export class AuthService {
     }
 
     // Profil nach Avatarwahl fertigstellen
-    async completeProfileAfterAvatar(name: string, photoURL: string) {
+    async completeProfileAfterAvatar(name: string, profilePictureUrl: string) {
         if (!this.auth.currentUser) return;
-        await updateProfile(this.auth.currentUser, { displayName: name, photoURL });
+        await updateProfile(this.auth.currentUser, { displayName: name, photoURL: profilePictureUrl });
         await setDoc(
             doc(this.db, 'users', this.auth.currentUser.uid),
-            { name, photoURL, onlineStatus: true },
+            { name, profilePictureUrl, onlineStatus: true },
             { merge: true }
-        );
+        ); 
     }
 }
+ 
