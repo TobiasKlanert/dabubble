@@ -81,7 +81,7 @@ export class LoginComponent {
     if (this.loading) return;
     this.loading = true;
     try {
-      await this.firestoreService.useGuestUser();
+      await this.firestoreService.loginAsGuest();
       this.router.navigate(['/main']);
     } finally {
       this.loading = false;

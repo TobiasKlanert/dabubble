@@ -117,7 +117,6 @@ export class ChatComponent {
     this.scrollToBottom();
   }
 
-  // TODO: Revise sendMessage method -> Synchronization with Firebase
   sendMessage() {
     if (this.inputText.trim()) {
       const msg = {

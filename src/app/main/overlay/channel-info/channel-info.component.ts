@@ -34,6 +34,8 @@ export class ChannelInfoComponent {
     public textareaResizeService: TextareaResizeService
   ) {}
 
+  // TODO: implement method to leave channel
+
   ngOnInit() {
     this.chatService.selectedChatId$
       .pipe(

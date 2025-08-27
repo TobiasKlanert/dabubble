@@ -25,8 +25,18 @@ import {
   Message,
 } from '../models/database.model';
 import { ChatType } from '../models/chat.enums';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-import { Auth, signInWithPopup, GoogleAuthProvider } from '@angular/fire/auth';
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut,
+} from 'firebase/auth';
+import {
+  Auth,
+  authState,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from '@angular/fire/auth';
 import { log } from 'console';
 import { channel } from 'diagnostics_channel';
 
@@ -34,7 +44,19 @@ import { channel } from 'diagnostics_channel';
   providedIn: 'root',
 })
 export class FirestoreService {
-  constructor(private firestore: Firestore, private auth: Auth) { }
+  private _loggedInUserId$ = new BehaviorSubject<string>('');
+  loggedInUserId$ = this._loggedInUserId$.asObservable();
+
+  constructor(private firestore: Firestore, private auth: Auth) {
+    // Firebase-Auth-State beobachten
+    authState(this.auth).subscribe((user) => {
+      if (user) {
+        this._loggedInUserId$.next(user.uid);
+      } else {
+        this._loggedInUserId$.next('');
+      }
+    });
+  }
 
   /*  ##########
     Channels 
@@ -162,7 +184,10 @@ export class FirestoreService {
   }
 
   async addMessage(chatType: ChatType, chatId: string, msg: Partial<Message>) {
-    const messagesRef = collection(this.firestore, `${chatType}/${chatId}/messages`);
+    const messagesRef = collection(
+      this.firestore,
+      `${chatType}/${chatId}/messages`
+    );
 
     const senderId = this._loggedInUserId$.getValue() || 'u1'; // hier setzten wir Gast als Fallback
 
@@ -183,7 +208,7 @@ export class FirestoreService {
 
   // id: string;
   // senderId: string;
-  // text: string; 
+  // text: string;
   // createdAt: string;
   // reactions?: Reaction;
   // outgoing: boolean;
@@ -191,15 +216,9 @@ export class FirestoreService {
   // repliesCount?: number;
   // thread?: ThreadMessage[];
 
-
-
   /*  ##########
     Users 
     ##########  */
-
-  /* Hier wird die ID des eingeloggten Users global gespeichert -> Standardwert '' mit Dummy-User-Daten ersetzen */
-  private _loggedInUserId$ = new BehaviorSubject<string>('');
-  loggedInUserId$ = this._loggedInUserId$.asObservable();
 
   /* Diese Methode nutzen, um ID des eingeloggten Users global zu speichern */
   setLoggedInUserId(userId: string) {
@@ -279,36 +298,19 @@ export class FirestoreService {
     });
   }
 
-  logout(): Promise<void> {
-    return this.auth.signOut();
+  async logout(): Promise<void> {
+    await signOut(this.auth);
+    this._loggedInUserId$.next('');
   }
-
-
 
   /*  ########## Guest User ##########  */
 
-  private readonly GUEST_USER_ID = 'u1';
-
-  async useGuestUser() {
-    await this.ensureGuestUserDoc();
-    this.setLoggedInUserId(this.GUEST_USER_ID);
-  }
-
-  private async ensureGuestUserDoc() {
-    const userRef = doc(this.firestore, 'users', this.GUEST_USER_ID);
-    const snap = await getDoc(userRef);
-    if (!snap.exists()) {
-      await setDoc(userRef, {
-        id: this.GUEST_USER_ID,
-        name: 'Guest',
-        email: 'guest@example.com',
-        profilePictureUrl: '',
-        joinedAt: new Date().toISOString(),
-        onlineStatus: true
-      });
-    }
+  async loginAsGuest() {
+    const credential = await signInWithEmailAndPassword(
+      this.auth,
+      'max.mustermann@example.com',
+      'guest123'
+    );
+    return credential.user.uid;
   }
 }
-
-
-

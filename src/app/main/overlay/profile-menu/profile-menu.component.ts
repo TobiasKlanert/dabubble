@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { OverlayService } from '../../../shared/services/overlay.service';
 import { FirestoreService } from '../../../shared/services/firestore.service';
 
@@ -15,6 +16,7 @@ export class ProfileMenuComponent {
   constructor(
     private firestore: FirestoreService,
     private overlayService: OverlayService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -28,9 +30,9 @@ export class ProfileMenuComponent {
     this.overlayService.open('profile');
   }
 
-  // TODO: implement logout method
-  logout() {
+  async onLogout() {
     this.overlayService.close();
-    console.log('Logout');
+    await this.firestore.logout();
+    this.router.navigate(['']);
   }
 }

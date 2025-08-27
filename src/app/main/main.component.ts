@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Subject, takeUntil, switchMap } from 'rxjs';
+import { filter, Subject, takeUntil, switchMap } from 'rxjs';
 import { DevspaceComponent } from './devspace/devspace.component';
 import { ChatComponent } from './chat/chat.component';
 import { ThreadsComponent } from './threads/threads.component';
@@ -40,6 +40,7 @@ export class MainComponent {
   ngOnInit() {
     this.firestore.loggedInUserId$
       .pipe(
+        filter((id): id is string => !!id), // nur wenn id truthy ist (kein '', null, undefined)
         switchMap((currentUserId) => this.firestore.getUser(currentUserId)),
         takeUntil(this.destroy$)
       )
