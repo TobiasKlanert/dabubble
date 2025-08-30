@@ -10,6 +10,7 @@ import {
   setDoc,
   docData,
   updateDoc,
+  arrayRemove,
   query,
   where,
   orderBy,
@@ -118,6 +119,13 @@ export class FirestoreService {
     const channelRef = doc(this.firestore, 'channels', channelId);
     return updateDoc(channelRef, { description: newDescription });
   }
+
+  async removeMemberFromChannel(channelId: string, userId: string) {
+  const channelRef = doc(this.firestore, 'channels', channelId);
+  await updateDoc(channelRef, {
+    members: arrayRemove(userId)
+  });
+}
 
   /*  ##########
     Chats 

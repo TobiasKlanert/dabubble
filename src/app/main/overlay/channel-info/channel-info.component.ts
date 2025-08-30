@@ -1,6 +1,7 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subject, takeUntil, switchMap, tap } from 'rxjs';
+import { doc, updateDoc, arrayRemove } from '@angular/fire/firestore';
 import { OverlayService } from '../../../shared/services/overlay.service';
 import { TextareaResizeService } from '../../../shared/services/textarea-resize.service';
 import { FirestoreService } from '../../../shared/services/firestore.service';
@@ -40,11 +41,11 @@ export class ChannelInfoComponent {
     this.chatService.selectedChatId$
       .pipe(
         takeUntil(this.destroy$),
-        tap(chatId => this.channelId = chatId),
-        switchMap(chatId => this.firestore.getChannel(chatId)),
-        tap(channel => this.channel = channel),
-        switchMap(channel => this.firestore.getUser(channel.creatorId)),
-        tap(user => this.channelCreator = user.name)
+        tap((chatId) => (this.channelId = chatId)),
+        switchMap((chatId) => this.firestore.getChannel(chatId)),
+        tap((channel) => (this.channel = channel)),
+        switchMap((channel) => this.firestore.getUser(channel.creatorId)),
+        tap((user) => (this.channelCreator = user.name))
       )
       .subscribe();
   }
@@ -86,5 +87,16 @@ export class ChannelInfoComponent {
           .catch((error) => console.error(error));
         break;
     }
+  }
+
+  leaveChannel() {
+    if (!this.channel?.id) {
+      return;
+    }
+
+    this.firestore
+      .removeMemberFromChannel(this.channel.id, this.firestore.loggedInUserId)
+      .then(() => this.overlayService.close())
+      .catch((err) => console.error('Fehler beim Entfernen des Users:', err));
   }
 }
