@@ -30,6 +30,8 @@ export class ProfileComponent implements OnInit {
     private overlayService: OverlayService
   ) {}
 
+  // TODO: implement method to edit profile
+
   ngOnInit() {
     this.firestore.selectedUserId$
       .pipe(

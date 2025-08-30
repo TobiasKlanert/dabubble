@@ -34,6 +34,8 @@ export class ChooseAvatarComponent {
 
   ngOnInit(): void {
     this.formData = this.regData.getData('form');
+    console.log(this.formData);
+    
     if (!this.formData) {
       this.formData = { name: '', email: '', password: '', google: true };
       console.log('Keine Formulardaten vorhanden');
@@ -63,6 +65,7 @@ export class ChooseAvatarComponent {
           this.formData.name,
           this.formData.email,
           this.formData.password,
+          this.formData.nameSearch,
           this.selectedAvatar
         );
         this.firestoreService.setLoggedInUserId(user.uid);

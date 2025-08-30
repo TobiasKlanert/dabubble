@@ -3,30 +3,40 @@ import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { RegistrationDataService } from '../../shared/services/registration-data.service';
+import { FirestoreService } from '../../shared/services/firestore.service';
 
 @Component({
   selector: 'app-registration',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterLink,
-    ReactiveFormsModule,
-  ],
+  imports: [CommonModule, RouterLink, ReactiveFormsModule],
   templateUrl: './registration.component.html',
-  styleUrl: './registration.component.scss'
+  styleUrl: './registration.component.scss',
 })
 export class RegistrationComponent {
-
-  constructor(private fb: FormBuilder, private regData: RegistrationDataService) { }
+  constructor(
+    private fb: FormBuilder,
+    private regData: RegistrationDataService,
+    private firestore: FirestoreService
+  ) {}
 
   form = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(3)]],
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
-    privacy: [false, [Validators.requiredTrue]]
-  })
+    privacy: [false, [Validators.requiredTrue]],
+  });
 
   addUser() {
-   this.regData.setData('form', this.form.value);
+    if (this.form.valid) {
+      const formValue = this.form.value;
+
+      // nameSearch ergänzen
+      const userData = {
+        ...formValue,
+        nameSearch: this.firestore.norm(formValue.name || ''),
+      };
+
+      this.regData.setData('form', userData);
+    }
   }
 }

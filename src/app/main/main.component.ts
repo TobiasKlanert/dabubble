@@ -26,6 +26,7 @@ import { FirestoreService } from '../shared/services/firestore.service';
 export class MainComponent {
   userId: string = 'u1';
   user!: User;
+  searchResults: User[] = [];
   firstChannelId: string = '';
   isWorkspaceHidden: boolean = false;
 
@@ -56,11 +57,16 @@ export class MainComponent {
   }
 
   // TODO: Complete search function
-  onSearch(value: any, inputRef?: HTMLInputElement, event?: Event): void {
+  onSearch(value: string, inputRef?: HTMLInputElement, event?: Event): void {
     if (event) {
       event.preventDefault();
     }
-    console.log('Search event:', value);
+    this.firestore
+      .getUsersByName(value)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((users) => (this.searchResults = users));
+    console.log(this.searchResults);
+
     if (inputRef) {
       inputRef.value = '';
     }

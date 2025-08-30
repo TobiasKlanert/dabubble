@@ -1,16 +1,19 @@
 import { Injectable, inject } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, user, signOut, signInWithPopup, GoogleAuthProvider } from '@angular/fire/auth';
 import { Firestore, doc, setDoc, serverTimestamp } from '@angular/fire/firestore';
+import { FirestoreService } from './firestore.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
     private auth = inject(Auth);
     private db = inject(Firestore);
 
+    constructor(private firestore: FirestoreService) {}
+
     // Observable mit dem aktuellen User, nützlich für Guards und UI
     user$ = user(this.auth);
 
-    async register(name: string, email: string, password: string, profilePictureUrl: string) {
+    async register(name: string, email: string, password: string, nameSearch: string, profilePictureUrl: string) {
         const cred = await createUserWithEmailAndPassword(this.auth, email, password);  // Konto erstellen
         await updateProfile(cred.user, { displayName: name, photoURL: profilePictureUrl });                // Profil setzen
         // User Dokument schreiben, aber ohne Passwort
@@ -18,6 +21,7 @@ export class AuthService {
             uid: cred.user.uid,
             name,
             email: cred.user.email,
+            nameSearch,
             profilePictureUrl,
             joinedAt: serverTimestamp(),
             onlineStatus: true
@@ -45,6 +49,7 @@ export class AuthService {
                 uid: cred.user.uid,
                 name: cred.user.displayName ?? '',
                 email: cred.user.email ?? '',
+                nameSearch: this.firestore.norm(cred.user.displayName ?? ''),
                 profilePictureUrl: cred.user.photoURL ?? '',
                 joinedAt: serverTimestamp(),
                 onlineStatus: true

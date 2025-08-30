@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, from, of, forkJoin, map, switchMap } from 'rxjs';
+
 import {
   Firestore,
   collection,
@@ -14,8 +15,9 @@ import {
   query,
   where,
   orderBy,
+  startAt,
+  endAt
 } from '@angular/fire/firestore';
-import { Observable, from, of, forkJoin, map, switchMap } from 'rxjs';
 import {
   User,
   CreateUserData,
@@ -255,6 +257,27 @@ export class FirestoreService {
       })
     );
   }
+
+norm(s: string) {
+  return s
+    .toLowerCase()
+    .normalize('NFD')              // trennt Umlaute in Basis + Diakritik
+    .replace(/\p{Diacritic}/gu, ''); // entfernt Diakritik (ü -> u)
+}
+
+getUsersByName(term: string): Observable<User[]> {
+  const t = term.trim();
+  if (!t) return of([]);
+
+  const usersRef = collection(this.firestore, 'users');
+  const q = query(
+    usersRef,
+    orderBy('nameSearch'),                // auf dem normierten Feld sortieren
+    startAt(this.norm(t)),                     // normierter Suchbegriff
+    endAt(this.norm(t) + '\uf8ff')
+  );
+  return collectionData(q, { idField: 'id' }) as Observable<User[]>;
+}
 
   /*  ##########
     Login
