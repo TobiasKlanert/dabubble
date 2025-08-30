@@ -121,11 +121,11 @@ export class FirestoreService {
   }
 
   async removeMemberFromChannel(channelId: string, userId: string) {
-  const channelRef = doc(this.firestore, 'channels', channelId);
-  await updateDoc(channelRef, {
-    members: arrayRemove(userId)
-  });
-}
+    const channelRef = doc(this.firestore, 'channels', channelId);
+    await updateDoc(channelRef, {
+      members: arrayRemove(userId),
+    });
+  }
 
   /*  ##########
     Chats 
@@ -309,6 +309,12 @@ export class FirestoreService {
   async logout(): Promise<void> {
     await signOut(this.auth);
     this._loggedInUserId$.next('');
+  }
+
+  setOnlineStatus(userId: string, newOnlineStatus: boolean) {
+    const userRef = doc(this.firestore, 'users', userId);
+
+    return updateDoc(userRef, { onlineStatus: newOnlineStatus });
   }
 
   /*  ########## Guest User ##########  */

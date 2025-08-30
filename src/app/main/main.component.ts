@@ -46,6 +46,7 @@ export class MainComponent {
       )
       .subscribe((user) => {
         this.user = user;
+        this.firestore.setOnlineStatus(user.id, true);
       });
   }
 

@@ -22,7 +22,7 @@ export class ProfileMenuComponent {
   ngOnInit() {
     this.firestore.loggedInUserId$.subscribe((userId) => {
       this.userId = userId;
-    })
+    });
   }
 
   openProfile(userId: string) {
@@ -32,6 +32,7 @@ export class ProfileMenuComponent {
 
   async onLogout() {
     this.overlayService.close();
+    this.firestore.setOnlineStatus(this.firestore.loggedInUserId, false);
     await this.firestore.logout();
     this.router.navigate(['']);
   }
