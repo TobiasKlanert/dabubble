@@ -33,7 +33,8 @@ export class RegistrationComponent {
       // nameSearch ergänzen
       const userData = {
         ...formValue,
-        nameSearch: this.firestore.norm(formValue.name || ''),
+        nameSearch: this.firestore.normalizeName(formValue.name || ''),
+        nameSearchTokens: this.firestore.createNameSearchTokens(formValue.name || ''),
       };
 
       this.regData.setData('form', userData);

@@ -1,6 +1,14 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { filter, Subject, takeUntil, switchMap } from 'rxjs';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import {
+  filter,
+  Subject,
+  takeUntil,
+  switchMap,
+  debounceTime,
+  distinctUntilChanged,
+} from 'rxjs';
 import { DevspaceComponent } from './devspace/devspace.component';
 import { ChatComponent } from './chat/chat.component';
 import { ThreadsComponent } from './threads/threads.component';
@@ -19,6 +27,7 @@ import { FirestoreService } from '../shared/services/firestore.service';
     ChatComponent,
     ThreadsComponent,
     OverlayComponent,
+    ReactiveFormsModule,
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
@@ -29,6 +38,8 @@ export class MainComponent {
   searchResults: User[] = [];
   firstChannelId: string = '';
   isWorkspaceHidden: boolean = false;
+
+  searchControl = new FormControl('');
 
   private destroy$ = new Subject<void>();
 
@@ -56,13 +67,12 @@ export class MainComponent {
     this.destroy$.complete();
   }
 
-  // TODO: Complete search function
   onSearch(value: string, inputRef?: HTMLInputElement, event?: Event): void {
     if (event) {
       event.preventDefault();
     }
     this.firestore
-      .getUsersByName(value)
+      .searchUsers(value)
       .pipe(takeUntil(this.destroy$))
       .subscribe((users) => (this.searchResults = users));
     console.log(this.searchResults);

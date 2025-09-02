@@ -1,5 +1,14 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, from, of, forkJoin, map, switchMap } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  from,
+  of,
+  forkJoin,
+  map,
+  switchMap,
+  combineLatest
+} from 'rxjs';
 
 import {
   Firestore,
@@ -16,7 +25,7 @@ import {
   where,
   orderBy,
   startAt,
-  endAt
+  endAt,
 } from '@angular/fire/firestore';
 import {
   User,
@@ -258,26 +267,64 @@ export class FirestoreService {
     );
   }
 
-norm(s: string) {
-  return s
-    .toLowerCase()
-    .normalize('NFD')              // trennt Umlaute in Basis + Diakritik
-    .replace(/\p{Diacritic}/gu, ''); // entfernt Diakritik (ü -> u)
-}
+/*   norm(s: string) {
+    return s
+      .toLowerCase()
+      .normalize('NFD') // trennt Umlaute in Basis + Diakritik
+      .replace(/\p{Diacritic}/gu, ''); // entfernt Diakritik (ü -> u)
+  } */
 
-getUsersByName(term: string): Observable<User[]> {
-  const t = term.trim();
-  if (!t) return of([]);
+  normalizeName(name: string): string {
+    return name
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/\p{Diacritic}/gu, '');
+  }
 
+  createNameSearchTokens(fullName: string): string[] {
+    const normalized = this.normalizeName(fullName);
+    const parts = normalized.split(/\s+/); // trennt nach Leerzeichen
+
+    return [
+      normalized, // kompletter Name
+      ...parts, // einzelne Wörter (Vor- & Nachname)
+    ];
+  }
+
+  searchUsers(term: string): Observable<User[]> {
+  const normalized = this.normalizeName(term);
   const usersRef = collection(this.firestore, 'users');
-  const q = query(
+
+  // 1. Prefix-Suche auf nameSearch
+  const prefixQuery = query(
     usersRef,
-    orderBy('nameSearch'),                // auf dem normierten Feld sortieren
-    startAt(this.norm(t)),                     // normierter Suchbegriff
-    endAt(this.norm(t) + '\uf8ff')
+    orderBy('nameSearch'),
+    startAt(normalized),
+    endAt(normalized + '\uf8ff')
   );
-  return collectionData(q, { idField: 'id' }) as Observable<User[]>;
+
+  // 2. Exakte Suche in Tokens
+  const tokenQuery = query(
+    usersRef,
+    where('nameSearchTokens', 'array-contains', normalized)
+  );
+
+  // ⚡ beide Ergebnisse mergen
+  return combineLatest([
+    collectionData(prefixQuery, { idField: 'id' }) as Observable<User[]>,
+    collectionData(tokenQuery, { idField: 'id' }) as Observable<User[]>
+  ]).pipe(
+    map(([prefixResults, tokenResults]) => {
+      const all = [...prefixResults, ...tokenResults];
+      // Doppelte rausfiltern
+      const unique = all.filter(
+        (u, i, arr) => arr.findIndex(x => x.id === u.id) === i
+      );
+      return unique;
+    })
+  );
 }
+
 
   /*  ##########
     Login

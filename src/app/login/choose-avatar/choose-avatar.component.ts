@@ -66,6 +66,7 @@ export class ChooseAvatarComponent {
           this.formData.email,
           this.formData.password,
           this.formData.nameSearch,
+          this.formData.nameSearchTokens,
           this.selectedAvatar
         );
         this.firestoreService.setLoggedInUserId(user.uid);

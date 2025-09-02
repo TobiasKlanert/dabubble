@@ -13,7 +13,7 @@ export class AuthService {
     // Observable mit dem aktuellen User, nützlich für Guards und UI
     user$ = user(this.auth);
 
-    async register(name: string, email: string, password: string, nameSearch: string, profilePictureUrl: string) {
+    async register(name: string, email: string, password: string, nameSearch: string, nameSearchTokens: [], profilePictureUrl: string) {
         const cred = await createUserWithEmailAndPassword(this.auth, email, password);  // Konto erstellen
         await updateProfile(cred.user, { displayName: name, photoURL: profilePictureUrl });                // Profil setzen
         // User Dokument schreiben, aber ohne Passwort
@@ -22,6 +22,7 @@ export class AuthService {
             name,
             email: cred.user.email,
             nameSearch,
+            nameSearchTokens,
             profilePictureUrl,
             joinedAt: serverTimestamp(),
             onlineStatus: true
@@ -49,7 +50,8 @@ export class AuthService {
                 uid: cred.user.uid,
                 name: cred.user.displayName ?? '',
                 email: cred.user.email ?? '',
-                nameSearch: this.firestore.norm(cred.user.displayName ?? ''),
+                nameSearch: this.firestore.normalizeName(cred.user.displayName ?? ''),
+                nameSearchTokens: this.firestore.createNameSearchTokens(cred.user.displayName ?? ''),
                 profilePictureUrl: cred.user.photoURL ?? '',
                 joinedAt: serverTimestamp(),
                 onlineStatus: true
