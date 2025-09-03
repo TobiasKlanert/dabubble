@@ -166,6 +166,11 @@ app-emoji-menu {
   }
 }
 
+.search-menu {
+      position: absolute;
+      z-index: 99; 
+    }
+
 .send-icon {
   color: #444df2;
   cursor: pointer;

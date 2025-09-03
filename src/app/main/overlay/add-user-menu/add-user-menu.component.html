@@ -54,6 +54,14 @@
         placeholder="Name eingeben"
         (input)="onSearch(inputAddUser.value)"
       />
+      @if (searchResults.length > 0) {
+      <app-search-menu
+        class="search-menu"
+        (clickOutside)="searchResults = []; inputAddUser.value = ''"
+        [searchResults]="searchResults"
+      >
+      </app-search-menu>
+      }
       <div class="btn-container">
         <button
           type="button"

@@ -28,6 +28,11 @@
 
   .center-column {
     width: 52%;
+
+    .search-menu {
+      position: absolute;
+      z-index: 99; 
+    }
   }
 
   .right-column {

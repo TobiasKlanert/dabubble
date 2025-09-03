@@ -74,6 +74,11 @@
       cursor: pointer;
     }
 
+    .search-menu {
+      position: absolute; 
+      z-index: 99;
+    }
+
     .highlight {
       color: $purple-3;
     }

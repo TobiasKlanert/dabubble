@@ -1,0 +1,60 @@
+@import "../../../base";
+@import "../../../fonts";
+@import "../../../variables";
+
+.search-menu {
+  width: 335px;
+  max-height: 346px;
+  border-width: 1px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  padding: 20px 21px;
+  background-color: white;
+  border: 1px solid #ADB0D9;
+  box-shadow: 0px 2px 10px 0px #00000014;
+  overflow-y: auto;
+
+  @include dFlex($fd: column, $jc: flex-start, $ai: flex-start, $g: 15px);
+}
+
+.profile-button {
+  background: none;
+  border: none;
+  width: 100%;
+  border-radius: 30px;
+  padding: 4px 20px;
+  @include dFlex($jc: flex-start, $g: 15px);
+  p {
+    font-size: 18px;
+    font-weight: 400;
+    margin: 0;
+  }
+
+  .profile-picture-container {
+    position: relative;
+  }
+
+  .profile-picture {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+  }
+
+  .online-marker {
+    width: 14px;
+    height: 14px;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 50%;
+    border-color: $background-color;
+    position: absolute;
+    bottom: 4px;
+    right: 0;
+    z-index: 2;
+  }
+
+  &:hover {
+    background: $background-color;
+  }
+}

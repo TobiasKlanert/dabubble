@@ -1,0 +1,23 @@
+<article class="search-menu">
+  @for (member of searchResults; track $index) {
+  <button
+    class="profile-button"
+    (click)="addUser(member.id); $event.stopPropagation()"
+  >
+    <div class="profile-picture-container">
+      <img
+        class="profile-picture"
+        src="{{ member.profilePictureUrl }}"
+        alt="Profilbild"
+      />
+      <span
+        class="online-marker"
+        [ngStyle]="{
+          'background-color': member?.onlineStatus ? '#92C83E' : '#686868'
+        }"
+      ></span>
+    </div>
+    <p>{{ member.name }}</p>
+  </button>
+  }
+</article>

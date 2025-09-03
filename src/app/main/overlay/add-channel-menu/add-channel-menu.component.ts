@@ -1,16 +1,18 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { takeUntil, Subject } from 'rxjs';
+import { SearchMenuComponent } from '../search-menu/search-menu.component';
 import { OverlayService } from '../../../shared/services/overlay.service';
 import { TextareaResizeService } from '../../../shared/services/textarea-resize.service';
 import { FirestoreService } from '../../../shared/services/firestore.service';
 import { SearchService } from '../../../shared/services/search.service';
 import { User } from '../../../shared/models/database.model';
+import { ClickOutsideDirective } from '../../../shared/directives/click-outside.directive';
 
 @Component({
   selector: 'app-add-channel-menu',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, SearchMenuComponent, ClickOutsideDirective],
   templateUrl: './add-channel-menu.component.html',
   styleUrl: './add-channel-menu.component.scss',
 })

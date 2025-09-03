@@ -10,12 +10,14 @@ import {
 import { DevspaceComponent } from './devspace/devspace.component';
 import { ChatComponent } from './chat/chat.component';
 import { ThreadsComponent } from './threads/threads.component';
+import { SearchMenuComponent } from './overlay/search-menu/search-menu.component';
 import { OverlayService } from '../shared/services/overlay.service';
 import { UploadService } from '../shared/services/upload.service';
 import { OverlayComponent } from './overlay/overlay.component';
 import { User } from '../shared/models/database.model';
 import { FirestoreService } from '../shared/services/firestore.service';
 import { SearchService } from '../shared/services/search.service';
+import { ClickOutsideDirective } from '../shared/directives/click-outside.directive';
 
 @Component({
   selector: 'app-main',
@@ -25,8 +27,10 @@ import { SearchService } from '../shared/services/search.service';
     DevspaceComponent,
     ChatComponent,
     ThreadsComponent,
+    SearchMenuComponent,
     OverlayComponent,
     ReactiveFormsModule,
+    ClickOutsideDirective
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',

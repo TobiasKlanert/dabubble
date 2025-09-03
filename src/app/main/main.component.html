@@ -30,6 +30,14 @@
             <img src="./assets/img/search-grey.svg" alt="Suche" />
           </button>
         </form>
+        @if (searchResults.length > 0) {
+        <app-search-menu
+          class="search-menu"
+          (clickOutside)="searchResults = []; searchInput.value = ''"
+          [searchResults]="searchResults"
+        >
+        </app-search-menu>
+        }
       </div>
       <div class="right-column">
         <button class="profile-button" *ngIf="user" (click)="openProfileMenu()">

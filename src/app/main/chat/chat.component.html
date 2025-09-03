@@ -79,23 +79,30 @@
         </button>
       </div>
     </ng-container>
-    <ng-container *ngIf="currentChatType === chatType.DirectMessage && currentChat">
-      <button class="profile-button" (click)="openProfile(currentChatPartner.id)">
-          <div class="profile-picture-container">
-            <img
-              class="profile-picture"
-              src="{{ currentChatPartner.profilePictureUrl }}"
-              alt="Profilbild von {{ currentChatPartner.name }}"
-            />
-            <span
-              class="online-marker"
-              [ngStyle]="{
-                'background-color': currentChatPartner.onlineStatus ? '#92C83E' : '#686868'
-              }"
-            ></span>
-          </div>
-          <p>{{ currentChatPartner.name }}</p>
-        </button>
+    <ng-container
+      *ngIf="currentChatType === chatType.DirectMessage && currentChat"
+    >
+      <button
+        class="profile-button"
+        (click)="openProfile(currentChatPartner.id)"
+      >
+        <div class="profile-picture-container">
+          <img
+            class="profile-picture"
+            src="{{ currentChatPartner.profilePictureUrl }}"
+            alt="Profilbild von {{ currentChatPartner.name }}"
+          />
+          <span
+            class="online-marker"
+            [ngStyle]="{
+              'background-color': currentChatPartner.onlineStatus
+                ? '#92C83E'
+                : '#686868'
+            }"
+          ></span>
+        </div>
+        <p>{{ currentChatPartner.name }}</p>
+      </button>
     </ng-container>
   </div>
   <div #scrollContainer class="message-container">
@@ -208,5 +215,13 @@
       placeholder="Nachricht an #Channel"
       (input)="onSearch(inputMessage.value)"
     ></textarea>
+    @if (searchResults.length > 0) {
+    <app-search-menu
+      class="search-menu"
+      (clickOutside)="searchResults = []"
+      [searchResults]="searchResults"
+    >
+    </app-search-menu>
+    }
   </div>
 </div>
