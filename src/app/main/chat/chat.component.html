@@ -208,20 +208,22 @@
         </svg>
       </div>
     </div>
-    <textarea
-      #inputMessage
-      [(ngModel)]="inputText"
-      name="send-message"
-      placeholder="Nachricht an #Channel"
-      (input)="onSearch(inputMessage.value)"
-    ></textarea>
-    @if (searchResults.length > 0) {
-    <app-search-menu
-      class="search-menu"
-      (clickOutside)="searchResults = []"
-      [searchResults]="searchResults"
-    >
-    </app-search-menu>
-    }
+    <ng-container class="textarea-container">
+      <textarea
+        #inputMessage
+        [(ngModel)]="inputText"
+        name="send-message"
+        placeholder="Nachricht an #Channel"
+        (input)="onSearch(inputMessage.value)"
+      ></textarea>
+      @if (searchResults.length > 0) {
+      <app-search-menu
+        class="search-menu"
+        (clickOutside)="searchResults = []"
+        [searchResults]="searchResults"
+      >
+      </app-search-menu>
+      }
+    </ng-container>
   </div>
 </div>

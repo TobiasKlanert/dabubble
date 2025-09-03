@@ -46,6 +46,7 @@
   .form-add-user {
     @include dFlex($fd: column, $jc: flex-start, $ai: flex-start, $g: 20px);
     width: 100%;
+    position: relative;
 
     input {
       width: 100%;
@@ -67,6 +68,8 @@
 
     .search-menu {
       position: absolute; 
+      top: 45px;
+      left: 20px;
       z-index: 99;
     }
 

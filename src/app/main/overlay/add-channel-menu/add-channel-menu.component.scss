@@ -56,6 +56,7 @@
 
   form {
     width: 100%;
+    position: relative;
     @include dFlex($fd: column, $jc: flex-start, $ai: flex-start, $g: 20px);
 
     .input-container-row {
@@ -76,6 +77,8 @@
 
     .search-menu {
       position: absolute; 
+      top: 140px;
+      left: 20px;
       z-index: 99;
     }
 
