@@ -6,8 +6,6 @@ import {
   Subject,
   takeUntil,
   switchMap,
-  debounceTime,
-  distinctUntilChanged,
 } from 'rxjs';
 import { DevspaceComponent } from './devspace/devspace.component';
 import { ChatComponent } from './chat/chat.component';
@@ -17,6 +15,7 @@ import { UploadService } from '../shared/services/upload.service';
 import { OverlayComponent } from './overlay/overlay.component';
 import { User } from '../shared/models/database.model';
 import { FirestoreService } from '../shared/services/firestore.service';
+import { SearchService } from '../shared/services/search.service';
 
 @Component({
   selector: 'app-main',
@@ -46,7 +45,8 @@ export class MainComponent {
   constructor(
     public uploadService: UploadService,
     private overlayService: OverlayService,
-    private firestore: FirestoreService
+    private firestore: FirestoreService,
+    private searchService: SearchService
   ) {}
 
   ngOnInit() {
@@ -71,11 +71,14 @@ export class MainComponent {
     if (event) {
       event.preventDefault();
     }
-    this.firestore
+
+    this.searchService
       .searchUsers(value)
       .pipe(takeUntil(this.destroy$))
-      .subscribe((users) => (this.searchResults = users));
-    console.log(this.searchResults);
+      .subscribe((users) => {
+        this.searchResults = users;
+        console.log(this.searchResults);
+      });
 
     if (inputRef) {
       inputRef.value = '';

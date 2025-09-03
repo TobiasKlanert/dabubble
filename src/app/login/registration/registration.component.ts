@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { RegistrationDataService } from '../../shared/services/registration-data.service';
 import { FirestoreService } from '../../shared/services/firestore.service';
+import { SearchService } from '../../shared/services/search.service';
 
 @Component({
   selector: 'app-registration',
@@ -16,7 +17,8 @@ export class RegistrationComponent {
   constructor(
     private fb: FormBuilder,
     private regData: RegistrationDataService,
-    private firestore: FirestoreService
+    private firestore: FirestoreService,
+    private searchService: SearchService
   ) {}
 
   form = this.fb.group({
@@ -33,8 +35,8 @@ export class RegistrationComponent {
       // nameSearch ergänzen
       const userData = {
         ...formValue,
-        nameSearch: this.firestore.normalizeName(formValue.name || ''),
-        nameSearchTokens: this.firestore.createNameSearchTokens(formValue.name || ''),
+        nameSearch: this.searchService.normalizeName(formValue.name || ''),
+        nameSearchTokens: this.searchService.createNameSearchTokens(formValue.name || ''),
       };
 
       this.regData.setData('form', userData);

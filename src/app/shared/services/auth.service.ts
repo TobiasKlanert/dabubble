@@ -2,13 +2,14 @@ import { Injectable, inject } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, user, signOut, signInWithPopup, GoogleAuthProvider } from '@angular/fire/auth';
 import { Firestore, doc, setDoc, serverTimestamp } from '@angular/fire/firestore';
 import { FirestoreService } from './firestore.service';
+import { SearchService } from './search.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
     private auth = inject(Auth);
     private db = inject(Firestore);
 
-    constructor(private firestore: FirestoreService) {}
+    constructor(private firestore: FirestoreService, private searchService: SearchService) {}
 
     // Observable mit dem aktuellen User, nützlich für Guards und UI
     user$ = user(this.auth);
@@ -50,8 +51,8 @@ export class AuthService {
                 uid: cred.user.uid,
                 name: cred.user.displayName ?? '',
                 email: cred.user.email ?? '',
-                nameSearch: this.firestore.normalizeName(cred.user.displayName ?? ''),
-                nameSearchTokens: this.firestore.createNameSearchTokens(cred.user.displayName ?? ''),
+                nameSearch: this.searchService.normalizeName(cred.user.displayName ?? ''),
+                nameSearchTokens: this.searchService.createNameSearchTokens(cred.user.displayName ?? ''),
                 profilePictureUrl: cred.user.photoURL ?? '',
                 joinedAt: serverTimestamp(),
                 onlineStatus: true
