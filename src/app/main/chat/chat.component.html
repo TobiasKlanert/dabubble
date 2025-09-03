@@ -202,9 +202,11 @@
       </div>
     </div>
     <textarea
+      #inputMessage
       [(ngModel)]="inputText"
       name="send-message"
       placeholder="Nachricht an #Channel"
+      (input)="onSearch(inputMessage.value)"
     ></textarea>
   </div>
 </div>

@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { takeUntil, Subject } from 'rxjs';
 import { OverlayService } from '../../../shared/services/overlay.service';
 import { TextareaResizeService } from '../../../shared/services/textarea-resize.service';
 import { FirestoreService } from '../../../shared/services/firestore.service';
+import { SearchService } from '../../../shared/services/search.service';
+import { User } from '../../../shared/models/database.model';
 
 @Component({
   selector: 'app-add-channel-menu',
@@ -18,17 +21,26 @@ export class AddChannelMenuComponent {
   isInputEmpty: boolean = true;
   isFormInvalid: boolean = true;
   isInputUserInvisible: boolean = true;
-  
+  searchResults: User[] = [];
+
   selectedOption: string = 'none';
+
+  private destroy$ = new Subject<void>();
 
   constructor(
     private overlayService: OverlayService,
     private firestore: FirestoreService,
+    private searchService: SearchService,
     public textareaResizeService: TextareaResizeService
   ) {}
 
   ngOnInit() {
-    this.setUserId()
+    this.setUserId();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   setUserId() {
@@ -74,6 +86,24 @@ export class AddChannelMenuComponent {
         break;
       default:
         break;
+    }
+  }
+
+  onSearch(value: string, inputRef?: HTMLInputElement, event?: Event): void {
+    if (event) {
+      event.preventDefault();
+    }
+
+    this.searchService
+      .searchUsers(value)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((users) => {
+        this.searchResults = users;
+        console.log(this.searchResults);
+      });
+
+    if (inputRef) {
+      inputRef.value = '';
     }
   }
 

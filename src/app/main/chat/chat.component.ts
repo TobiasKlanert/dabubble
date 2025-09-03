@@ -20,6 +20,7 @@ import {
 } from '../../shared/services/overlay.service';
 import { User, Message, ChatPartner } from '../../shared/models/database.model';
 import { FirestoreService } from '../../shared/services/firestore.service';
+import { SearchService } from '../../shared/services/search.service';
 import { ChatService } from '../../shared/services/chat.service';
 import { ChatType } from '../../shared/models/chat.enums';
 
@@ -55,6 +56,8 @@ export class ChatComponent {
   inputText: string = '';
   members: number = 0;
 
+  searchResults: User[] = [];
+
   private destroy$ = new Subject<void>();
   public chatType = ChatType;
 
@@ -62,7 +65,8 @@ export class ChatComponent {
     private overlayService: OverlayService,
     public emojiService: EmojiService,
     private firestore: FirestoreService,
-    private chatService: ChatService
+    private chatService: ChatService,
+    private searchService: SearchService
   ) {}
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLDivElement>;
@@ -131,6 +135,27 @@ export class ChatComponent {
 
       this.inputText = '';
       setTimeout(() => this.scrollToBottom(), 0);
+    }
+  }
+
+  onSearch(value: string): void {
+    const atIndex = value.lastIndexOf('@');
+
+    if (atIndex !== -1) {
+      const query = value.substring(atIndex + 1).trim(); // alles nach dem @
+      if (query.length > 0) {
+        this.searchService
+          .searchUsers(query)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe((users) => {
+            this.searchResults = users;
+            console.log(this.searchResults);
+          });
+      } else {
+        this.searchResults = [];
+      }
+    } else {
+      this.searchResults = [];
     }
   }
 

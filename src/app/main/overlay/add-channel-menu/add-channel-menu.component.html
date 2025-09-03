@@ -128,7 +128,7 @@
       class="form-input"
       placeholder="Name eingeben"
       [hidden]="isInputUserInvisible"
-      (input)="toggleButton($event, inputAddUser.value)"
+      (input)="onSearch(inputAddUser.value)"
     />
     <div class="btn-container">
       <button
