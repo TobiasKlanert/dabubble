@@ -225,15 +225,46 @@ export class FirestoreService {
     return { id: docRef.id, ...newMessage };
   }
 
-  // id: string;
-  // senderId: string;
-  // text: string;
-  // createdAt: string;
-  // reactions?: Reaction;
-  // outgoing: boolean;
-  // editedAt?: string | null;
-  // repliesCount?: number;
-  // thread?: ThreadMessage[];
+  /*  ##########
+   Emojies 
+   ##########  */
+
+  getMessage(chatType: string, chatId: string, messageId: string): Observable<Message> {
+    const msgRef = doc(this.firestore, `${chatType}/${chatId}/messages/${messageId}`);
+    return docData(msgRef, { idField: 'id' }) as Observable<Message>;
+  }
+
+  async updateMessageReaction(
+    chatType: string,
+    chatId: string,
+    messageId: string,
+    emoji: string,
+    userId: string
+  ) {
+    const messageRef = doc(this.firestore, `${chatType}/${chatId}/messages/${messageId}`);
+
+    const snap = await getDoc(messageRef);
+    if (!snap.exists()) return;
+
+    const data = snap.data() as Message;
+    const reactions = data.reactions || {};
+
+    if (!reactions[emoji]) {
+      reactions[emoji] = { count: 1, userIds: [userId] };
+    } else {
+      if (!reactions[emoji].userIds.includes(userId)) {
+        reactions[emoji].userIds.push(userId);
+        reactions[emoji].count++;
+      } else {
+        // Optional: Toggle-Verhalten → Entfernen wenn bereits reagiert
+        reactions[emoji].userIds = reactions[emoji].userIds.filter(id => id !== userId);
+        reactions[emoji].count = Math.max(0, reactions[emoji].count - 1);
+        if (reactions[emoji].count === 0) delete reactions[emoji];
+      }
+    }
+
+    await updateDoc(messageRef, { reactions });
+  }
 
   /*  ##########
     Users 

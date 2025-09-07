@@ -36,7 +36,7 @@ export class SingleMessageComponent {
 
   sender!: User;
   thread!: ThreadMessage[];
-  reactions: Reaction[] = [];
+  reactions: { emoji: string; amount: number; userName: string[] }[] = [];
 
   showEmojiPicker = false;
   showEmojiPickerInEditMode = false;
@@ -45,16 +45,29 @@ export class SingleMessageComponent {
   constructor(
     private firestore: FirestoreService,
     private overlayService: OverlayService
-  ) {}
+  ) { }
 
   ngOnInit() {
     combineLatest([
       this.firestore.getThread(this.chatId, this.message.id),
       this.firestore.getUser(this.message.senderId),
     ]).subscribe(([thread, sender]) => {
-      this.thread = thread.length > 0 ? thread : [];
+      this.thread = thread || [];
       this.sender = sender;
     });
+
+    // 👇 Hier Live-Update für Reactions
+    this.firestore.getMessage('channels', this.chatId, this.message.id)
+      .subscribe((msg) => {
+        this.reactions = msg.reactions
+          ? Object.entries(msg.reactions).map(([emoji, data]: any) => ({
+            emoji,
+            amount: data.count,
+            userName: data.userIds
+          }))
+          : [];
+
+      });
   }
 
   openProfile(userId: string) {
@@ -91,20 +104,17 @@ export class SingleMessageComponent {
     this.showEmojiPickerInEditMode = !this.showEmojiPickerInEditMode;
   }
 
-  // TODO: Revise the addReactionEmoji method so that synchronization with Firestore takes place
-  addReactionEmoji = (emoji: string) => {
-    const existingReaction = this.reactions.find((r) => r.emoji === emoji);
+  addReactionEmoji = async (emoji: string) => {
+    const userId = this.firestore.loggedInUserId;
+    if (!userId) return;
 
-    if (existingReaction) {
-      existingReaction.amount += 1;
-      existingReaction.userName.push('dummy-user-id'); // später UserDaten verwenden
-    } else {
-      this.reactions.push({
-        emoji,
-        amount: 1,
-        userName: ['dummy-user-id'],
-      });
-    }
+    await this.firestore.updateMessageReaction(
+      'channels',   // oder 'chats', je nach Kontext
+      this.chatId,
+      this.message.id,
+      emoji,
+      userId
+    );
 
     this.showEmojiPicker = false;
   };
