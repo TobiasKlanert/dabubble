@@ -3,285 +3,290 @@
 @import "../../variables";
 
 :host {
-    display: block;
-    margin-top: 0px;
+  display: block;
+  margin-top: 0px;
 }
 
 p {
-    margin: 0;
-    color: $text-grey;
-    font-size: 14px;
+  margin: 0;
+  color: $text-grey;
+  font-size: 14px;
+}
+
+.btn-open-thread {
+  text-decoration: none;
+  background: none;
+  border: none;
+  color: #797ef3;
+  cursor: pointer;
 }
 
 .message-wrapper {
-    width: 100%;
-    gap: 30px;
-    padding: 16px 32px 16px 48px;
-    position: relative;
-    margin-bottom: 32px;
+  width: 100%;
+  gap: 30px;
+  padding: 16px 32px 16px 48px;
+  position: relative;
+  margin-bottom: 32px;
 
-    img {
-        height: 70px;
-        width: 70px;
-        border-radius: 40px;
+  img {
+    height: 70px;
+    width: 70px;
+    border-radius: 40px;
+  }
+
+  &.outgoing {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+
+  &.incoming {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  &:hover {
+    background-color: $background-color;
+
+    .reaction-container {
+      display: flex;
     }
 
-    &.outgoing {
-        display: flex;
-        flex-direction: row-reverse;
+    .bubble {
+      &.incoming {
+        background-color: white;
+      }
     }
-
-    &.incoming {
-        display: flex;
-        justify-content: flex-start;
-    }
-
-    &:hover {
-        background-color: $background-color;
-
-        .reaction-container {
-            display: flex;
-        }
-
-        .bubble {
-            &.incoming {
-                background-color: white;
-            }
-        }
-    }
+  }
 }
 
 .active-message {
-    background-color: $background-color;
+  background-color: $background-color;
 }
 
 .reaction-container {
-    display: none;
+  display: none;
+  position: absolute;
+  background-color: white;
+  padding: 3px 15px 3px 20px;
+  gap: 5px;
+  border-radius: 30px 30px 0px 30px;
+  border: 1px solid #adb0d9;
+
+  &.incoming {
+    right: 32px;
+    top: -12px;
+  }
+
+  &.outgoing {
+    left: 48px;
+    top: -12px;
+  }
+
+  .edit-button {
+    &.incoming {
+      display: none;
+    }
+  }
+
+  svg {
+    border-radius: 50px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $background-color;
+    }
+  }
+
+  app-emoji-menu {
     position: absolute;
-    background-color: white;
-    padding: 3px 15px 3px 20px;
-    gap: 5px;
-    border-radius: 30px 30px 0px 30px;
-    border: 1px solid #ADB0D9;
+    z-index: 100;
+    bottom: 0;
 
     &.incoming {
-        right: 32px;
-        top: -12px;
+      right: 24px;
     }
-
-    &.outgoing {
-        left: 48px;
-        top: -12px;
-    }
-
-    .edit-button {
-        &.incoming {
-            display: none;
-        }
-    }
-
-    svg {
-        border-radius: 50px;
-        cursor: pointer;
-
-        &:hover {
-            background-color: $background-color;
-        }
-    }
-
-    app-emoji-menu {
-        position: absolute;
-        z-index: 100;
-        bottom: 0;
-
-        &.incoming {
-            right: 24px;
-        }
-    }
+  }
 }
 
 .message-content {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
-    &.incoming {
-        align-items: flex-start;
-        text-align: start;
-    }
+  &.incoming {
+    align-items: flex-start;
+    text-align: start;
+  }
 }
 
 .threads-link-wrapper {
-    &.outgoing {
-        justify-content: flex-end;
-    }
+  &.outgoing {
+    justify-content: flex-end;
+  }
 }
 
 .name-time {
-    &.outgoing {
-        flex-direction: row-reverse;
-    }
+  &.outgoing {
+    flex-direction: row-reverse;
+  }
 }
 
 .bubble-wrapper {
-
-    &.outgoing {
-        display: flex;
-        justify-content: flex-end;
-    }
+  &.outgoing {
+    display: flex;
+    justify-content: flex-end;
+  }
 }
 
 .bubble {
-    padding: 15px;
-    border-radius: 30px;
-    padding: 15px;
-    max-width: 100%;
-    display: inline-block;
-    position: relative;
-    word-wrap: break-word;
-    word-break: break-word;
+  padding: 15px;
+  border-radius: 30px;
+  padding: 15px;
+  max-width: 100%;
+  display: inline-block;
+  position: relative;
+  word-wrap: break-word;
+  word-break: break-word;
 
-    &.outgoing {
-        background-color: $purple-2;
-        margin-left: auto;
-        border-top-right-radius: 0;
-        align-self: flex-end;
-        text-align: right;
-    }
+  &.outgoing {
+    background-color: $purple-2;
+    margin-left: auto;
+    border-top-right-radius: 0;
+    align-self: flex-end;
+    text-align: right;
+  }
 
-    &.incoming {
-        background-color: $background-color;
-        margin-right: auto;
-        border-top-left-radius: 0;
-        align-self: flex-start;
-        text-align: end;
-    }
+  &.incoming {
+    background-color: $background-color;
+    margin-right: auto;
+    border-top-left-radius: 0;
+    align-self: flex-start;
+    text-align: end;
+  }
 }
 
 .reaction-wrapper {
-    width: 100%;
-    display: flex;
-    gap: 8px;
-    position: relative;
+  width: 100%;
+  display: flex;
+  gap: 8px;
+  position: relative;
 
-    &.incoming {
-        justify-content: flex-start;
+  &.incoming {
+    justify-content: flex-start;
+  }
+
+  &.outgoing {
+    justify-content: flex-end;
+  }
+
+  svg {
+    background-color: white;
+    border-radius: 30px;
+    cursor: pointer;
+    fill: currentColor;
+
+    &:hover {
+      background-color: $background-color;
+      transform: scale(1.05);
+
+      path {
+        color: $purple-3;
+        transition: fill 125ms;
+      }
     }
+  }
 
-    &.outgoing {
-        justify-content: flex-end;
+  .reaction {
+    padding: 5px 10px 5px 10px;
+    border-radius: 100px;
+    border: 1px solid #adb0d9;
+    background-color: white;
+
+    &:hover {
+      cursor: pointer;
+      transform: scale(1.05);
     }
-
-    svg {
-        background-color: white;
-        border-radius: 30px;
-        cursor: pointer;
-        fill: currentColor;
-
-        &:hover {
-            background-color: $background-color;
-            transform: scale(1.05);
-
-            path {
-                color: $purple-3;
-                transition: fill 125ms
-            }
-        }
-    }
-
-    .reaction {
-        padding: 5px 10px 5px 10px;
-        border-radius: 100px;
-        border: 1px solid #ADB0D9;
-        background-color: white;
-
-        &:hover {
-            cursor: pointer;
-            transform: scale(1.05);
-        }
-    }
+  }
 }
 
 .sender {
-    font-weight: 700;
-    font-size: 18px;
-    color: #000000;
-    cursor: pointer;
-    transition: all 125ms ease-in-out;
+  font-weight: 700;
+  font-size: 18px;
+  color: #000000;
+  cursor: pointer;
+  transition: all 125ms ease-in-out;
 
-    &:hover {
-        color: $purple-3;
-    }
+  &:hover {
+    color: $purple-3;
+  }
 }
 
 .timestamp {
-    color: $text-grey
+  color: $text-grey;
 }
 
 .message-text {
-    color: #000000;
-    font-size: 18px;
-    text-align: left;
+  color: #000000;
+  font-size: 18px;
+  text-align: left;
 
-    &.outgoing {
-        color: $text-white;
-    }
+  &.outgoing {
+    color: $text-white;
+  }
 }
 
 .edit-message {
-    @include dFlex($fd: column, $ai: space-between, $g: 8px);
+  @include dFlex($fd: column, $ai: space-between, $g: 8px);
+  position: absolute;
+  top: 0;
+  left: 132px;
+  right: 116px;
+  height: 100%;
+  bottom: 10px;
+  background-color: rgb(255, 255, 255);
+  z-index: 10;
+  border: 1px solid $text-grey;
+  padding: 20px;
+  border-radius: 20px;
+
+  .textarea-wrapper {
+    display: flex;
+    flex-grow: 1;
+
+    textarea {
+      width: 100%;
+      flex-grow: 1;
+      border: none;
+      box-sizing: border-box;
+      color: $text-grey;
+    }
+  }
+
+  .edit-message-buttons {
+    display: flex;
+    gap: 32px;
+  }
+
+  svg {
+    background-color: white;
+    border-radius: 30px;
+    cursor: pointer;
+    fill: currentColor;
+
+    &:hover {
+      background-color: $background-color;
+      transform: scale(1.05);
+
+      path {
+        color: $purple-3;
+        transition: fill 125ms;
+      }
+    }
+  }
+
+  app-emoji-menu {
     position: absolute;
-    top: 0;
-    left: 132px;
-    right: 116px;
-    height: 100%;
-    bottom: 10px;
-    background-color: rgb(255, 255, 255);
-    z-index: 10;
-    border: 1px solid $text-grey;
-    padding: 20px;
-    border-radius: 20px;
-
-    .textarea-wrapper {
-        display: flex;
-        flex-grow: 1;
-
-        textarea {
-            width: 100%;
-            flex-grow: 1;
-            border: none;
-            box-sizing: border-box;
-            color: $text-grey;
-        }
-    }
-
-
-    .edit-message-buttons {
-        display: flex;
-        gap: 32px;
-    }
-
-    svg {
-        background-color: white;
-        border-radius: 30px;
-        cursor: pointer;
-        fill: currentColor;
-
-        &:hover {
-            background-color: $background-color;
-            transform: scale(1.05);
-
-            path {
-                color: $purple-3;
-                transition: fill 125ms
-            }
-        }
-    }
-
-    app-emoji-menu {
-        position: absolute;
-        z-index: 20000;
-        bottom: 20px;
-        left: 20px;
-    }
-
+    z-index: 20000;
+    bottom: 20px;
+    left: 20px;
+  }
 }

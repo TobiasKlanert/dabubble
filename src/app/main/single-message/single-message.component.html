@@ -276,8 +276,8 @@
         [ngClass]="{ outgoing: message.outgoing, incoming: !message.outgoing }"
       >
         <ng-container *ngIf="(message?.repliesCount ?? 0) > 0">
-          <a href="" class="text-link-style"
-            >{{ message.repliesCount ?? 0 }} Antworten</a
+          <button (click)="openThread()" class="btn-open-thread"
+            >{{ message.repliesCount ?? 0 }} Antworten</button
           >
           <div class="flex-row gap4">
             @if (thread) {

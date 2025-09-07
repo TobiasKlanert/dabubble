@@ -1,5 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { EmojiMenuComponent } from '../emoji-menu/emoji-menu.component';
+import { SingleMessageComponent } from '../single-message/single-message.component';
 import { EmojiService } from '../../shared/services/emoji.service';
 import {
   OverlayMenuType,
@@ -8,12 +9,15 @@ import {
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HoverOutsideDirective } from '../../shared/directives/hover-outside.directive';
+import { ThreadMessage } from '../../shared/models/database.model';
+import { ChatService } from '../../shared/services/chat.service';
 
 @Component({
   selector: 'app-threads',
   standalone: true,
   imports: [
     EmojiMenuComponent,
+    SingleMessageComponent,
     CommonModule,
     FormsModule,
     HoverOutsideDirective,
@@ -23,30 +27,19 @@ import { HoverOutsideDirective } from '../../shared/directives/hover-outside.dir
 })
 export class ThreadsComponent {
 
-  threadMessage = [
-    { text: 'Hey, wie geht’s?', outgoing: false, timestamp: '12:00' },
-  ]
-
-  messages = [
-    { text: 'Hey, wie geht’s?', outgoing: false, timestamp: '12:00' },
-    { text: 'Gut und dir?', outgoing: true, timestamp: '12:01' },
-    { text: 'Auch gut!', outgoing: false, timestamp: '12:02' },
-    { text: 'Hey, wie geht’s?', outgoing: false, timestamp: '12:00' },
-    { text: 'Gut und dir?', outgoing: true, timestamp: '12:01' },
-    { text: 'Auch gut!', outgoing: false, timestamp: '12:02' },
-    { text: 'Hey, wie geht’s?', outgoing: false, timestamp: '12:00' },
-    { text: 'Gut und dir?', outgoing: true, timestamp: '12:01' },
-    { text: 'Auch gut!', outgoing: false, timestamp: '12:02' },
-    { text: 'Hey, wie geht’s?', outgoing: false, timestamp: '12:00' },
-    { text: 'Gut und dir?', outgoing: true, timestamp: '12:01' },
-    { text: 'Auch gut!', outgoing: false, timestamp: '12:02' },
-  ]
+  threadMessages: ThreadMessage[] = [];
 
   inputText: string = '';
 
-  constructor(public emojiService: EmojiService, private overlayService: OverlayService,) { }
+  constructor(public emojiService: EmojiService, private chatService: ChatService, private overlayService: OverlayService,) { }
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLDivElement>;
+
+  ngOnInit() {
+    this.chatService.selectedThread$.subscribe((thread) => {
+      this.threadMessages = thread;
+    })
+  }
 
   ngAfterViewInit() {
     this.scrollToBottom();
@@ -84,7 +77,6 @@ export class ThreadsComponent {
         }),
       };
       console.log(msg);
-      this.messages.push(msg);
       // this.messageService.addMessage(msg);
       this.inputText = '';
       setTimeout(() => this.scrollToBottom(), 0);

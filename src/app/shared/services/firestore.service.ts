@@ -35,6 +35,7 @@ import {
   CreateChannelData,
   DirectChat,
   Message,
+  ThreadMessage
 } from '../models/database.model';
 import { ChatType } from '../models/chat.enums';
 import {
@@ -192,14 +193,14 @@ export class FirestoreService {
     /* chatType: ChatType, */
     chatId: string,
     messageId: string
-  ): Observable<Message[]> {
+  ): Observable<ThreadMessage[]> {
     // Die Threads liegen als Subcollection unter der Message: z.B. channels/{chatId}/messages/{messageId}/thread
     const threadRef = collection(
       this.firestore,
       `channels/${chatId}/messages/${messageId}/thread`
     );
     const q = query(threadRef, orderBy('createdAt', 'asc'));
-    return collectionData(q, { idField: 'id' }) as Observable<Message[]>;
+    return collectionData(q, { idField: 'id' }) as Observable<ThreadMessage[]>;
   }
 
   async addMessage(chatType: ChatType, chatId: string, msg: Partial<Message>) {

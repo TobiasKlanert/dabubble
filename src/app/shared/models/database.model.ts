@@ -95,4 +95,5 @@ export interface ThreadMessage {
   createdAt: string;
   editedAt?: string | null;
   outgoing: boolean;
+  reactions: Reaction;
 }

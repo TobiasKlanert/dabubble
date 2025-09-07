@@ -12,6 +12,7 @@ import { HoverOutsideDirective } from '../../shared/directives/hover-outside.dir
 import { ClickOutsideDirective } from '../../shared/directives/click-outside.directive';
 import { FormsModule } from '@angular/forms';
 import { FirestoreService } from '../../shared/services/firestore.service';
+import { ChatService } from '../../shared/services/chat.service';
 import { OverlayService } from '../../shared/services/overlay.service';
 
 @Component({
@@ -44,8 +45,9 @@ export class SingleMessageComponent {
 
   constructor(
     private firestore: FirestoreService,
+    private chatService: ChatService,
     private overlayService: OverlayService
-  ) { }
+  ) {}
 
   ngOnInit() {
     combineLatest([
@@ -57,22 +59,26 @@ export class SingleMessageComponent {
     });
 
     // 👇 Hier Live-Update für Reactions
-    this.firestore.getMessage('channels', this.chatId, this.message.id)
+    this.firestore
+      .getMessage('channels', this.chatId, this.message.id)
       .subscribe((msg) => {
-        this.reactions = msg.reactions
-          ? Object.entries(msg.reactions).map(([emoji, data]: any) => ({
+        this.reactions = Object.entries(msg?.reactions ?? {}).map(
+          ([emoji, data]: any) => ({
             emoji,
-            amount: data.count,
-            userName: data.userIds
-          }))
-          : [];
-
+            amount: data?.count ?? 0,
+            userName: data?.userIds ?? [],
+          })
+        );
       });
   }
 
   openProfile(userId: string) {
     this.firestore.setSelectedUserId(userId);
     this.overlayService.open('profile');
+  }
+
+  openThread() {
+    this.chatService.selectThread(this.thread);
   }
 
   openEditMode() {
@@ -109,7 +115,7 @@ export class SingleMessageComponent {
     if (!userId) return;
 
     await this.firestore.updateMessageReaction(
-      'channels',   // oder 'chats', je nach Kontext
+      'channels', // oder 'chats', je nach Kontext
       this.chatId,
       this.message.id,
       emoji,
