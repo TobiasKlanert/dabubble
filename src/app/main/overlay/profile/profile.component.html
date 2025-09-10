@@ -84,7 +84,7 @@
     </div>
   </form>
   <div class="btn-container" *ngIf="!isOwnProfile">
-    <button class="button-primary-style">
+    <button class="button-primary-style" (click)="openDirectChat(user.id)">
       <img src="./assets/img/message-icon.svg" />
       <p>Nachricht</p>
     </button>

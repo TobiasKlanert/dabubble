@@ -16,6 +16,7 @@ import {
   collectionData,
   doc,
   getDoc,
+  getDocs,
   addDoc,
   setDoc,
   docData,
@@ -178,6 +179,37 @@ export class FirestoreService {
         return from(Promise.all(chatPreviews$));
       })
     );
+  }
+
+    async getOrCreateDirectChatId(myUserId: string, otherUserId: string): Promise<string> {
+    const chatsRef = collection(this.firestore, 'chats');
+    // Suche nach einem Chat, der genau diese beiden Teilnehmer hat
+    const q = query(
+      chatsRef,
+      where('participants', 'array-contains', myUserId)
+    );
+  
+    const chatsSnap = await getDocs(q);
+    for (const docSnap of chatsSnap.docs) {
+      const participants = docSnap.data()['participants'] as string[];
+      // Prüfe, ob der Chat genau diese beiden User enthält
+      if (
+        participants.length === 2 &&
+        participants.includes(otherUserId) &&
+        participants.includes(myUserId)
+      ) {
+        return docSnap.id;
+      }
+    }
+  
+    // Falls kein Chat existiert, erstelle einen neuen
+    const newChat = {
+      participants: [myUserId, otherUserId],
+      createdAt: new Date().toISOString(),
+      messages: [],
+    };
+    const docRef = await addDoc(chatsRef, newChat);
+    return docRef.id;
   }
 
   getChatMessages(chatType: ChatType, chatId: string): Observable<Message> {
