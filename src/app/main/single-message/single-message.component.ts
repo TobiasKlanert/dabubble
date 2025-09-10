@@ -52,7 +52,7 @@ export class SingleMessageComponent {
   ngOnInit() {
     combineLatest([
       this.firestore.getThread(this.chatId, this.message.id),
-      this.firestore.getUser(this.message.senderId),
+      this.firestore.getUserLive(this.message.senderId),
     ]).subscribe(([thread, sender]) => {
       this.thread = thread || [];
       this.sender = sender;

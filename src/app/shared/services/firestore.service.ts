@@ -311,6 +311,11 @@ export class FirestoreService {
     );
   }
 
+  getUserLive(userId: string): Observable<User> {
+    const userRef = doc(this.firestore, 'users', userId);
+    return docData(userRef, { idField: 'id' }) as Observable<User>;
+  }
+
   updateUserName(userId: string, newName: string): Promise<void> {
     const userRef = doc(this.firestore, 'users', userId);
     return updateDoc(userRef, { name: newName });

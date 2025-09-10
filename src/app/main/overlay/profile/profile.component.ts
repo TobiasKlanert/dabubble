@@ -36,7 +36,7 @@ export class ProfileComponent implements OnInit {
       .pipe(
         switchMap((userId) =>
           combineLatest([
-            this.firestore.getUser(userId),
+            this.firestore.getUserLive(userId),
             this.firestore.loggedInUserId$,
           ])
         ),

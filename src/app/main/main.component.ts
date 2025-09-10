@@ -1,12 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import {
-  filter,
-  Subject,
-  takeUntil,
-  switchMap,
-} from 'rxjs';
+import { filter, Subject, takeUntil, switchMap } from 'rxjs';
 import { DevspaceComponent } from './devspace/devspace.component';
 import { ChatComponent } from './chat/chat.component';
 import { ThreadsComponent } from './threads/threads.component';
@@ -30,7 +25,7 @@ import { ClickOutsideDirective } from '../shared/directives/click-outside.direct
     SearchMenuComponent,
     OverlayComponent,
     ReactiveFormsModule,
-    ClickOutsideDirective
+    ClickOutsideDirective,
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
@@ -45,6 +40,7 @@ export class MainComponent {
   searchControl = new FormControl('');
 
   private destroy$ = new Subject<void>();
+  private isOnlineSet = false;
 
   constructor(
     public uploadService: UploadService,
@@ -56,13 +52,19 @@ export class MainComponent {
   ngOnInit() {
     this.firestore.loggedInUserId$
       .pipe(
-        filter((id): id is string => !!id), // nur wenn id truthy ist (kein '', null, undefined)
-        switchMap((currentUserId) => this.firestore.getUser(currentUserId)),
+        filter((id): id is string => !!id),
+        switchMap(
+          (currentUserId) => this.firestore.getUserLive(currentUserId)
+        ),
         takeUntil(this.destroy$)
       )
       .subscribe((user) => {
         this.user = user;
-        this.firestore.setOnlineStatus(user.id, true);
+
+        if (!this.isOnlineSet) {
+          this.firestore.setOnlineStatus(user.id, true);
+          this.isOnlineSet = true;
+        }
       });
   }
 
