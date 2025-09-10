@@ -31,8 +31,6 @@ export class ProfileComponent implements OnInit {
     private overlayService: OverlayService
   ) {}
 
-  // TODO: implement method to edit profile
-
   ngOnInit() {
     this.firestore.selectedUserId$
       .pipe(
@@ -53,6 +51,13 @@ export class ProfileComponent implements OnInit {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  saveEdit(newName: string) {
+    this.firestore
+      .updateUserName(this.user.id, newName)
+      .catch((error) => console.error(error));
+    this.isEditModeActive = false;
   }
 
   closeOverlay() {

@@ -7,7 +7,7 @@ import {
   forkJoin,
   map,
   switchMap,
-  combineLatest
+  combineLatest,
 } from 'rxjs';
 
 import {
@@ -35,7 +35,7 @@ import {
   CreateChannelData,
   DirectChat,
   Message,
-  ThreadMessage
+  ThreadMessage,
 } from '../models/database.model';
 import { ChatType } from '../models/chat.enums';
 import {
@@ -230,8 +230,15 @@ export class FirestoreService {
    Emojies 
    ##########  */
 
-  getMessage(chatType: string, chatId: string, messageId: string): Observable<Message> {
-    const msgRef = doc(this.firestore, `${chatType}/${chatId}/messages/${messageId}`);
+  getMessage(
+    chatType: string,
+    chatId: string,
+    messageId: string
+  ): Observable<Message> {
+    const msgRef = doc(
+      this.firestore,
+      `${chatType}/${chatId}/messages/${messageId}`
+    );
     return docData(msgRef, { idField: 'id' }) as Observable<Message>;
   }
 
@@ -242,7 +249,10 @@ export class FirestoreService {
     emoji: string,
     userId: string
   ) {
-    const messageRef = doc(this.firestore, `${chatType}/${chatId}/messages/${messageId}`);
+    const messageRef = doc(
+      this.firestore,
+      `${chatType}/${chatId}/messages/${messageId}`
+    );
 
     const snap = await getDoc(messageRef);
     if (!snap.exists()) return;
@@ -258,7 +268,9 @@ export class FirestoreService {
         reactions[emoji].count++;
       } else {
         // Optional: Toggle-Verhalten → Entfernen wenn bereits reagiert
-        reactions[emoji].userIds = reactions[emoji].userIds.filter(id => id !== userId);
+        reactions[emoji].userIds = reactions[emoji].userIds.filter(
+          (id) => id !== userId
+        );
         reactions[emoji].count = Math.max(0, reactions[emoji].count - 1);
         if (reactions[emoji].count === 0) delete reactions[emoji];
       }
@@ -297,6 +309,11 @@ export class FirestoreService {
         return { id: userId, ...snap.data() } as User;
       })
     );
+  }
+
+  updateUserName(userId: string, newName: string): Promise<void> {
+    const userRef = doc(this.firestore, 'users', userId);
+    return updateDoc(userRef, { name: newName });
   }
 
   /*  ##########

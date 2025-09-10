@@ -23,7 +23,7 @@
   <div *ngIf="!isEditModeActive" class="user-info">
     <div class="user-details">
       <p>{{ user.name }}</p>
-      <button *ngIf="isOwnProfile">Bearbeiten</button>
+      <button *ngIf="isOwnProfile" (click)="isEditModeActive=true">Bearbeiten</button>
     </div>
     <div class="user-status">
       <span
@@ -76,11 +76,11 @@
         </svg>
         <p class="edit-label">Vollständiger Name</p>
       </label>
-      <input id="inp-name" class="form-input" type="text" placeholder="{{ user.name }}">
+      <input #inpName id="inp-name" class="form-input" type="text" placeholder="{{ user.name }}">
     </div>
     <div class="edit-submit">
-      <button class="button-secondary-style">Abbrechen</button>
-      <button class="button-primary-style">Speichern</button>
+      <button class="button-secondary-style" (click)="isEditModeActive = false">Abbrechen</button>
+      <button class="button-primary-style" (click)="saveEdit(inpName.value)">Speichern</button>
     </div>
   </form>
   <div class="btn-container" *ngIf="!isOwnProfile">
