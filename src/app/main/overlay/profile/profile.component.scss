@@ -89,7 +89,7 @@
 
   .a-mail {
     text-decoration: none;
-    color: #1381FF;
+    color: #1381ff;
     margin-left: 50px;
   }
 
@@ -99,6 +99,35 @@
 
     button {
       @include dFlex($g: 10px);
+    }
+  }
+
+  .form-edit-user {
+    @include dFlex($fd: column, $g: 45px);
+    width: 100%;
+
+    .edit-username {
+      @include dFlex($fd: column, $ai: flex-start, $g: 7px);
+      width: 100%;
+
+      .edit-label-container {
+        @include dFlex($jc: flex-start, $g: 20px);
+        width: 100%;
+
+        .edit-label {
+          font-size: 20px;
+          font-weight: 700;
+        }
+      }
+
+      .inp-name {
+        width: 100%;
+      }
+    }
+
+    .edit-submit {
+      @include dFlex($g: 32px);
+      width: 100%;
     }
   }
 }

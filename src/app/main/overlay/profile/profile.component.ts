@@ -22,6 +22,7 @@ export class ProfileComponent implements OnInit {
     onlineStatus: false,
   };
   isOwnProfile: boolean = true;
+  isEditModeActive: boolean = false;
 
   private destroy$ = new Subject<void>();
 
