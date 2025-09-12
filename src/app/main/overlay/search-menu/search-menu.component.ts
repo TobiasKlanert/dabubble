@@ -24,8 +24,9 @@ export class SearchMenuComponent {
         this.firestore.setSelectedUserId(id);
         this.overlayService.open("profile");
         break;
-    
-      default:
+      case SearchType.AddUser:
+        break;
+      case SearchType.MentionUser:
         break;
     }
   }

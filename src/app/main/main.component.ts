@@ -42,7 +42,7 @@ export class MainComponent {
 
   private destroy$ = new Subject<void>();
   private isOnlineSet = false;
-  public SearchType = SearchType;
+  public searchType = SearchType;
 
   constructor(
     public uploadService: UploadService,
