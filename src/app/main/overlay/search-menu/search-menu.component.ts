@@ -16,15 +16,24 @@ export class SearchMenuComponent {
   @Input() searchResults: User[] = [];
   @Input() searchType!: SearchType;
 
-  constructor(private overlayService: OverlayService, private firestore: FirestoreService) {}
+  selectedUsers: User[] = [];
+
+  constructor(
+    private overlayService: OverlayService,
+    private firestore: FirestoreService
+  ) {}
 
   clickOnUser(id: string) {
     switch (this.searchType) {
       case SearchType.ShowProfile:
         this.firestore.setSelectedUserId(id);
-        this.overlayService.open("profile");
+        this.overlayService.open('profile');
         break;
       case SearchType.AddUser:
+        const userToAdd = this.searchResults.find((user) => user.id === id);
+        if (userToAdd && !this.selectedUsers.some((u) => u.id === id)) {
+          this.selectedUsers.push(userToAdd);
+        }
         break;
       case SearchType.MentionUser:
         break;
