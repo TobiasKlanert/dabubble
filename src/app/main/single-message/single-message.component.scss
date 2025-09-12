@@ -169,6 +169,7 @@ p {
   display: flex;
   gap: 8px;
   position: relative;
+  flex-wrap: wrap;
 
   &.incoming {
     justify-content: flex-start;
