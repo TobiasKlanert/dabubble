@@ -31,6 +31,7 @@ import { OverlayService } from '../../shared/services/overlay.service';
 export class SingleMessageComponent {
   @Input() message!: Message;
   @Input() chatId!: string;
+  @Input() showButtons = false;
 
   userId: string = '';
   editText = '';
