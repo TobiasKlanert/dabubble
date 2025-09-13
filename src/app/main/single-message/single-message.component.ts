@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, input, Input } from '@angular/core';
 import { combineLatest } from 'rxjs';
 import { EmojiMenuComponent } from '../emoji-menu/emoji-menu.component';
-import { Reaction } from '../../shared/models/reaction.model';
 import {
   Message,
   ThreadMessage,
@@ -14,7 +13,6 @@ import { FormsModule } from '@angular/forms';
 import { FirestoreService } from '../../shared/services/firestore.service';
 import { ChatService } from '../../shared/services/chat.service';
 import { OverlayService } from '../../shared/services/overlay.service';
-import { doc, updateDoc } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-single-message',
@@ -93,21 +91,21 @@ export class SingleMessageComponent {
   }
 
   async saveEditedMessage() {
-  if (this.editText.trim()) {
-    try {
-      await this.firestore.updateMessageText(
-        'channels',          // Anpassen je nach dem wo die MEssages liegen
-        this.chatId,
-        this.message.id,
-        this.editText.trim()
-      );
-      console.log('Message erfolgreich aktualisiert');
-    } catch (error) {
-      console.error('Fehler beim Aktualisieren der Message:', error);
+    if (this.editText.trim()) {
+      try {
+        await this.firestore.updateMessageText(
+          'channels',          // Anpassen je nach dem wo die MEssages liegen
+          this.chatId,
+          this.message.id,
+          this.editText.trim()
+        );
+        console.log('Message erfolgreich aktualisiert');
+      } catch (error) {
+        console.error('Fehler beim Aktualisieren der Message:', error);
+      }
     }
+    this.closeEditMode();
   }
-  this.closeEditMode();
-}
 
   toggleEmojiPicker() {
     this.showEmojiPicker = !this.showEmojiPicker;
