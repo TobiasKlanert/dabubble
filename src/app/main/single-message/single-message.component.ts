@@ -78,8 +78,23 @@ export class SingleMessageComponent {
   }
 
   openThread() {
-    this.chatService.selectThread(this.thread);
+    // Ursprüngliche Nachricht als Thread-Kopf
+    const rootMessage: ThreadMessage = {
+      id: this.message.id,
+      senderId: this.message.senderId,
+      text: this.message.text,
+      createdAt: this.message.createdAt,
+      editedAt: this.message.editedAt,
+      outgoing: this.message.outgoing,
+      reactions: this.message.reactions ?? {}
+    };
+
+    // Ursprüngliche Nachricht + Antworten
+    const fullThread = [rootMessage, ...(this.thread ?? [])];
+
+    this.chatService.selectThread(fullThread);
   }
+
 
   openEditMode() {
     this.showEditMode = true;

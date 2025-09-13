@@ -25,16 +25,24 @@
   </div>
 
   <div #scrollContainer class="message-container">
+  <ng-container *ngFor="let msg of threadMessages; let i = index">
     <app-single-message
       class="single-message"
-      *ngFor="let msg of threadMessages; let i = index; let last = last"
       [ngStyle]="{
-      'padding-top': i === 0 ? '16px' : '0px',
+        'padding-top': i === 0 ? '16px' : '0px'
       }"
       [message]="msg"
       [chatId]="msg.id"
     ></app-single-message>
-  </div>
+
+<!--Seperator erscheint jetzt nach der Rootmessage -> muss noch gestyled werden-->
+    <div *ngIf="i === 0" class="thread-separator">
+      <span class="label">Antworten</span>
+      <span class="line"></span>
+    </div>
+  </ng-container>
+</div>
+
 
   <div class="textarea-container">
     <app-emoji-menu

@@ -124,3 +124,25 @@
         }
     }
 }
+
+.thread-separator {
+  display: flex;
+  align-items: center;      // vertikal mittig
+  justify-content: center;  // horizontal mittig
+  margin: 12px 0;           // Abstand oben/unten
+  color: #888;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+
+  .label {
+    padding: 0 8px;         // Abstand zwischen den Linien
+    white-space: nowrap;
+  }
+
+  .line {
+    flex: 1;                // Linie füllt den Platz
+    height: 1px;
+    background-color: #ADB0D9;
+  }
+}
