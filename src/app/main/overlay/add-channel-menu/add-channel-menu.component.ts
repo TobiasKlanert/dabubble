@@ -7,6 +7,7 @@ import { TextareaResizeService } from '../../../shared/services/textarea-resize.
 import { FirestoreService } from '../../../shared/services/firestore.service';
 import { SearchService } from '../../../shared/services/search.service';
 import { User } from '../../../shared/models/database.model';
+import { SearchType } from '../../../shared/models/chat.enums';
 import { ClickOutsideDirective } from '../../../shared/directives/click-outside.directive';
 
 @Component({
@@ -28,6 +29,7 @@ export class AddChannelMenuComponent {
   selectedOption: string = 'none';
 
   private destroy$ = new Subject<void>();
+  public searchType = SearchType;
 
   constructor(
     private overlayService: OverlayService,

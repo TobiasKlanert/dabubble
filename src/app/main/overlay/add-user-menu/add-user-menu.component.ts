@@ -4,6 +4,7 @@ import { OverlayService } from '../../../shared/services/overlay.service';
 import { takeUntil, Subject } from 'rxjs';
 import { SearchService } from '../../../shared/services/search.service';
 import { User } from '../../../shared/models/database.model';
+import { SearchType } from '../../../shared/models/chat.enums';
 import { ClickOutsideDirective } from '../../../shared/directives/click-outside.directive';
 
 @Component({
@@ -18,6 +19,7 @@ export class AddUserMenuComponent {
   searchResults: User[] = [];
 
   private destroy$ = new Subject<void>();
+  public searchType = SearchType;
 
   constructor(
     private overlayService: OverlayService,

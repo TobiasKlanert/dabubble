@@ -4,7 +4,6 @@ import {
   Subject,
   combineLatest,
   filter,
-  of,
   switchMap,
   takeUntil,
   tap,
@@ -23,7 +22,7 @@ import { User, Message, ChatPartner } from '../../shared/models/database.model';
 import { FirestoreService } from '../../shared/services/firestore.service';
 import { SearchService } from '../../shared/services/search.service';
 import { ChatService } from '../../shared/services/chat.service';
-import { ChatType } from '../../shared/models/chat.enums';
+import { ChatType, SearchType } from '../../shared/models/chat.enums';
 import { ClickOutsideDirective } from '../../shared/directives/click-outside.directive';
 
 @Component({
@@ -64,6 +63,7 @@ export class ChatComponent {
 
   private destroy$ = new Subject<void>();
   public chatType = ChatType;
+  public searchType = SearchType;
 
   constructor(
     private overlayService: OverlayService,

@@ -2,7 +2,7 @@
   @for (member of searchResults; track $index) {
   <button
     class="profile-button"
-    (click)="addUser(member.id); $event.stopPropagation()"
+    (click)="clickOnUser(member.id); $event.stopPropagation()"
   >
     <div class="profile-picture-container">
       <img

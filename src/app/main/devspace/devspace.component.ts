@@ -38,6 +38,8 @@ export class DevspaceComponent {
     private chatService: ChatService
   ) {}
 
+  // TODO: implement method to start a new chat
+
   ngOnInit() {
     this.firestore.loggedInUserId$
       .pipe(
