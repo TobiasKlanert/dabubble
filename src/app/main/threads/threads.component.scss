@@ -129,11 +129,9 @@
   display: flex;
   align-items: center;      // vertikal mittig
   justify-content: center;  // horizontal mittig
-  margin: 12px 0;           // Abstand oben/unten
-  color: #888;
-  font-size: 12px;
-  font-weight: 500;
-  text-transform: uppercase;
+  margin: 12px 40px;           // Abstand oben/unten
+  color: #ADB0D9;
+  font-size: 18px;
 
   .label {
     padding: 0 8px;         // Abstand zwischen den Linien
