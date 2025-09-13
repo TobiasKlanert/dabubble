@@ -181,14 +181,14 @@ export class FirestoreService {
     );
   }
 
-    async getOrCreateDirectChatId(myUserId: string, otherUserId: string): Promise<string> {
+  async getOrCreateDirectChatId(myUserId: string, otherUserId: string): Promise<string> {
     const chatsRef = collection(this.firestore, 'chats');
     // Suche nach einem Chat, der genau diese beiden Teilnehmer hat
     const q = query(
       chatsRef,
       where('participants', 'array-contains', myUserId)
     );
-  
+
     const chatsSnap = await getDocs(q);
     for (const docSnap of chatsSnap.docs) {
       const participants = docSnap.data()['participants'] as string[];
@@ -201,7 +201,7 @@ export class FirestoreService {
         return docSnap.id;
       }
     }
-  
+
     // Falls kein Chat existiert, erstelle einen neuen
     const newChat = {
       participants: [myUserId, otherUserId],
@@ -256,6 +256,24 @@ export class FirestoreService {
     console.log(newMessage);
     const docRef = await addDoc(messagesRef, newMessage);
     return { id: docRef.id, ...newMessage };
+  }
+
+
+  async updateMessageText(
+    chatType: string,
+    chatId: string,
+    messageId: string,
+    newText: string
+  ): Promise<void> {
+    const msgRef = doc(
+      this.firestore,
+      `${chatType}/${chatId}/messages/${messageId}`
+    );
+
+    await updateDoc(msgRef, {
+      text: newText,
+      editedAt: new Date().toISOString(),
+    });
   }
 
   /*  ##########

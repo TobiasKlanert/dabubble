@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { FirestoreService } from '../../shared/services/firestore.service';
 import { ChatService } from '../../shared/services/chat.service';
 import { OverlayService } from '../../shared/services/overlay.service';
+import { doc, updateDoc } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-single-message',
@@ -48,7 +49,7 @@ export class SingleMessageComponent {
     private firestore: FirestoreService,
     private chatService: ChatService,
     private overlayService: OverlayService
-  ) {}
+  ) { }
 
   ngOnInit() {
     combineLatest([
@@ -91,17 +92,22 @@ export class SingleMessageComponent {
     this.showEditMode = false;
   }
 
-  // TODO: Revise the saveEditedMessage method so that synchronization with Firestore takes place
-  saveEditedMessage() {
-    if (this.editText.trim()) {
-      const msg = {
-        text: this.editText.trim(),
-      };
-      console.log(msg);
-      // this.messageService.addMessage(msg);  <--!> Implementierung der MessageService <-->
+  async saveEditedMessage() {
+  if (this.editText.trim()) {
+    try {
+      await this.firestore.updateMessageText(
+        'channels',          // Anpassen je nach dem wo die MEssages liegen
+        this.chatId,
+        this.message.id,
+        this.editText.trim()
+      );
+      console.log('Message erfolgreich aktualisiert');
+    } catch (error) {
+      console.error('Fehler beim Aktualisieren der Message:', error);
     }
-    this.closeEditMode();
   }
+  this.closeEditMode();
+}
 
   toggleEmojiPicker() {
     this.showEmojiPicker = !this.showEmojiPicker;
