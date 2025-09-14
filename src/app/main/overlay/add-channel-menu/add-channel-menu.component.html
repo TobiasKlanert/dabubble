@@ -89,7 +89,7 @@
       </svg>
     </button>
   </header>
-  <form>
+  <form (submit)="$event.preventDefault()">
     <div class="input-container-row">
       <input
         #radioAddAll

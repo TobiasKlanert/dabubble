@@ -47,7 +47,7 @@
         <p>Entwicklerteam</p>
       </div>
     </header>
-    <form class="form-add-user">
+    <form class="form-add-user" (submit)="$event.preventDefault()">
       <input
         #inputAddUser
         type="text"

@@ -83,6 +83,7 @@ export class ProfileComponent implements OnInit {
     this.chatService.selectChatId(chatId);
     this.chatService.selectChatType(ChatType.DirectMessage);
     this.chatService.selectChatPartner(this.chatPartner);
+    this.closeOverlay();
   }
 
   closeOverlay() {
