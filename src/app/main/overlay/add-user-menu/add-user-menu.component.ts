@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
-import { SearchMenuComponent } from '../search-menu/search-menu.component';
+import { CommonModule } from '@angular/common';
+import { UserSelectComponent } from '../../user-select/user-select.component';
 import { OverlayService } from '../../../shared/services/overlay.service';
 import { takeUntil, Subject } from 'rxjs';
 import { SearchService } from '../../../shared/services/search.service';
 import { User } from '../../../shared/models/database.model';
 import { SearchType } from '../../../shared/models/chat.enums';
-import { ClickOutsideDirective } from '../../../shared/directives/click-outside.directive';
 
 @Component({
   selector: 'app-add-user-menu',
   standalone: true,
-  imports: [SearchMenuComponent, ClickOutsideDirective],
+  imports: [CommonModule, UserSelectComponent],
   templateUrl: './add-user-menu.component.html',
   styleUrl: './add-user-menu.component.scss',
 })
@@ -54,7 +54,7 @@ export class AddUserMenuComponent {
   }
 
   // TODO: implement method to add users to a channel
-  addUser(value: string) {
+  addUser(value?: string) {
     console.log('Added User: ', value);
     this.closeOverlay();
   }

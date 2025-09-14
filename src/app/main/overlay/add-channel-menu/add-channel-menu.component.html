@@ -113,32 +113,14 @@
         name="add_members"
         value="radio_add_user"
         [checked]="selectedOption === 'addUser'"
-        (click)="
-          onRadioClick('addUser', $event);
-          toggleButton($event, inputAddUser.value)
-        "
+        (click)="onRadioClick('addUser', $event); toggleButton($event, '')"
       />
       <label for="radioUsersAddUser">Bestimmte Leute hinzufügen</label>
     </div>
-    <input
-      #inputAddUser
-      id="inputAddUser"
-      name="input_add_user"
-      type="text"
-      class="form-input"
-      placeholder="Name eingeben"
-      [hidden]="isInputUserInvisible"
-      (input)="onSearch(inputAddUser.value)"
-    />
-    @if (searchResults.length > 0) {
-    <app-search-menu
-      class="search-menu"
-      (clickOutside)="searchResults = []; inputAddUser.value = ''"
-      [searchResults]="searchResults"
-      [searchType]="searchType.AddUser"
-    >
-    </app-search-menu>
-    }
+    <app-user-select
+      [ngStyle]="{ width: '100%' }"
+      *ngIf="!isInputUserInvisible"
+    ></app-user-select>
     <div class="btn-container">
       <button
         type="button"

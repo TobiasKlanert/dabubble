@@ -48,7 +48,7 @@
       </div>
     </header>
     <form class="form-add-user" (submit)="$event.preventDefault()">
-      <input
+      <!-- <input
         #inputAddUser
         type="text"
         placeholder="Name eingeben"
@@ -62,13 +62,14 @@
         [searchType]="searchType.AddUser"
       >
       </app-search-menu>
-      }
+      } -->
+      <app-user-select [ngStyle]="{ width: '100%' }"></app-user-select>
       <div class="btn-container">
         <button
           type="button"
           class="button-primary-style"
           [disabled]="isInputEmpty"
-          (click)="addUser(inputAddUser.value)"
+          (click)="addUser()"
         >
           Hinzufügen
         </button>
