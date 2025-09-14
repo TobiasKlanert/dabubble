@@ -1,7 +1,7 @@
 <div class="user-select">
   <div class="chip-list">
     <div class="chip" *ngFor="let user of selectedUsers()">
-      <img [src]="user.profilePictureUrl" class="avatar" />
+      <img [src]="user.profilePictureUrl" class="chip-avatar" />
       <span>{{ user.name }}</span>
       <button type="button" (click)="removeUser(user)">×</button>
     </div>
@@ -17,7 +17,7 @@
 
   <ul *ngIf="filteredUsers().length > 0" class="suggestions">
     <li *ngFor="let user of filteredUsers()" (click)="selectUser(user)">
-      <img [src]="user.profilePictureUrl" class="avatar" />
+      <img [src]="user.profilePictureUrl" class="suggestion-avatar" />
       {{ user.name }}
     </li>
   </ul>
