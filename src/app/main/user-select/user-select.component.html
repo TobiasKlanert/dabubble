@@ -1,0 +1,24 @@
+<div class="user-select">
+  <div class="chip-list">
+    <div class="chip" *ngFor="let user of selectedUsers()">
+      <img [src]="user.profilePictureUrl" class="avatar" />
+      <span>{{ user.name }}</span>
+      <button type="button" (click)="removeUser(user)">×</button>
+    </div>
+
+    <input
+      type="text"
+      placeholder="Name eingeben"
+      [value]="searchTerm()"
+      (input)="onSearchChange($any($event.target).value)"
+      (keydown.enter)="selectFirstSuggestion()"
+    />
+  </div>
+
+  <ul *ngIf="filteredUsers().length > 0" class="suggestions">
+    <li *ngFor="let user of filteredUsers()" (click)="selectUser(user)">
+      <img [src]="user.profilePictureUrl" class="avatar" />
+      {{ user.name }}
+    </li>
+  </ul>
+</div>
