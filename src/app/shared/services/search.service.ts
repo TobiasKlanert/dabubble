@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Observable, map, combineLatest, takeUntil } from 'rxjs';
+import {
+  Observable,
+  map,
+  combineLatest,
+  takeUntil,
+  BehaviorSubject,
+} from 'rxjs';
 import {
   Firestore,
   collection,
@@ -16,7 +22,14 @@ import { User } from '../models/database.model';
   providedIn: 'root',
 })
 export class SearchService {
+  private selectedUsers = new BehaviorSubject<User[]>([]);
+  selectedUsers$ = this.selectedUsers.asObservable();
+
   constructor(private firestore: Firestore) {}
+
+  setselectedUsers(users: User[]) {
+    this.selectedUsers.next(users);
+  }
 
   normalizeName(name: string): string {
     return name

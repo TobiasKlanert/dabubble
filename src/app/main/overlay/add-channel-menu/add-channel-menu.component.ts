@@ -18,7 +18,7 @@ import { SearchType } from '../../../shared/models/chat.enums';
 })
 export class AddChannelMenuComponent {
   userId: string = '';
-
+  memberIds: string[] = [];
   showFirstMenu: boolean = true;
   isInputEmpty: boolean = true;
   isFormInvalid: boolean = true;
@@ -39,11 +39,18 @@ export class AddChannelMenuComponent {
 
   ngOnInit() {
     this.setUserId();
+    this.searchService.selectedUsers$.subscribe((users) => {
+      this.searchResults = users;
+      if (this.searchResults.length > 0) {
+        this.isFormInvalid = false;
+      }
+    });
   }
 
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+    this.searchService.setselectedUsers([]);
   }
 
   setUserId() {
@@ -62,9 +69,11 @@ export class AddChannelMenuComponent {
       switch (option) {
         case 'addAll':
           this.isInputUserInvisible = true;
+          this.isFormInvalid = false;
           break;
         case 'addUser':
           this.isInputUserInvisible = false;
+          this.isFormInvalid = true;
           break;
         default:
           break;
@@ -72,52 +81,28 @@ export class AddChannelMenuComponent {
     }
   }
 
-  toggleButton(event: Event, value: string) {
-    const el = event.target as HTMLElement;
-    switch (el.id) {
-      case 'inputChannelName':
-        this.isInputEmpty = value.trim().length === 0;
-        break;
-      case 'radioUsersAddAll':
-        this.isFormInvalid = false;
-        break;
-      case 'radioUsersAddUser':
-        this.isFormInvalid = value.trim().length === 0;
-        break;
-      case 'inputAddUser':
-        this.isFormInvalid = value.trim().length === 0;
-        break;
-      default:
-        break;
-    }
+  toggleButton(value: string) {
+    this.isInputEmpty = value.trim().length === 0;
   }
 
-  onSearch(value: string, inputRef?: HTMLInputElement, event?: Event): void {
-    if (event) {
-      event.preventDefault();
+  getMemberIds(): string[] {
+    if (this.selectedOption === 'addUser') {
+      this.memberIds = [this.userId, ...this.searchResults.map((user) => user.id)];
+    } else if (this.selectedOption === 'addAll') {
+      this.memberIds = [this.userId, 'u1', 'u2', 'u3', 'u4', 'u5', 'u6'];
     }
-
-    this.searchService
-      .searchUsers(value)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((users) => {
-        this.searchResults = users;
-        console.log(this.searchResults);
-      });
-
-    if (inputRef) {
-      inputRef.value = '';
-    }
+    return this.memberIds;
   }
 
-  // TODO: implement method for inserting members
   createChannel(inputName: string, inputDescription: string) {
+    const memberIds = this.getMemberIds();
+
     this.firestore
       .createChannel({
         name: inputName,
         description: inputDescription,
         creatorId: this.userId,
-        members: [this.userId, 'u2', 'u3'],
+        members: memberIds,
       })
       .then(() => {
         this.closeOverlay();

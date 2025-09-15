@@ -50,10 +50,12 @@ export class UserSelectComponent {
     this.selectedUsers.update(list => [...list, user]);
     this.searchTerm.set('');
     this.filteredUsers.set([]);
+    this.searchService.setselectedUsers(this.selectedUsers());
   }
 
   removeUser(user: User) {
     this.selectedUsers.update(list => list.filter(u => u.id !== user.id));
+    this.searchService.setselectedUsers(this.selectedUsers());
   }
 
   selectFirstSuggestion() {

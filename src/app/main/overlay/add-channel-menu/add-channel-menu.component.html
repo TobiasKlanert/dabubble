@@ -36,7 +36,7 @@
         type="text"
         class="form-input icon-input"
         placeholder="z.B. Kooperationsprojekte"
-        (input)="toggleButton($event, inputName.value)"
+        (input)="toggleButton(inputName.value)"
       />
     </div>
     <div class="input-container-column">
@@ -58,7 +58,7 @@
       <button
         type="button"
         class="button-primary-style btn-font-style"
-        [disabled]="isInputEmpty"
+        [disabled]="!inputName.value.trim()"
         (click)="toggleMenus()"
       >
         Erstellen
@@ -98,7 +98,7 @@
         name="add_members"
         value="radio_add_all"
         [checked]="selectedOption === 'addAll'"
-        (click)="onRadioClick('addAll', $event); toggleButton($event, '')"
+        (click)="onRadioClick('addAll', $event)"
       />
       <label for="radioUsersAddAll"
         >Alle Mitglieder von
@@ -113,7 +113,7 @@
         name="add_members"
         value="radio_add_user"
         [checked]="selectedOption === 'addUser'"
-        (click)="onRadioClick('addUser', $event); toggleButton($event, '')"
+        (click)="onRadioClick('addUser', $event)"
       />
       <label for="radioUsersAddUser">Bestimmte Leute hinzufügen</label>
     </div>
