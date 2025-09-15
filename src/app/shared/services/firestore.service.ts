@@ -133,6 +133,19 @@ export class FirestoreService {
     return updateDoc(channelRef, { description: newDescription });
   }
 
+  async addMemberToChannel(
+    channelId: string,
+    userIds: string[]
+  ): Promise<void> {
+    const channelRef = doc(this.firestore, 'channels', channelId);
+    const channelSnap = await getDoc(channelRef);
+    const currentMembers: string[] = channelSnap.data()?.['members'] || [];
+
+    const updatedMembers = Array.from(new Set([...currentMembers, ...userIds]));
+
+    await updateDoc(channelRef, { members: updatedMembers });
+  }
+
   async removeMemberFromChannel(channelId: string, userId: string) {
     const channelRef = doc(this.firestore, 'channels', channelId);
     await updateDoc(channelRef, {
@@ -181,7 +194,10 @@ export class FirestoreService {
     );
   }
 
-  async getOrCreateDirectChatId(myUserId: string, otherUserId: string): Promise<string> {
+  async getOrCreateDirectChatId(
+    myUserId: string,
+    otherUserId: string
+  ): Promise<string> {
     const chatsRef = collection(this.firestore, 'chats');
     // Suche nach einem Chat, der genau diese beiden Teilnehmer hat
     const q = query(
@@ -257,7 +273,6 @@ export class FirestoreService {
     const docRef = await addDoc(messagesRef, newMessage);
     return { id: docRef.id, ...newMessage };
   }
-
 
   async updateMessageText(
     chatType: string,

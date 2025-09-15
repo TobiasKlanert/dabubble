@@ -48,27 +48,12 @@
       </div>
     </header>
     <form class="form-add-user" (submit)="$event.preventDefault()">
-      <!-- <input
-        #inputAddUser
-        type="text"
-        placeholder="Name eingeben"
-        (input)="onSearch(inputAddUser.value)"
-      />
-      @if (searchResults.length > 0) {
-      <app-search-menu
-        class="search-menu"
-        (clickOutside)="searchResults = []; inputAddUser.value = ''"
-        [searchResults]="searchResults"
-        [searchType]="searchType.AddUser"
-      >
-      </app-search-menu>
-      } -->
       <app-user-select [ngStyle]="{ width: '100%' }"></app-user-select>
       <div class="btn-container">
         <button
           type="button"
           class="button-primary-style"
-          [disabled]="isInputEmpty"
+          [disabled]="isFormInvalid"
           (click)="addUser()"
         >
           Hinzufügen

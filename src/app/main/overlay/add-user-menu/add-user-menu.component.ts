@@ -4,6 +4,8 @@ import { UserSelectComponent } from '../../user-select/user-select.component';
 import { OverlayService } from '../../../shared/services/overlay.service';
 import { takeUntil, Subject } from 'rxjs';
 import { SearchService } from '../../../shared/services/search.service';
+import { ChatService } from '../../../shared/services/chat.service';
+import { FirestoreService } from '../../../shared/services/firestore.service';
 import { User } from '../../../shared/models/database.model';
 import { SearchType } from '../../../shared/models/chat.enums';
 
@@ -15,7 +17,8 @@ import { SearchType } from '../../../shared/models/chat.enums';
   styleUrl: './add-user-menu.component.scss',
 })
 export class AddUserMenuComponent {
-  isInputEmpty: boolean = true;
+  channelId: string = '';
+  isFormInvalid: boolean = true;
   searchResults: User[] = [];
 
   private destroy$ = new Subject<void>();
@@ -23,39 +26,35 @@ export class AddUserMenuComponent {
 
   constructor(
     private overlayService: OverlayService,
-    private searchService: SearchService
+    private searchService: SearchService,
+    private firestore: FirestoreService,
+    private chatService: ChatService
   ) {}
+
+  ngOnInit() {
+    this.searchService.selectedUsers$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((users) => {
+        this.searchResults = users;
+        this.isFormInvalid = this.searchResults.length === 0;
+      });
+
+    this.chatService.selectedChatId$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((id) => {
+        this.channelId = id;
+      });
+  }
 
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
   }
 
-  toggleButton(value: string) {
-    this.isInputEmpty = value.trim().length === 0;
-  }
-
-  onSearch(value: string, inputRef?: HTMLInputElement, event?: Event): void {
-    if (event) {
-      event.preventDefault();
-    }
-
-    this.searchService
-      .searchUsers(value)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((users) => {
-        this.searchResults = users;
-        console.log(this.searchResults);
-      });
-
-    if (inputRef) {
-      inputRef.value = '';
-    }
-  }
-
-  // TODO: implement method to add users to a channel
-  addUser(value?: string) {
-    console.log('Added User: ', value);
+  // TODO: Only users who are not yet members of the channel should be able to be added.
+  addUser() {
+    const newMembers = [...this.searchResults.map((user) => user.id)];
+    this.firestore.addMemberToChannel(this.channelId, newMembers);
     this.closeOverlay();
   }
 
