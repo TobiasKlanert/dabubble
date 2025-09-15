@@ -141,6 +141,7 @@
   height: calc(100% - 105px);
   max-width: 1920px;
   padding: 20px;
+  gap: 20px;    /*NEU*//*NEU*/
 
   aside {
     height: 100%;
@@ -162,6 +163,7 @@
     background-color: #fff;
     border-radius: 30px;
     position: relative;
+    flex: 1;        /*NEU*//*NEU*/
   }
 }
 

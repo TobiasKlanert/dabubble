@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, Output, ViewChild, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   Subject,
@@ -71,7 +71,7 @@ export class ChatComponent {
     private firestore: FirestoreService,
     private chatService: ChatService,
     private searchService: SearchService
-  ) {}
+  ) { }
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLDivElement>;
 

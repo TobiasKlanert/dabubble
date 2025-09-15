@@ -146,7 +146,7 @@
       >
         <app-chat></app-chat>
       </section>
-      <aside class="threads">
+      <aside class="threads" *ngIf="!isThreadsHidden">
         <app-threads></app-threads>
       </aside>
       <app-overlay></app-overlay>

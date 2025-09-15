@@ -37,6 +37,7 @@ export class MainComponent {
   searchResults: User[] = [];
   firstChannelId: string = '';
   isWorkspaceHidden: boolean = false;
+  isThreadsHidden: boolean = true;
 
   searchControl = new FormControl('');
 
