@@ -104,6 +104,19 @@
         <p>{{ currentChatPartner.name }}</p>
       </button>
     </ng-container>
+    <ng-container *ngIf="currentChatType === chatType.NewChat">
+      <div class="new-chat-header">
+        <h2 class="headline">Neue Nachricht</h2>
+        <input
+            #searchInput
+            name="searchInput"
+            type="text"
+            class="form-input"
+            placeholder="An: #channel, oder @jemand oder E-Mail Adresse"
+            (input)="onSearch(searchInput.value)"
+          />
+      </div>
+    </ng-container>
   </div>
   <div #scrollContainer class="message-container">
     <app-single-message

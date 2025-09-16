@@ -1,6 +1,7 @@
 export enum ChatType {
   DirectMessage = 'chats',
-  Channel = 'channels'
+  Channel = 'channels',
+  NewChat = 'newChat'
 }
 
 export enum SearchType {

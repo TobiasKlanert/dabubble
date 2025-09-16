@@ -6,7 +6,7 @@ import {
   UserChatPreview,
   Channel,
   User,
-  ChatPartner
+  ChatPartner,
 } from '../../shared/models/database.model';
 import { FirestoreService } from '../../shared/services/firestore.service';
 import { ChatService } from '../../shared/services/chat.service';
@@ -38,8 +38,6 @@ export class DevspaceComponent {
     private chatService: ChatService
   ) {}
 
-  // TODO: implement method to start a new chat
-
   ngOnInit() {
     this.firestore.loggedInUserId$
       .pipe(
@@ -70,6 +68,10 @@ export class DevspaceComponent {
     this.destroy$.complete();
   }
 
+  newChat() {
+    this.chatService.selectChatType(ChatType.NewChat);
+  }
+
   onAddChannel() {
     this.overlayService.open('addChannel');
   }
@@ -77,7 +79,7 @@ export class DevspaceComponent {
   onSelectChat(chatId: string, chatType: ChatType, chatPartner?: ChatPartner) {
     this.chatService.selectChatId(chatId);
     this.chatService.selectChatType(chatType);
-    
+
     if (chatPartner) {
       this.chatService.selectChatPartner(chatPartner);
     }

@@ -7,6 +7,7 @@ import {
   switchMap,
   takeUntil,
   tap,
+  of
 } from 'rxjs';
 import { EmojiService } from '../../shared/services/emoji.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -104,8 +105,10 @@ export class ChatComponent {
                     this.firestore.getChatMessages(chatType, chatId)
                   )
                 );
-              } else {
+              } else if (chatType === ChatType.DirectMessage) {
                 return this.firestore.getChatMessages(chatType, chatId);
+              } else {
+                return of([]);
               }
             })
           )
@@ -141,7 +144,8 @@ export class ChatComponent {
       setTimeout(() => this.scrollToBottom(), 0);
     }
   }
-
+  
+  // TODO: implement method to start a new chat
   onSearch(value: string): void {
     const atIndex = value.lastIndexOf('@');
 
