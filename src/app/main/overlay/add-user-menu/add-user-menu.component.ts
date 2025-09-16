@@ -51,7 +51,6 @@ export class AddUserMenuComponent {
     this.destroy$.complete();
   }
 
-  // TODO: Only users who are not yet members of the channel should be able to be added.
   addUser() {
     const newMembers = [...this.searchResults.map((user) => user.id)];
     this.firestore.addMemberToChannel(this.channelId, newMembers);
