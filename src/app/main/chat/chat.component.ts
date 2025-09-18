@@ -152,6 +152,7 @@ export class ChatComponent {
     }
   }
 
+  // TODO: Implement method to search for channels and e-mail addresses
   onSearch(value: string, searchType: SearchType): void {
     this.currentSearchType = searchType;
     this.searchResults = [];

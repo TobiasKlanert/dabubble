@@ -105,7 +105,7 @@
       </button>
     </ng-container>
     <ng-container *ngIf="currentChatType === chatType.NewChat">
-      <div class="new-chat-header">
+      <div class="search-container">
         <h2 class="headline">Neue Nachricht</h2>
         <input
           #searchInput
@@ -115,17 +115,17 @@
           placeholder="An: #channel, oder @jemand oder E-Mail Adresse"
           (input)="onSearch(searchInput.value, searchType.NewChat)"
         />
+        @if (searchResults.length > 0 && currentSearchType ===
+        searchType.NewChat) {
+        <app-search-menu
+          class="search-menu"
+          (clickOutside)="searchResults = []"
+          [searchResults]="searchResults"
+          [searchType]="searchType.NewChat"
+        >
+        </app-search-menu>
+        }
       </div>
-      @if (searchResults.length > 0 && currentSearchType === searchType.NewChat)
-      {
-      <app-search-menu
-        class="search-menu"
-        (clickOutside)="searchResults = []"
-        [searchResults]="searchResults"
-        [searchType]="searchType.NewChat"
-      >
-      </app-search-menu>
-      }
     </ng-container>
   </div>
   <div #scrollContainer class="message-container">
@@ -232,7 +232,7 @@
         </svg>
       </div>
     </div>
-    <ng-container class="textarea-container">
+    <ng-container>
       <textarea
         #inputMessage
         [(ngModel)]="inputText"
@@ -243,7 +243,7 @@
       @if (searchResults.length > 0 && currentSearchType ===
       searchType.MentionUser) {
       <app-search-menu
-        class="search-menu"
+        class="mention-menu"
         (clickOutside)="searchResults = []"
         [searchResults]="searchResults"
         [searchType]="searchType.MentionUser"

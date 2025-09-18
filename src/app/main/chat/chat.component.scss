@@ -48,11 +48,18 @@
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
 
-  .new-chat-header {
+  .search-container {
     @include dFlex($fd: column, $ai: flex-start, $g: 20px);
     width: 100%;
+    position: relative;
     input {
       width: 100%;
+    }
+
+    .search-menu {
+      position: absolute;
+      top: 100px;
+      left: 20px;
     }
   }
 
@@ -136,10 +143,6 @@
     padding-right: 60px;
   }
 
-  .textarea-container {
-    position: relative;
-  }
-
   textarea {
     width: 100%;
     box-sizing: border-box;
@@ -178,7 +181,7 @@ app-emoji-menu {
   }
 }
 
-.search-menu {
+.mention-menu {
   position: absolute;
   top: -90px;
   left: 60px;
