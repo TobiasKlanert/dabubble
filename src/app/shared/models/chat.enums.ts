@@ -7,5 +7,6 @@ export enum ChatType {
 export enum SearchType {
   AddUser,
   ShowProfile,
-  MentionUser
+  MentionUser,
+  NewChat
 }
