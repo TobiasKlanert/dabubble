@@ -1,4 +1,10 @@
-import { Component, ElementRef, Output, ViewChild, EventEmitter } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Output,
+  ViewChild,
+  EventEmitter,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   Subject,
@@ -7,7 +13,7 @@ import {
   switchMap,
   takeUntil,
   tap,
-  of
+  of,
 } from 'rxjs';
 import { EmojiService } from '../../shared/services/emoji.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -37,7 +43,7 @@ import { ClickOutsideDirective } from '../../shared/directives/click-outside.dir
     EmojiMenuComponent,
     SearchMenuComponent,
     HoverOutsideDirective,
-    ClickOutsideDirective
+    ClickOutsideDirective,
   ],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss',
@@ -60,6 +66,7 @@ export class ChatComponent {
   inputText: string = '';
   members: number = 0;
 
+  currentSearchType: SearchType = SearchType.AddUser;
   searchResults: User[] = [];
 
   private destroy$ = new Subject<void>();
@@ -72,7 +79,7 @@ export class ChatComponent {
     private firestore: FirestoreService,
     private chatService: ChatService,
     private searchService: SearchService
-  ) { }
+  ) {}
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLDivElement>;
 
@@ -144,27 +151,43 @@ export class ChatComponent {
       setTimeout(() => this.scrollToBottom(), 0);
     }
   }
-  
-  // TODO: implement method to start a new chat
-  onSearch(value: string): void {
-    const atIndex = value.lastIndexOf('@');
 
-    if (atIndex !== -1) {
-      const query = value.substring(atIndex + 1).trim(); // alles nach dem @
-      if (query.length > 0) {
-        this.searchService
-          .searchUsers(query)
-          .pipe(takeUntil(this.destroy$))
-          .subscribe((users) => {
-            this.searchResults = users;
-            console.log(this.searchResults);
-          });
-      } else {
-        this.searchResults = [];
-      }
-    } else {
+  onSearch(value: string, searchType: SearchType): void {
+    this.currentSearchType = searchType;
+    this.searchResults = [];
+
+    let query = this.getQuery(value, searchType);
+
+    if (!query) {
       this.searchResults = [];
+      return;
     }
+
+    this.startSearch(query);
+  }
+
+  getQuery(value: string, searchType: SearchType) {
+    let query = value.trim();
+
+    if (searchType === SearchType.MentionUser) {
+      const atIndex = value.lastIndexOf('@');
+      if (atIndex !== -1) {
+        return (query = value.substring(atIndex + 1).trim());
+      } else {
+        return;
+      } 
+    } else {
+      return query;
+    }
+  }
+
+  startSearch(query: string) {
+    this.searchService
+      .searchUsers(query)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((users) => {
+        this.searchResults = users;
+      });
   }
 
   private scrollToBottom(): void {

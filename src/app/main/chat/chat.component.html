@@ -108,14 +108,24 @@
       <div class="new-chat-header">
         <h2 class="headline">Neue Nachricht</h2>
         <input
-            #searchInput
-            name="searchInput"
-            type="text"
-            class="form-input"
-            placeholder="An: #channel, oder @jemand oder E-Mail Adresse"
-            (input)="onSearch(searchInput.value)"
-          />
+          #searchInput
+          name="searchInput"
+          type="text"
+          class="form-input"
+          placeholder="An: #channel, oder @jemand oder E-Mail Adresse"
+          (input)="onSearch(searchInput.value, searchType.NewChat)"
+        />
       </div>
+      @if (searchResults.length > 0 && currentSearchType === searchType.NewChat)
+      {
+      <app-search-menu
+        class="search-menu"
+        (clickOutside)="searchResults = []"
+        [searchResults]="searchResults"
+        [searchType]="searchType.NewChat"
+      >
+      </app-search-menu>
+      }
     </ng-container>
   </div>
   <div #scrollContainer class="message-container">
@@ -228,9 +238,10 @@
         [(ngModel)]="inputText"
         name="send-message"
         placeholder="Nachricht an #Channel"
-        (input)="onSearch(inputMessage.value)"
+        (input)="onSearch(inputMessage.value, searchType.MentionUser)"
       ></textarea>
-      @if (searchResults.length > 0) {
+      @if (searchResults.length > 0 && currentSearchType ===
+      searchType.MentionUser) {
       <app-search-menu
         class="search-menu"
         (clickOutside)="searchResults = []"
