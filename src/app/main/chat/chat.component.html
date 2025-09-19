@@ -238,15 +238,15 @@
         [(ngModel)]="inputText"
         name="send-message"
         placeholder="Nachricht an #Channel"
-        (input)="onSearch(inputMessage.value, searchType.MentionUser)"
+        (input)="onSearch(inputMessage.value, searchType.MentionUserOrChannel)"
       ></textarea>
       @if (searchResults.length > 0 && currentSearchType ===
-      searchType.MentionUser) {
+      searchType.MentionUserOrChannel) {
       <app-search-menu
         class="mention-menu"
         (clickOutside)="searchResults = []"
         [searchResults]="searchResults"
-        [searchType]="searchType.MentionUser"
+        [searchType]="searchType.MentionUserOrChannel"
       >
       </app-search-menu>
       }

@@ -170,7 +170,7 @@ export class ChatComponent {
   getQuery(value: string, searchType: SearchType) {
     let query = value.trim();
 
-    if (searchType === SearchType.MentionUser) {
+    if (searchType === SearchType.MentionUserOrChannel) {
       const atIndex = value.lastIndexOf('@');
       if (atIndex !== -1) {
         return (query = value.substring(atIndex + 1).trim());

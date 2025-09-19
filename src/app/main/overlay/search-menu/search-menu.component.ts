@@ -26,12 +26,14 @@ export class SearchMenuComponent {
     private chatService: ChatService
   ) {}
 
+  // TODO: Implement searh for @ and # (on @ all users are shown, on # all channels are shown)
   ngOnInit() {
     this.firestore.loggedInUserId$.subscribe((id) => {
       this.loggedInUserId = id;
     });
   }
 
+  // TODO: Implement method to mention a user in a chat messsage
   clickOnUser(id: string) {
     switch (this.searchType) {
       case SearchType.ShowProfile:
@@ -43,10 +45,19 @@ export class SearchMenuComponent {
       case SearchType.NewChat:
         this.createNewChat(id);
         break;
-      case SearchType.MentionUser:
+      case SearchType.MentionUserOrChannel:
         break;
-      case SearchType.Channel:
-        break;
+    }
+  }
+
+  // TODO: Implement method to mention a channel in a chat message
+  clickOnChannel(id: string) {
+    if (
+      this.searchType === SearchType.NewChat ||
+      this.searchType === SearchType.ShowProfile
+    ) {
+      this.chatService.selectChatId(id);
+      this.chatService.selectChatType(ChatType.Channel);
     }
   }
 
