@@ -9,7 +9,7 @@ import { SearchMenuComponent } from './overlay/search-menu/search-menu.component
 import { OverlayService } from '../shared/services/overlay.service';
 import { UploadService } from '../shared/services/upload.service';
 import { OverlayComponent } from './overlay/overlay.component';
-import { User } from '../shared/models/database.model';
+import { User, Channel } from '../shared/models/database.model';
 import { SearchType } from '../shared/models/chat.enums';
 import { FirestoreService } from '../shared/services/firestore.service';
 import { SearchService } from '../shared/services/search.service';
@@ -34,7 +34,7 @@ import { ClickOutsideDirective } from '../shared/directives/click-outside.direct
 export class MainComponent {
   userId: string = 'u1';
   user!: User;
-  searchResults: User[] = [];
+  searchResults: (User | Channel)[] = [];
   firstChannelId: string = '';
   isWorkspaceHidden: boolean = false;
   isThreadsHidden: boolean = true;
@@ -82,7 +82,7 @@ export class MainComponent {
     }
 
     this.searchService
-      .searchUsers(value)
+      .searchUsersAndChannels(value)
       .pipe(takeUntil(this.destroy$))
       .subscribe((users) => {
         this.searchResults = users;

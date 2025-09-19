@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { User } from '../../../shared/models/database.model';
+import { User, Channel } from '../../../shared/models/database.model';
 import { ChatType, SearchType } from '../../../shared/models/chat.enums';
 import { OverlayService } from '../../../shared/services/overlay.service';
 import { FirestoreService } from '../../../shared/services/firestore.service';
@@ -14,7 +14,7 @@ import { ChatService } from '../../../shared/services/chat.service';
   styleUrl: './search-menu.component.scss',
 })
 export class SearchMenuComponent {
-  @Input() searchResults: User[] = [];
+  @Input() searchResults: (User | Channel)[] = [];
   @Input() searchType!: SearchType;
 
   loggedInUserId: string = '';
@@ -29,35 +29,64 @@ export class SearchMenuComponent {
   ngOnInit() {
     this.firestore.loggedInUserId$.subscribe((id) => {
       this.loggedInUserId = id;
-    })
+    });
   }
 
   clickOnUser(id: string) {
     switch (this.searchType) {
       case SearchType.ShowProfile:
-        this.firestore.setSelectedUserId(id);
-        this.overlayService.open('profile');
+        this.showUserProfile(id);
         break;
       case SearchType.AddUser:
-        const userToAdd = this.searchResults.find((user) => user.id === id);
-        if (userToAdd && !this.selectedUsers.some((u) => u.id === id)) {
-          this.selectedUsers.push(userToAdd);
-        }
+        this.addUserToSearchMenu(id);
         break;
       case SearchType.NewChat:
-        const user = this.searchResults.find(user => user.id === id);
-        
-        if (user) {
-          this.firestore.getOrCreateDirectChatId(this.loggedInUserId, user.id)
-            .then(chatId => {
-              this.chatService.selectChatId(chatId);
-              this.chatService.selectChatPartner(user);
-              this.chatService.selectChatType(ChatType.DirectMessage);
-            });
-        }
+        this.createNewChat(id);
         break;
       case SearchType.MentionUser:
         break;
+      case SearchType.Channel:
+        break;
+    }
+  }
+
+  isUser(obj: any): obj is User {
+    return (
+      obj &&
+      typeof obj.email === 'string' &&
+      typeof obj.profilePictureUrl === 'string' &&
+      typeof obj.joinedAt !== 'undefined' &&
+      typeof obj.onlineStatus !== 'undefined'
+    );
+  }
+
+  showUserProfile(id: string) {
+    this.firestore.setSelectedUserId(id);
+    this.overlayService.open('profile');
+  }
+
+  addUserToSearchMenu(id: string) {
+    const userToAdd = this.searchResults.find((user) => user.id === id);
+    if (
+      userToAdd &&
+      !this.selectedUsers.some((u) => u.id === id) &&
+      this.isUser(userToAdd)
+    ) {
+      this.selectedUsers.push(userToAdd);
+    }
+  }
+
+  createNewChat(id: string) {
+    const user = this.searchResults.find((user) => user.id === id);
+
+    if (user && this.isUser(user)) {
+      this.firestore
+        .getOrCreateDirectChatId(this.loggedInUserId, user.id)
+        .then((chatId) => {
+          this.chatService.selectChatId(chatId);
+          this.chatService.selectChatPartner(user);
+          this.chatService.selectChatType(ChatType.DirectMessage);
+        });
     }
   }
 }

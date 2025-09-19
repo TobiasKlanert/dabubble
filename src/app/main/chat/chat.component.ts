@@ -25,7 +25,7 @@ import {
   OverlayMenuType,
   OverlayService,
 } from '../../shared/services/overlay.service';
-import { User, Message, ChatPartner } from '../../shared/models/database.model';
+import { User, Channel, Message, ChatPartner } from '../../shared/models/database.model';
 import { FirestoreService } from '../../shared/services/firestore.service';
 import { SearchService } from '../../shared/services/search.service';
 import { ChatService } from '../../shared/services/chat.service';
@@ -67,7 +67,7 @@ export class ChatComponent {
   members: number = 0;
 
   currentSearchType: SearchType = SearchType.AddUser;
-  searchResults: User[] = [];
+  searchResults: (User | Channel)[] = [];
 
   private destroy$ = new Subject<void>();
   public chatType = ChatType;
@@ -184,7 +184,7 @@ export class ChatComponent {
 
   startSearch(query: string) {
     this.searchService
-      .searchUsers(query)
+      .searchUsersAndChannels(query)
       .pipe(takeUntil(this.destroy$))
       .subscribe((users) => {
         this.searchResults = users;

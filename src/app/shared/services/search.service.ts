@@ -16,7 +16,7 @@ import {
   startAt,
   endAt,
 } from '@angular/fire/firestore';
-import { User } from '../models/database.model';
+import { User, Channel } from '../models/database.model';
 
 @Injectable({
   providedIn: 'root',
@@ -78,6 +78,54 @@ export class SearchService {
           (u, i, arr) => arr.findIndex((x) => x.id === u.id) === i
         );
         return unique;
+      })
+    );
+  }
+
+  searchUsersAndChannels(term: string): Observable<(User | Channel)[]> {
+    const normalized = this.normalizeName(term);
+
+    // User-Suche nach Name
+    const usersRef = collection(this.firestore, 'users');
+    const prefixQuery = query(
+      usersRef,
+      orderBy('nameSearch'),
+      startAt(normalized),
+      endAt(normalized + '\uf8ff')
+    );
+    const tokenQuery = query(
+      usersRef,
+      where('nameSearchTokens', 'array-contains', normalized)
+    );
+    // User-Suche nach Email
+    const emailQuery = query(
+      usersRef,
+      where('email', '==', term)
+    );
+
+    // Channel-Suche nach Name
+    const channelsRef = collection(this.firestore, 'channels');
+    const channelPrefixQuery = query(
+      channelsRef,
+      orderBy('name'),
+      startAt(normalized),
+      endAt(normalized + '\uf8ff')
+    );
+
+    return combineLatest([
+      collectionData(prefixQuery, { idField: 'id' }) as Observable<User[]>,
+      collectionData(tokenQuery, { idField: 'id' }) as Observable<User[]>,
+      collectionData(emailQuery, { idField: 'id' }) as Observable<User[]>,
+      collectionData(channelPrefixQuery, { idField: 'id' }) as Observable<Channel[]>,
+    ]).pipe(
+      map(([prefixResults, tokenResults, emailResults, channelResults]) => {
+        const allUsers = [...prefixResults, ...tokenResults, ...emailResults];
+        // Doppelte User entfernen
+        const uniqueUsers = allUsers.filter(
+          (u, i, arr) => arr.findIndex((x) => x.id === u.id) === i
+        );
+        // Channels einfach anhängen
+        return [...uniqueUsers, ...channelResults];
       })
     );
   }
