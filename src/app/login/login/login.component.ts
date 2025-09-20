@@ -14,8 +14,10 @@ import { RegistrationDataService } from '../../shared/services/registration-data
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  showIntro = true;
-  loading = false;
+  showIntro: boolean = true;
+  loading: boolean = false;
+  loginInvalid: boolean = false;
+  googleLoginInvalid: boolean = false;
   authError: string | null = null;
 
   constructor(
@@ -47,6 +49,7 @@ export class LoginComponent {
       this.router.navigate(['/main']);
     } catch (err: any) {
       console.error('Login fehlgeschlagen:', err);
+      this.loginInvalid = true;
     } finally {
       this.loading = false;
     }
@@ -71,7 +74,7 @@ export class LoginComponent {
 
       this.router.navigate(['/choose-avatar']);
     } catch (err) {
-      console.error('Google Login fehlgeschlagen:', err);
+      this.googleLoginInvalid = true;
     } finally {
       this.loading = false;
     }
