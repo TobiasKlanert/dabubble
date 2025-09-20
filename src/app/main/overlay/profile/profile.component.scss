@@ -23,10 +23,21 @@
     width: 100%;
     @include dFlex();
 
-    img {
-      width: 200px;
-      height: 200px;
-      border-radius: 100%;
+    .profile-picture-wrapper {
+      position: relative;
+
+      img {
+        width: 200px;
+        height: 200px;
+        border-radius: 100%;
+      }
+
+      .btn-edit-avatar {
+        @include icon-button();
+        position: absolute;
+        bottom: 0;
+        right: 0;
+      }
     }
   }
 

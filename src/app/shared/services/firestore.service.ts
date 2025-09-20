@@ -386,6 +386,15 @@ export class FirestoreService {
     return updateDoc(userRef, { name: newName });
   }
 
+  updateUserAvatar(newUrl: string): Promise<void> {
+    const userId = this.loggedInUserId;
+    if (!userId) {
+      return Promise.reject();
+    }
+    const userRef = doc(this.firestore, 'users', userId);
+    return updateDoc(userRef, { profilePictureUrl: newUrl });
+  }
+
   /*  ##########
     Login
     ##########  */

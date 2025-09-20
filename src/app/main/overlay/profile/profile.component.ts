@@ -27,7 +27,7 @@ export class ProfileComponent implements OnInit {
     id: '',
     name: '',
     onlineStatus: false,
-    profilePictureUrl: ''
+    profilePictureUrl: '',
   };
   isOwnProfile: boolean = true;
   isEditModeActive: boolean = false;
@@ -66,6 +66,10 @@ export class ProfileComponent implements OnInit {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  showAvatarEditor() {
+    this.overlayService.open('avatarEditor');
   }
 
   saveEdit(newName: string) {
