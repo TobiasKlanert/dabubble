@@ -25,7 +25,12 @@ import {
   OverlayMenuType,
   OverlayService,
 } from '../../shared/services/overlay.service';
-import { User, Channel, Message, ChatPartner } from '../../shared/models/database.model';
+import {
+  User,
+  Channel,
+  Message,
+  ChatPartner,
+} from '../../shared/models/database.model';
 import { FirestoreService } from '../../shared/services/firestore.service';
 import { SearchService } from '../../shared/services/search.service';
 import { ChatService } from '../../shared/services/chat.service';
@@ -82,6 +87,7 @@ export class ChatComponent {
   ) {}
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLDivElement>;
+  @ViewChild('inputMessage') inputMessage!: ElementRef<HTMLTextAreaElement>;
 
   ngOnInit() {
     combineLatest([
@@ -123,16 +129,16 @@ export class ChatComponent {
       )
       .subscribe((messages) => {
         this.chatMessages = Array.isArray(messages) ? messages : [messages];
+        setTimeout(() => {
+          this.scrollToBottom();
+          this.inputMessage?.nativeElement.focus();
+        }, 0);
       });
   }
 
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
-  }
-
-  ngAfterViewInit() {
-    this.scrollToBottom();
   }
 
   sendMessage() {
@@ -148,7 +154,6 @@ export class ChatComponent {
       this.firestore.addMessage(this.currentChatType, this.currentChatId, msg);
 
       this.inputText = '';
-      setTimeout(() => this.scrollToBottom(), 0);
     }
   }
 
@@ -176,7 +181,7 @@ export class ChatComponent {
         return (query = value.substring(atIndex + 1).trim());
       } else {
         return;
-      } 
+      }
     } else {
       return query;
     }
@@ -192,12 +197,10 @@ export class ChatComponent {
   }
 
   private scrollToBottom(): void {
-    try {
+    setTimeout(() => {
       const el = this.scrollContainer.nativeElement;
       el.scrollTop = el.scrollHeight;
-    } catch (err) {
-      console.warn('Scroll to bottom failed:', err);
-    }
+    }, 500);
   }
 
   addTextEmoji = (emoji: string) => {
