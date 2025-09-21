@@ -142,12 +142,12 @@
       </div>
       <div class="threads-link-wrapper flex-center flex-row gap20"
         [ngClass]="{ outgoing: message.outgoing, incoming: !message.outgoing }">
-        <ng-container *ngIf="(message?.repliesCount ?? 0) > 0">
-          <button (click)="openThread()" class="btn-open-thread">{{ message.repliesCount ?? 0 }} Antworten</button>
+        <ng-container *ngIf="thread.length > 0">
+          <button (click)="openThread()" class="btn-open-thread">{{ thread.length }} Antworten</button>
           <div class="flex-row gap4">
-            @if (thread) {
+            @if (thread.length > 0) {
             <p>Letzte Antwort</p>
-            <p class="timestamp">{{ thread[thread.length - 1].createdAt | date:'HH:mm' }}</p>
+            <p class="timestamp">{{ thread[thread.length -1].createdAt | date:'HH:mm' }}</p>
             }
           </div>
         </ng-container>
