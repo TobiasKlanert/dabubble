@@ -14,6 +14,7 @@ import { SearchType } from '../shared/models/chat.enums';
 import { FirestoreService } from '../shared/services/firestore.service';
 import { SearchService } from '../shared/services/search.service';
 import { ClickOutsideDirective } from '../shared/directives/click-outside.directive';
+import { ToggleService } from '../shared/services/toggle.service';
 
 @Component({
   selector: 'app-main',
@@ -49,7 +50,8 @@ export class MainComponent {
     public uploadService: UploadService,
     private overlayService: OverlayService,
     private firestore: FirestoreService,
-    private searchService: SearchService
+    private searchService: SearchService,
+    private toggleService: ToggleService,
   ) {}
 
   ngOnInit() {
@@ -69,6 +71,9 @@ export class MainComponent {
           this.isOnlineSet = true;
         }
       });
+      this.toggleService.state$.subscribe(val => {
+      this.isThreadsHidden = val;
+    });
   }
 
   ngOnDestroy() {

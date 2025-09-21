@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { HoverOutsideDirective } from '../../shared/directives/hover-outside.directive';
 import { ThreadMessage } from '../../shared/models/database.model';
 import { ChatService } from '../../shared/services/chat.service';
+import { ToggleService } from '../../shared/services/toggle.service';
 
 @Component({
   selector: 'app-threads',
@@ -31,7 +32,12 @@ export class ThreadsComponent {
 
   inputText: string = '';
 
-  constructor(public emojiService: EmojiService, private chatService: ChatService, private overlayService: OverlayService,) { }
+  constructor(
+    public emojiService: EmojiService,
+    private chatService: ChatService,
+    private overlayService: OverlayService,
+    private toggleService: ToggleService
+  ) { }
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLDivElement>;
 
@@ -81,5 +87,9 @@ export class ThreadsComponent {
       this.inputText = '';
       setTimeout(() => this.scrollToBottom(), 0);
     }
+  }
+
+  closeThreads() {
+    this.toggleService.toggle()
   }
 }

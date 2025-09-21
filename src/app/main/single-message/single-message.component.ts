@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { FirestoreService } from '../../shared/services/firestore.service';
 import { ChatService } from '../../shared/services/chat.service';
 import { OverlayService } from '../../shared/services/overlay.service';
+import { ToggleService } from '../../shared/services/toggle.service';
 
 @Component({
   selector: 'app-single-message',
@@ -46,7 +47,8 @@ export class SingleMessageComponent {
   constructor(
     private firestore: FirestoreService,
     private chatService: ChatService,
-    private overlayService: OverlayService
+    private overlayService: OverlayService,
+    private toggleService: ToggleService
   ) { }
 
   ngOnInit() {
@@ -58,7 +60,7 @@ export class SingleMessageComponent {
       this.sender = sender;
     });
 
-    // 👇 Hier Live-Update für Reactions
+    // Hier Live-Update für Reactions
     this.firestore
       .getMessage('channels', this.chatId, this.message.id)
       .subscribe((msg) => {
@@ -78,7 +80,7 @@ export class SingleMessageComponent {
   }
 
   openThread() {
-    // Ursprüngliche Nachricht als Thread-Kopf
+    // Ursprüngliche Nachricht am Angfang
     const rootMessage: ThreadMessage = {
       id: this.message.id,
       senderId: this.message.senderId,
@@ -93,6 +95,7 @@ export class SingleMessageComponent {
     const fullThread = [rootMessage, ...(this.thread ?? [])];
 
     this.chatService.selectThread(fullThread);
+    this.toggleService.toggle();
   }
 
 
