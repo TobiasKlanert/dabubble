@@ -13,6 +13,7 @@ import { ThreadMessage } from '../../shared/models/database.model';
 import { ChatService } from '../../shared/services/chat.service';
 import { ToggleService } from '../../shared/services/toggle.service';
 import { FirestoreService } from '../../shared/services/firestore.service';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-threads',
@@ -43,11 +44,26 @@ export class ThreadsComponent {
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLDivElement>;
 
+
+
   ngOnInit() {
     this.chatService.selectedThread$.subscribe((thread) => {
-      this.threadMessages = thread;
-    })
+      this.threadMessages = thread; //Root-Message
+
+      if (thread.length > 0) {
+        let chatId = '';
+        this.chatService.selectedChatId$.subscribe(id => chatId = id).unsubscribe();
+
+        const rootMessageId = thread[0].id!;
+
+        this.firestore.getThread(chatId, rootMessageId).subscribe(messages => {
+          this.threadMessages = [thread[0], ...messages];
+          setTimeout(() => this.scrollToBottom(), 0);
+        });
+      }
+    });
   }
+
 
   ngAfterViewInit() {
     this.scrollToBottom();
