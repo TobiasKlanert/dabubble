@@ -236,6 +236,39 @@ export class ChatComponent {
     return;
   }
 
+  insertMention(mention: string) {
+    const textarea = this.inputMessage.nativeElement;
+    const cursor = textarea.selectionStart;
+
+    // Suche das letzte @ oder #
+    const triggerIndex = Math.max(
+      this.inputText.lastIndexOf('@', cursor - 1),
+      this.inputText.lastIndexOf('#', cursor - 1)
+    );
+
+    // Falls kein Trigger gefunden → normal einfügen
+    if (triggerIndex === -1) {
+      this.inputText =
+        this.inputText.substring(0, cursor) +
+        mention +
+        ' ' +
+        this.inputText.substring(cursor);
+    } else {
+      // Ersetze von Trigger bis Cursor mit der Mention
+      const before = this.inputText.substring(0, triggerIndex);
+      const after = this.inputText.substring(cursor);
+
+      this.inputText = before + mention + ' ' + after;
+
+      // Cursor neu setzen
+      setTimeout(() => {
+        textarea.selectionStart = textarea.selectionEnd =
+          before.length + mention.length + 1;
+        textarea.focus();
+      });
+    }
+  }
+
   private scrollToBottom(): void {
     setTimeout(() => {
       const el = this.scrollContainer.nativeElement;
