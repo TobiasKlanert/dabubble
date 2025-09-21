@@ -232,8 +232,15 @@ export class ChatComponent {
       } else {
         this.searchResults = members;
       }
-    } else {
+    } else if (this.currentChatType === ChatType.DirectMessage) {
       this.searchResults = [this.currentChatPartner];
+    } else {
+      this.searchService
+        .searchUsers(query)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((users) => {
+          this.searchResults = users;
+        });
     }
     return;
   }

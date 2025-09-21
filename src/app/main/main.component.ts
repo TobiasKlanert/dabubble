@@ -144,7 +144,7 @@ export class MainComponent {
 
   searchMembers(query: string) {
     this.searchService
-      .searchUsersAndChannels(query)
+      .searchUsers(query)
       .pipe(takeUntil(this.destroy$))
       .subscribe((users) => {
         this.searchResults = users;
