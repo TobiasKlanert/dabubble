@@ -12,6 +12,8 @@ import { HoverOutsideDirective } from '../../shared/directives/hover-outside.dir
 import { ThreadMessage } from '../../shared/models/database.model';
 import { ChatService } from '../../shared/services/chat.service';
 import { ToggleService } from '../../shared/services/toggle.service';
+import { FirestoreService } from '../../shared/services/firestore.service';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-threads',
@@ -36,16 +38,32 @@ export class ThreadsComponent {
     public emojiService: EmojiService,
     private chatService: ChatService,
     private overlayService: OverlayService,
-    private toggleService: ToggleService
+    private toggleService: ToggleService,
+    private firestore: FirestoreService
   ) { }
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLDivElement>;
 
+
+
   ngOnInit() {
     this.chatService.selectedThread$.subscribe((thread) => {
-      this.threadMessages = thread;
-    })
+      this.threadMessages = thread; //Root-Message
+
+      if (thread.length > 0) {
+        let chatId = '';
+        this.chatService.selectedChatId$.subscribe(id => chatId = id).unsubscribe();
+
+        const rootMessageId = thread[0].id!;
+
+        this.firestore.getThread(chatId, rootMessageId).subscribe(messages => {
+          this.threadMessages = [thread[0], ...messages];
+          setTimeout(() => this.scrollToBottom(), 0);
+        });
+      }
+    });
   }
+
 
   ngAfterViewInit() {
     this.scrollToBottom();
@@ -73,21 +91,31 @@ export class ThreadsComponent {
   }
 
   sendMessage() {
-    if (this.inputText.trim()) {
+    if (this.inputText.trim() && this.threadMessages.length > 0) {
+      // aktuelle Chat-ID aus dem ChatService holen
+      let chatId = '';
+      this.chatService.selectedChatId$.subscribe(id => chatId = id).unsubscribe();
+
+      // Root-Message ID ist die erste Nachricht im Thread
+      const rootMessageId = this.threadMessages[0].id!;
+
       const msg = {
         text: this.inputText.trim(),
         outgoing: true,
-        timestamp: new Date().toLocaleTimeString('de-DE', {
+        createdAt: new Date().toLocaleTimeString('de-DE', {
           hour: '2-digit',
           minute: '2-digit',
         }),
       };
-      console.log(msg);
-      // this.messageService.addMessage(msg);
+
+      this.firestore.addThreadMessage(chatId, rootMessageId, msg);
+
       this.inputText = '';
       setTimeout(() => this.scrollToBottom(), 0);
     }
   }
+
+
 
   closeThreads() {
     this.toggleService.toggle()

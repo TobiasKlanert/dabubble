@@ -5,9 +5,12 @@
 .threads-container {
     @include dFlex ($fd: column);
     height: 100%;
+    // position: relative;
 
     .message-container {
         width: 100%;
+        overflow-y: scroll;
+        scroll-behavior: smooth;
     }
 }
 
@@ -126,21 +129,21 @@
 }
 
 .thread-separator {
-  display: flex;
-  align-items: center;      // vertikal mittig
-  justify-content: center;  // horizontal mittig
-  margin: 12px 40px;           // Abstand oben/unten
-  color: #ADB0D9;
-  font-size: 18px;
+    display: flex;
+    align-items: center; // vertikal mittig
+    justify-content: center; // horizontal mittig
+    margin: 12px 40px; // Abstand oben/unten
+    color: #ADB0D9;
+    font-size: 18px;
 
-  .label {
-    padding: 0 8px;         // Abstand zwischen den Linien
-    white-space: nowrap;
-  }
+    .label {
+        padding: 0 8px; // Abstand zwischen den Linien
+        white-space: nowrap;
+    }
 
-  .line {
-    flex: 1;                // Linie füllt den Platz
-    height: 1px;
-    background-color: #ADB0D9;
-  }
+    .line {
+        flex: 1; // Linie füllt den Platz
+        height: 1px;
+        background-color: #ADB0D9;
+    }
 }

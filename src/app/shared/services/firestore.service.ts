@@ -291,6 +291,33 @@ export class FirestoreService {
     });
   }
 
+  /*##############
+  Threads
+  ###############*/
+
+  async addThreadMessage(chatId: string, messageId: string, msg: Partial<ThreadMessage>) {
+    const threadRef = collection(
+      this.firestore,
+      `channels/${chatId}/messages/${messageId}/thread`
+    );
+
+    const senderId = this._loggedInUserId$.getValue() || 'u1';
+
+    const newThreadMessage: Omit<ThreadMessage, 'id'> = {
+      senderId,
+      text: msg.text ?? '',
+      createdAt: new Date().toISOString(),
+      outgoing: true,
+      reactions: {},
+      editedAt: null,
+    };
+
+    const docRef = await addDoc(threadRef, newThreadMessage);
+    return { id: docRef.id, ...newThreadMessage };
+  }
+
+
+
   /*  ##########
    Emojies 
    ##########  */
