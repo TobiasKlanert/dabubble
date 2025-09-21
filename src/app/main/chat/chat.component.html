@@ -240,8 +240,8 @@
         placeholder="Nachricht an {{ chatName }}"
         (input)="onSearch(inputMessage.value, searchType.MentionUserOrChannel)"
       ></textarea>
-      @if (searchResults.length > 0 && currentSearchType ===
-      searchType.MentionUserOrChannel) {
+      @if (!isSearchMenuHidden && searchResults.length > 0 && currentSearchType
+      === searchType.MentionUserOrChannel) {
       <app-search-menu
         class="mention-menu"
         (clickOutside)="searchResults = []"

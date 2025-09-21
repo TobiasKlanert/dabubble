@@ -29,10 +29,11 @@
           >
             <img src="./assets/img/search-grey.svg" alt="Suche" />
           </button>
-          @if (searchResults.length > 0) {
+          @if (!isSearchMenuHidden && searchResults.length > 0) {
           <app-search-menu
             class="search-menu"
             (clickOutside)="searchResults = []; searchInput.value = ''"
+            (isSearchMenuHidden)="onSearchMenuHidden($event, searchInput)"
             [searchResults]="searchResults"
             [searchType]="searchType.ShowProfile"
           >

@@ -23,6 +23,7 @@ export class SearchMenuComponent {
   @Input() searchType!: SearchType;
 
   @Output() elementSelected = new EventEmitter<string>();
+  @Output() isSearchMenuHidden = new EventEmitter<boolean>();
 
   private destroy$ = new Subject<void>();
 
@@ -35,7 +36,6 @@ export class SearchMenuComponent {
     private chatService: ChatService
   ) {}
 
-  // TODO: Implement searh for @ and # (on @ all users are shown, on # all channels are shown)
   ngOnInit() {
     this.firestore.loggedInUserId$.subscribe((id) => {
       this.loggedInUserId = id;
@@ -48,6 +48,9 @@ export class SearchMenuComponent {
   }
 
   clickOnUser(id: string) {
+    const state: boolean = true;
+    this.isSearchMenuHidden.emit(state);
+
     switch (this.searchType) {
       case SearchType.ShowProfile:
         this.showUserProfile(id);
@@ -64,8 +67,9 @@ export class SearchMenuComponent {
     }
   }
 
-  // TODO: Implement method to mention a channel in a chat message
   clickOnChannel(id: string) {
+    const state: boolean = true;
+    this.isSearchMenuHidden.emit(state);
     if (
       this.searchType === SearchType.NewChat ||
       this.searchType === SearchType.ShowProfile
@@ -82,7 +86,6 @@ export class SearchMenuComponent {
       obj &&
       typeof obj.id === 'string' &&
       typeof obj.name === 'string' &&
-      // ChatPartner hat kein email, User schon, aber beide haben onlineStatus und profilePictureUrl
       typeof obj.profilePictureUrl === 'string' &&
       typeof obj.onlineStatus !== 'undefined'
     );

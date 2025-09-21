@@ -73,6 +73,7 @@ export class ChatComponent {
 
   currentSearchType: SearchType = SearchType.AddUser;
   searchResults: (User | Channel | ChatPartner)[] = [];
+  isSearchMenuHidden: boolean = false;
 
   private destroy$ = new Subject<void>();
   public chatType = ChatType;
@@ -169,6 +170,7 @@ export class ChatComponent {
   onSearch(value: string, searchType: SearchType): void {
     this.currentSearchType = searchType;
     this.searchResults = [];
+    this.isSearchMenuHidden = false;
 
     // Suche nach letztem @ oder #
     const atIndex = value.lastIndexOf('@');
@@ -265,6 +267,7 @@ export class ChatComponent {
         textarea.selectionStart = textarea.selectionEnd =
           before.length + mention.length + 1;
         textarea.focus();
+        this.isSearchMenuHidden = true;
       });
     }
   }
