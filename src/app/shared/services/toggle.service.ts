@@ -11,5 +11,20 @@ export class ToggleService {
   toggle() {
     this.stateSource.next(!this.stateSource.value);
   }
-}
 
+  setTrue() {
+    this.stateSource.next(false);
+  }
+
+  setFalse() {
+    this.stateSource.next(true);
+  }
+
+  set(value: boolean) {
+    this.stateSource.next(value);
+  }
+
+  get value() {
+    return this.stateSource.value;
+  }
+}
