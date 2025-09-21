@@ -130,6 +130,7 @@ export class ChatComponent {
       .subscribe((messages) => {
         this.chatMessages = Array.isArray(messages) ? messages : [messages];
         setTimeout(() => {
+          this.getChatName();
           this.scrollToBottom();
           this.inputMessage?.nativeElement.focus();
         }, 0);
@@ -139,6 +140,14 @@ export class ChatComponent {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  getChatName() {
+    if (this.currentChatType === ChatType.Channel) {
+      this.chatName = '#' + this.currentChat.name;
+    } else {
+      this.chatName = '@' + this.currentChatPartner.name;
+    }
   }
 
   sendMessage() {

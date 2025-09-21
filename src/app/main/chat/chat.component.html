@@ -237,7 +237,7 @@
         #inputMessage
         [(ngModel)]="inputText"
         name="send-message"
-        placeholder="Nachricht an #Channel"
+        placeholder="Nachricht an {{ chatName }}"
         (input)="onSearch(inputMessage.value, searchType.MentionUserOrChannel)"
       ></textarea>
       @if (searchResults.length > 0 && currentSearchType ===
