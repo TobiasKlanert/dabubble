@@ -57,6 +57,7 @@ export class ChatComponent {
   currentChatType: ChatType = ChatType.Channel;
   currentChatId: string = '';
   chatName: string = '';
+  chatToken: string = '';
   channelMembers: User[] = [];
 
   currentChat: any;
@@ -74,6 +75,7 @@ export class ChatComponent {
   currentSearchType: SearchType = SearchType.AddUser;
   searchResults: (User | Channel | ChatPartner)[] = [];
   isSearchMenuHidden: boolean = false;
+  areMessagesLoaded: boolean = false;
 
   private destroy$ = new Subject<void>();
   public chatType = ChatType;
@@ -134,6 +136,7 @@ export class ChatComponent {
           this.getChatName();
           this.scrollToBottom();
           this.inputMessage?.nativeElement.focus();
+          this.areMessagesLoaded = true;
         }, 0);
       });
   }
@@ -145,9 +148,11 @@ export class ChatComponent {
 
   getChatName() {
     if (this.currentChatType === ChatType.Channel) {
-      this.chatName = '#' + this.currentChat.name;
+      this.chatName = this.currentChat.name;
+      this.chatToken = '#' + this.chatName;
     } else {
-      this.chatName = '@' + this.currentChatPartner.name;
+      this.chatName = this.currentChatPartner.name;
+      this.chatToken = '@' + this.chatName;
     }
   }
 

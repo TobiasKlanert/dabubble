@@ -3,6 +3,7 @@
 @import "../../variables";
 
 .chat-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -234,5 +235,33 @@ app-emoji-menu {
 
   &:hover {
     background: $background-color;
+  }
+}
+
+.new-chat-container {
+  position: absolute;
+  bottom: 258px;
+  left: 45px;
+
+  @include dFlex($fd: column, $ai: flex-start, $g: 7px);
+
+  .new-chat-headline {
+    @include dFlex($jc: flex-start, $ai: flex-end, $g: 10px);
+  }
+
+  .new-chat-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 100px;
+  }
+
+  .welcome-msg {
+    @include dFlex($jc: flex-start);
+
+    button {
+      background: none;
+      border: none;
+      color: $purple-3;
+    }
   }
 }
