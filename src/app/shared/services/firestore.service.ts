@@ -107,7 +107,26 @@ export class FirestoreService {
     );
   }
 
-  createChannel(data: CreateChannelData): Promise<string> {
+  async channelExists(name: string): Promise<{ exists: boolean; id?: string }> {
+    const channelsRef = collection(this.firestore, 'channels');
+    const q = query(channelsRef, where('name', '==', name));
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      return { exists: true };
+    }
+
+    return { exists: false };
+  }
+
+  async createChannel(
+    data: CreateChannelData
+  ): Promise<{ exists: boolean; id?: string }> {
+    const check = await this.channelExists(data.name);
+    if (check.exists) {
+      return check;
+    }
+
     const channelsRef = collection(this.firestore, 'channels');
     const newChannel = {
       name: data.name,
@@ -117,12 +136,19 @@ export class FirestoreService {
       members: Array.from(new Set(data.members)),
     };
 
-    return addDoc(channelsRef, newChannel).then((docRef) => docRef.id);
+    const docRef = await addDoc(channelsRef, newChannel);
+    return { exists: false, id: docRef.id };
   }
 
-  updateChannelName(channelId: string, newName: string): Promise<void> {
+  async updateChannelName(channelId: string, newName: string): Promise<{ exists: boolean }> {
+    const check = await this.channelExists(newName);
+    if (check.exists) {
+      return check;
+    }
+
     const channelRef = doc(this.firestore, 'channels', channelId);
-    return updateDoc(channelRef, { name: newName });
+    await updateDoc(channelRef, { name: newName });
+    return {exists: false}
   }
 
   updateChannelDescription(
@@ -289,6 +315,35 @@ export class FirestoreService {
       text: newText,
       editedAt: new Date().toISOString(),
     });
+  }
+
+  /*##############
+  Threads
+  ###############*/
+
+  async addThreadMessage(
+    chatId: string,
+    messageId: string,
+    msg: Partial<ThreadMessage>
+  ) {
+    const threadRef = collection(
+      this.firestore,
+      `channels/${chatId}/messages/${messageId}/thread`
+    );
+
+    const senderId = this._loggedInUserId$.getValue() || 'u1';
+
+    const newThreadMessage: Omit<ThreadMessage, 'id'> = {
+      senderId,
+      text: msg.text ?? '',
+      createdAt: new Date().toISOString(),
+      outgoing: true,
+      reactions: {},
+      editedAt: null,
+    };
+
+    const docRef = await addDoc(threadRef, newThreadMessage);
+    return { id: docRef.id, ...newThreadMessage };
   }
 
   /*  ##########

@@ -56,10 +56,6 @@
     @include dFlex($fd: column, $jc: flex-start, $ai: flex-start, $g: 20px);
   }
 
-  .channel-name-container {
-   height: 114px; 
-  }
-
   .channel-details {
     @include dFlex($fd: column, $jc: flex-start, $ai: flex-start, $g: 30px);
     height: 279px;
@@ -100,4 +96,15 @@
       font-weight: 700;
     }
   }
+}
+
+.error-space {
+  height: 25px;
+  width: 100%;
+  text-align: start;
+  color: #ed1e79;
+}
+
+.error-message {
+  font-size: 14px;
 }

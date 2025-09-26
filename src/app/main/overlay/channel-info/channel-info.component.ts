@@ -26,6 +26,10 @@ export class ChannelInfoComponent {
   isNameEditorActive: boolean = false;
   isDescriptionEditorActive: boolean = false;
 
+  isFormInvalid: boolean = true;
+  isChannelNameAssigned: boolean = false;
+  isErrorMessageVisible: boolean = false;
+
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -71,20 +75,40 @@ export class ChannelInfoComponent {
   saveEdit(editor: string) {
     switch (editor) {
       case 'name':
-        const newName = this.inputName.nativeElement.value;
-        this.toggleEditor('name');
-        this.firestore
-          .updateChannelName(this.channelId, newName)
-          .catch((error) => console.error(error));
+        this.setNewChannelName();
         break;
       case 'description':
-        const newDescription = this.inputDescription.nativeElement.value;
-        this.toggleEditor('description');
-        this.firestore
-          .updateChannelDescription(this.channelId, newDescription)
-          .catch((error) => console.error(error));
+        this.setNewChannelDescription();
         break;
     }
+  }
+
+  async setNewChannelName() {
+    const newName = this.inputName.nativeElement.value;
+    try {
+      const result = await this.firestore.updateChannelName(
+        this.channelId,
+        newName
+      );
+
+      if (result.exists) {
+        this.isChannelNameAssigned = true;
+        this.isFormInvalid = true;
+      } else {
+        this.isChannelNameAssigned = false;
+        this.isNameEditorActive = false;
+      }
+    } catch (error) {
+      this.isErrorMessageVisible = true;
+    }
+  }
+
+  setNewChannelDescription() {
+    const newDescription = this.inputDescription.nativeElement.value;
+    this.toggleEditor('description');
+    this.firestore
+      .updateChannelDescription(this.channelId, newDescription)
+      .catch((error) => console.error(error));
   }
 
   leaveChannel() {

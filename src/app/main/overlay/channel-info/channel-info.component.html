@@ -88,14 +88,24 @@
         <p>{{ channel?.name }}</p>
       </div>
       } @else {
-      <input
-        #inputName
-        id="inputChannelName"
-        name="name"
-        type="text"
-        class="form-input icon-input"
-        placeholder="{{ channel?.name }}"
-      />
+      <div class="width100">
+        <input
+          #inputName
+          id="inputChannelName"
+          name="name"
+          type="text"
+          class="form-input icon-input"
+          placeholder="{{ channel?.name }}"
+        />
+        <div class="error-space">
+          <div class="error-message" *ngIf="isChannelNameAssigned">
+            Es existiert bereits ein Channel namens "{{ inputName.value }}"!
+          </div>
+          <div class="error-message" *ngIf="isErrorMessageVisible">
+            Es gab einen Fehler! Bitte versuche es erneut.
+          </div>
+        </div>
+      </div>
       }
     </div>
     <div
@@ -147,7 +157,9 @@
       </div>
     </div>
     <div class="btn-container">
-      <button class="button-primary-style" (click)="leaveChannel()">Channel verlassen</button>
+      <button class="button-primary-style" (click)="leaveChannel()">
+        Channel verlassen
+      </button>
     </div>
   </article>
 </div>
