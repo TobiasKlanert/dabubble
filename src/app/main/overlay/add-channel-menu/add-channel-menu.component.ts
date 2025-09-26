@@ -22,6 +22,8 @@ export class AddChannelMenuComponent {
   showFirstMenu: boolean = true;
   isInputEmpty: boolean = true;
   isFormInvalid: boolean = true;
+  isChannelNameAssigned: boolean = false;
+  isErrorMessageVisible: boolean = false;
   isInputUserInvisible: boolean = true;
   searchResults: User[] = [];
 
@@ -57,10 +59,6 @@ export class AddChannelMenuComponent {
     this.userId = this.firestore.loggedInUserId;
   }
 
-  toggleMenus() {
-    this.showFirstMenu = !this.showFirstMenu;
-  }
-
   onRadioClick(option: string, event: Event) {
     if (this.selectedOption === option) {
       event.preventDefault();
@@ -82,12 +80,35 @@ export class AddChannelMenuComponent {
   }
 
   toggleButton(value: string) {
-    this.isInputEmpty = value.trim().length === 0;
+    this.isFormInvalid = value.trim().length === 0;
+    this.isChannelNameAssigned = value.trim().length === 0;
+  }
+
+  toggleMenus() {
+    this.isFormInvalid = true;
+    this.showFirstMenu = !this.showFirstMenu;
+  }
+
+  async checkChannel(name: string) {
+    try {
+      const result = await this.firestore.channelExists(name);
+      if (result.exists) {
+        this.isFormInvalid = true;
+        this.isChannelNameAssigned = true;
+      } else {
+        this.toggleMenus();
+      }
+    } catch (error) {
+      this.isErrorMessageVisible = true;
+    }
   }
 
   getMemberIds(): string[] {
     if (this.selectedOption === 'addUser') {
-      this.memberIds = [this.userId, ...this.searchResults.map((user) => user.id)];
+      this.memberIds = [
+        this.userId,
+        ...this.searchResults.map((user) => user.id),
+      ];
     } else if (this.selectedOption === 'addAll') {
       this.memberIds = [this.userId, 'u1', 'u2', 'u3', 'u4', 'u5', 'u6'];
     }
@@ -96,17 +117,21 @@ export class AddChannelMenuComponent {
 
   createChannel(inputName: string, inputDescription: string) {
     const memberIds = this.getMemberIds();
+    let newChannelData = {
+      name: inputName,
+      description: inputDescription,
+      creatorId: this.userId,
+      members: memberIds,
+    };
 
-    this.firestore
-      .createChannel({
-        name: inputName,
-        description: inputDescription,
-        creatorId: this.userId,
-        members: memberIds,
-      })
-      .then(() => {
+    this.firestore.createChannel(newChannelData).then((result) => {
+      if (result.exists) {
+        this.isFormInvalid = true;
+      } else {
+        /* this.isFormInvalid = false; */
         this.closeOverlay();
-      });
+      }
+    });
   }
 
   closeOverlay() {

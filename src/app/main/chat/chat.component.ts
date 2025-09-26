@@ -57,6 +57,7 @@ export class ChatComponent {
   currentChatType: ChatType = ChatType.Channel;
   currentChatId: string = '';
   chatName: string = '';
+  chatToken: string = '';
   channelMembers: User[] = [];
 
   currentChat: any;
@@ -72,7 +73,9 @@ export class ChatComponent {
   members: number = 0;
 
   currentSearchType: SearchType = SearchType.AddUser;
-  searchResults: (User | Channel)[] = [];
+  searchResults: (User | Channel | ChatPartner)[] = [];
+  isSearchMenuHidden: boolean = false;
+  areMessagesLoaded: boolean = false;
 
   private destroy$ = new Subject<void>();
   public chatType = ChatType;
@@ -130,8 +133,10 @@ export class ChatComponent {
       .subscribe((messages) => {
         this.chatMessages = Array.isArray(messages) ? messages : [messages];
         setTimeout(() => {
+          this.getChatName();
           this.scrollToBottom();
           this.inputMessage?.nativeElement.focus();
+          this.areMessagesLoaded = true;
         }, 0);
       });
   }
@@ -139,6 +144,16 @@ export class ChatComponent {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  getChatName() {
+    if (this.currentChatType === ChatType.Channel) {
+      this.chatName = this.currentChat.name;
+      this.chatToken = '#' + this.chatName;
+    } else {
+      this.chatName = this.currentChatPartner.name;
+      this.chatToken = '@' + this.chatName;
+    }
   }
 
   sendMessage() {
@@ -157,43 +172,116 @@ export class ChatComponent {
     }
   }
 
-  // TODO: Implement method to search for channels and e-mail addresses
   onSearch(value: string, searchType: SearchType): void {
     this.currentSearchType = searchType;
     this.searchResults = [];
+    this.isSearchMenuHidden = false;
 
-    let query = this.getQuery(value, searchType);
+    // Suche nach letztem @ oder #
+    const atIndex = value.lastIndexOf('@');
+    const hashIndex = value.lastIndexOf('#');
 
-    if (!query) {
-      this.searchResults = [];
-      return;
+    // Prüfe, welches Zeichen zuletzt vorkommt
+    let trigger = '';
+    let triggerIndex = -1;
+    if (atIndex > hashIndex) {
+      trigger = '@';
+      triggerIndex = atIndex;
+    } else if (hashIndex > atIndex) {
+      trigger = '#';
+      triggerIndex = hashIndex;
     }
 
-    this.startSearch(query);
-  }
+    // Wenn kein Trigger vorhanden oder nicht am Wortanfang, keine Suche
+    if (triggerIndex === -1) return;
+    // Prüfe, ob vor dem Trigger ein Leerzeichen oder Zeilenanfang ist
+    if (triggerIndex > 0 && !/\s/.test(value[triggerIndex - 1])) return;
 
-  getQuery(value: string, searchType: SearchType) {
-    let query = value.trim();
+    // Hole den Suchbegriff nach dem Trigger
+    const query = value.substring(triggerIndex + 1).trim();
 
-    if (searchType === SearchType.MentionUserOrChannel) {
-      const atIndex = value.lastIndexOf('@');
-      if (atIndex !== -1) {
-        return (query = value.substring(atIndex + 1).trim());
-      } else {
-        return;
-      }
-    } else {
-      return query;
+    if (trigger === '#') {
+      this.searchChannel(query);
+    }
+
+    if (trigger === '@') {
+      this.searchMembers(query);
     }
   }
 
-  startSearch(query: string) {
-    this.searchService
-      .searchUsersAndChannels(query)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((users) => {
-        this.searchResults = users;
+  searchChannel(query: string) {
+    this.firestore.loggedInUserId$
+      .pipe(
+        takeUntil(this.destroy$),
+        switchMap((userId) => this.firestore.getChannels(userId))
+      )
+      .subscribe((channels) => {
+        if (query) {
+          this.searchResults = channels.filter((channel) =>
+            channel.name.toLowerCase().includes(query.toLowerCase())
+          );
+        } else {
+          this.searchResults = channels;
+        }
       });
+    return;
+  }
+
+  searchMembers(query: string) {
+    if (this.currentChatType === ChatType.Channel) {
+      const members = this.channelMembers || [];
+      if (query) {
+        this.searchResults = members.filter((member) =>
+          member.name.toLowerCase().includes(query.toLowerCase())
+        );
+      } else {
+        this.searchResults = members;
+      }
+    } else if (this.currentChatType === ChatType.DirectMessage) {
+      this.searchResults = [this.currentChatPartner];
+    } else {
+      this.searchService
+        .searchUsers(query)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((users) => {
+          this.searchResults = users;
+        });
+    }
+    return;
+  }
+
+  insertMention(mention: string) {
+    const textarea = this.inputMessage.nativeElement;
+    const cursor = textarea.selectionStart;
+
+    // Suche das letzte @ oder #
+    const triggerIndex = Math.max(
+      this.inputText.lastIndexOf('@', cursor - 1),
+      this.inputText.lastIndexOf('#', cursor - 1)
+    );
+
+    // Falls kein Trigger gefunden → normal einfügen
+    if (triggerIndex === -1) {
+      this.inputText =
+        this.inputText.substring(0, cursor) +
+        mention +
+        ' ' +
+        this.inputText.substring(cursor);
+    } else {
+      // Ersetze von Trigger bis Cursor mit der Mention
+      const before = this.inputText.substring(0, triggerIndex);
+      const after = this.inputText.substring(cursor);
+
+      this.inputText = before + mention + ' ' + after;
+
+      // Cursor neu setzen
+      setTimeout(() => {
+        textarea.selectionStart = textarea.selectionEnd =
+          before.length + mention.length + 1;
+        textarea.focus();
+        this.isSearchMenuHidden = true;
+      });
+    }
   }
 
   private scrollToBottom(): void {

@@ -80,6 +80,7 @@ export class SingleMessageComponent {
   }
 
   openThread() {
+    
     // Ursprüngliche Nachricht am Angfang
     const rootMessage: ThreadMessage = {
       id: this.message.id,
@@ -95,7 +96,7 @@ export class SingleMessageComponent {
     const fullThread = [rootMessage, ...(this.thread ?? [])];
 
     this.chatService.selectThread(fullThread);
-    this.toggleService.toggle();
+    this.toggleService.setFalse();
   }
 
 

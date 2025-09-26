@@ -76,7 +76,7 @@
     }
 
     .search-menu {
-      position: absolute; 
+      position: absolute;
       top: 140px;
       left: 20px;
       z-index: 99;
@@ -86,6 +86,11 @@
       color: $purple-3;
     }
   }
+}
+
+.menu-footer {
+  width: 100%;
+  @include dFlex($jc: space-between);
 }
 
 .btn-container {
@@ -99,4 +104,15 @@
 
 .hidden {
   display: none;
+}
+
+.error-space {
+  height: 25px;
+  width: 100%;
+  text-align: start;
+  color: #ed1e79;
+}
+
+.error-message {
+  font-size: 14px;
 }

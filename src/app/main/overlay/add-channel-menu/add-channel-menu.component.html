@@ -54,15 +54,25 @@
         (input)="this.textareaResizeService.autoResize(inputDescription)"
       ></textarea>
     </div>
-    <div class="btn-container">
-      <button
-        type="button"
-        class="button-primary-style btn-font-style"
-        [disabled]="!inputName.value.trim()"
-        (click)="toggleMenus()"
-      >
-        Erstellen
-      </button>
+    <div class="menu-footer">
+      <div class="error-space">
+        <div class="error-message" *ngIf="isChannelNameAssigned">
+          Es existiert bereits ein Channel namens "{{ inputName.value }}"!
+        </div>
+        <div class="error-message" *ngIf="isErrorMessageVisible">
+          Es gab einen Fehler! Bitte versuche es erneut.
+        </div>
+      </div>
+      <div class="btn-container">
+        <button
+          type="button"
+          class="button-primary-style btn-font-style"
+          [disabled]="isFormInvalid"
+          (click)="checkChannel(inputName.value)"
+        >
+          Erstellen
+        </button>
+      </div>
     </div>
   </form>
 </div>

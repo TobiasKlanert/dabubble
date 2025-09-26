@@ -170,6 +170,10 @@
   }
 }
 
+.text-grey {
+  color: $text-grey;
+}
+
 ::-webkit-scrollbar {
   width: 16px; /* Breite der Scrollbar */
   height: 8px; /* Höhe bei horizontalen Scrollbars */
