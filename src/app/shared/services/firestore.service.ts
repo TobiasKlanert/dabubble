@@ -107,7 +107,26 @@ export class FirestoreService {
     );
   }
 
-  createChannel(data: CreateChannelData): Promise<string> {
+  async channelExists(name: string): Promise<{ exists: boolean; id?: string }> {
+    const channelsRef = collection(this.firestore, 'channels');
+    const q = query(channelsRef, where('name', '==', name));
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      return { exists: true };
+    }
+
+    return { exists: false };
+  }
+
+  async createChannel(
+    data: CreateChannelData
+  ): Promise<{ exists: boolean; id?: string }> {
+    const check = await this.channelExists(data.name);
+    if (check.exists) {
+      return check;
+    }
+
     const channelsRef = collection(this.firestore, 'channels');
     const newChannel = {
       name: data.name,
@@ -117,7 +136,8 @@ export class FirestoreService {
       members: Array.from(new Set(data.members)),
     };
 
-    return addDoc(channelsRef, newChannel).then((docRef) => docRef.id);
+    const docRef = await addDoc(channelsRef, newChannel);
+    return { exists: false, id: docRef.id };
   }
 
   updateChannelName(channelId: string, newName: string): Promise<void> {
@@ -295,7 +315,11 @@ export class FirestoreService {
   Threads
   ###############*/
 
-  async addThreadMessage(chatId: string, messageId: string, msg: Partial<ThreadMessage>) {
+  async addThreadMessage(
+    chatId: string,
+    messageId: string,
+    msg: Partial<ThreadMessage>
+  ) {
     const threadRef = collection(
       this.firestore,
       `channels/${chatId}/messages/${messageId}/thread`
@@ -315,8 +339,6 @@ export class FirestoreService {
     const docRef = await addDoc(threadRef, newThreadMessage);
     return { id: docRef.id, ...newThreadMessage };
   }
-
-
 
   /*  ##########
    Emojies 
