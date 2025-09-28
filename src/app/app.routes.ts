@@ -10,12 +10,6 @@ import { ChooseAvatarComponent } from './login/choose-avatar/choose-avatar.compo
 import { LoginComponent } from './login/login/login.component';
 import { ImprintComponent } from './legal/imprint/imprint.component';
 
-
-import { EmailVerifiedComponent } from './login/email-verified/email-verified.component';
-import { VerifyRequiredComponent } from './login/verified-required/verified-required.component';
-import { EmailVerifiedGuard } from './shared/services/email-verified.guard';
-
-
 export const routes: Routes = [
     { path: '', component: LoginComponent  },
     { path: 'main', component: MainComponent },
@@ -25,12 +19,4 @@ export const routes: Routes = [
     { path: 'choose-avatar', component: ChooseAvatarComponent },
     { path: 'reset-password', component: RequestPasswordComponent },
     { path:'reset-password/:token', component: ResetPasswordComponent },
-
-
-     // ✅ neue Routen für E-Mail-Flow
-    { path: 'email-verified', component: EmailVerifiedComponent },
-    { path: 'verify-required', component: VerifyRequiredComponent },
-
-    // ✅ Main nur für verifizierte User freigeben
-    { path: 'main', component: MainComponent, canActivate: [EmailVerifiedGuard] },
 ];
