@@ -143,24 +143,21 @@
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    animation: container-fade-out 0.5s ease-in 3.5s forwards;
+    animation: container-fade-out 0.5s ease-in 4.2s forwards;
     will-change: opacity;
 
     .logo-wrapper {
         position: relative;
-        // background-color: rgba(0, 0, 0, 0.2);
         width: fit-content;
         padding: 8px 12px;
         border-radius: 12px;
-        /* Wir animieren den Wrapper fürs „Wegfliegen“ */
-        animation: wrapper-fly-up-left 1s ease-in-out 3s forwards;
+        animation: wrapper-fly-up-left 1s ease-in-out 3.2s forwards;
         will-change: transform, opacity;
     }
 
     .intro-logo-img {
         z-index: 100;
         display: block;
-        /* Basiszustand deckungsgleich mit Keyframes */
         transform: translateX(0);
         animation: logo-slide-left 1s ease 1s forwards;
         will-change: transform, opacity;
@@ -170,21 +167,23 @@
         position: absolute;
         top: 50%;
         left: 100%;
-        /* Basiszustand deckungsgleich mit Keyframes */
-        transform: translateY(-50%) translateX(-150px);
+        transform: translateY(-50%) translateX(-250px);
         margin-left: 16px;
         color: white;
         font-weight: 800;
         line-height: 1;
-        opacity: 0;
         font-size: clamp(28px, 6vw, 96px);
         text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
-        animation: text-slide-right 1.5s ease-out 1.5s forwards;
-        will-change: transform, opacity;
+
+        overflow: hidden;
+        white-space: nowrap;
+        width: 0;
+
+        animation: typing 1.2s steps(8, end) 1.5s forwards, cursor-blink 0.7s step-end infinite 2s;
+        will-change: width, opacity, border-right;
     }
 }
 
-/* Logo startet mittig und rutscht leicht nach links */
 @keyframes logo-slide-left {
     from {
         transform: translateX(0);
@@ -197,20 +196,34 @@
     }
 }
 
-/* Text kommt von links rein und wird sichtbar */
-@keyframes text-slide-right {
+@keyframes typing {
     from {
-        transform: translateY(-50%) translateX(-550px);
-        opacity: 0;
+        width: 0
     }
 
     to {
-        transform: translateY(-50%) translateX(-250px);
-        opacity: 1;
+        width: 8ch
     }
 }
 
-/* Jetzt beide zusammen über den WRAPPER nach oben links „wegfliegen“ */
+@keyframes cursor-blink {
+    0% {
+        border-right: 4px solid white
+    }
+
+    49% {
+        border-right: 4px solid white
+    }
+
+    50% {
+        border-right: transparent
+    }
+
+    100% {
+        border-right: transparent
+    }
+}
+
 @keyframes wrapper-fly-up-left {
     from {
         transform: translate(0, 0) scale(1);
@@ -223,14 +236,13 @@
     }
 }
 
-/* Container blendet aus und gibt Klicks frei */
 @keyframes container-fade-out {
     0% {
-        opacity: 1;
+        opacity: 1
     }
 
     80% {
-        opacity: 0;
+        opacity: 0
     }
 
     100% {
@@ -240,7 +252,6 @@
     }
 }
 
-/* Weniger Bewegung für Nutzer mit reduzierter Bewegung */
 @media (prefers-reduced-motion: reduce) {
     .intro-animation {
         animation: none !important;
@@ -254,9 +265,6 @@
         transform: none;
     }
 }
-
-
-
 
 @media (max-width: 640px) {
     .login-wrapper {
