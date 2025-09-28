@@ -1,5 +1,15 @@
 import { Injectable, inject } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, user, signOut, signInWithPopup, GoogleAuthProvider } from '@angular/fire/auth';
+import { 
+  Auth, 
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword, 
+  updateProfile, 
+  user, 
+  signOut, 
+  signInWithPopup, 
+  GoogleAuthProvider,
+  sendEmailVerification
+} from '@angular/fire/auth';
 import { Firestore, doc, setDoc, serverTimestamp } from '@angular/fire/firestore';
 import { FirestoreService } from './firestore.service';
 import { SearchService } from './search.service';
@@ -11,13 +21,23 @@ export class AuthService {
 
     constructor(private firestore: FirestoreService, private searchService: SearchService) {}
 
-    // Observable mit dem aktuellen User, nützlich für Guards und UI
     user$ = user(this.auth);
 
-    async register(name: string, email: string, password: string, nameSearch: string, nameSearchTokens: [], profilePictureUrl: string) {
-        const cred = await createUserWithEmailAndPassword(this.auth, email, password);  // Konto erstellen
-        await updateProfile(cred.user, { displayName: name, photoURL: profilePictureUrl });                // Profil setzen
-        // User Dokument schreiben, aber ohne Passwort
+    async register(
+        name: string, 
+        email: string, 
+        password: string, 
+        nameSearch: string, 
+        nameSearchTokens: [], 
+        profilePictureUrl: string
+    ) {
+        // 1. User in Firebase Authentication anlegen
+        const cred = await createUserWithEmailAndPassword(this.auth, email, password);
+
+        // 2. Profil setzen (Name + Avatar)
+        await updateProfile(cred.user, { displayName: name, photoURL: profilePictureUrl });
+
+        // 3. Firestore-Dokument anlegen
         await setDoc(doc(this.db, 'users', cred.user.uid), {
             uid: cred.user.uid,
             name,
@@ -28,6 +48,12 @@ export class AuthService {
             joinedAt: serverTimestamp(),
             onlineStatus: true
         });
+
+        // 4. Bestätigungsmail schicken
+        await sendEmailVerification(cred.user, {
+            url: 'http://localhost:4200/email-verified' // später auf die Domain anpassen
+        });
+
         return cred.user;
     }
 
@@ -39,12 +65,10 @@ export class AuthService {
         return signOut(this.auth);
     }
 
-    // Google Login
     async signInWithGoogle() {
         const provider = new GoogleAuthProvider();
         const cred = await signInWithPopup(this.auth, provider);
 
-        // User Doc anlegen falls neu, Avatar setzen wir erst in ChooseAvatar
         await setDoc(
             doc(this.db, 'users', cred.user.uid),
             {
@@ -63,7 +87,6 @@ export class AuthService {
         return cred.user;
     }
 
-    // Profil nach Avatarwahl fertigstellen
     async completeProfileAfterAvatar(name: string, profilePictureUrl: string) {
         if (!this.auth.currentUser) return;
         await updateProfile(this.auth.currentUser, { displayName: name, photoURL: profilePictureUrl });
@@ -74,4 +97,3 @@ export class AuthService {
         ); 
     }
 }
- 
