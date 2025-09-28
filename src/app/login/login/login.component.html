@@ -1,9 +1,9 @@
-<div class="intro-animation flex-center" *ngIf="showIntro">
+<!-- <div class="intro-animation flex-center" *ngIf="showIntro">
   <div class="logo-wrapper">
     <img class="intro-logo-img" src="/assets/img/logo.png" alt="" />
     <span class="intro-logo-text">DABubble</span>
   </div>
-</div>
+</div> -->
 
 <div class="login-wrapper flex-center">
   <div class="login-content flex-center flex-column">
@@ -14,60 +14,38 @@
     </div>
     <div class="login-dialog flex-column flex-center text-center">
       <h2 class="headline-style mb32">Anmeldung</h2>
-      <span class="fs20 mb32"
-        >Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit
-        verwendest.</span
-      >
+      <span class="fs20 mb32">Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit
+        verwendest.</span>
 
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <input
-          class="input-email input-blue-style"
-          formControlName="email"
-          type="email"
-          name="email"
-          placeholder="beispiel@email.com"
-          (focus)="loginInvalid = false; googleLoginInvalid = false"
-        />
+        <div class="input-wrapper">
+          <span class="input-icon input-icon--email"></span>
+          <input class="input-email input-blue-style" formControlName="email" type="email" name="email"
+            placeholder="beispiel@email.com" />
+        </div>
         <div class="error-space">
           <div *ngIf="form.get('email')?.invalid && form.get('email')?.touched">
-            <div
-              class="error-message"
-              *ngIf="form.get('email')?.errors?.['required']"
-            >
+            <div class="error-message" *ngIf="form.get('email')?.errors?.['required']">
               Bitte geben Sie eine Email-Adresse ein
             </div>
-            <div
-              class="error-message"
-              *ngIf="form.get('email')?.errors?.['email']"
-            >
+            <div class="error-message" *ngIf="form.get('email')?.errors?.['email']">
               Ihre Emailadresse ist leider ungültig
             </div>
           </div>
         </div>
-        <input
-          class="input-password input-blue-style"
-          formControlName="password"
-          type="password"
-          name="password"
-          placeholder="Passwort"
-          (focus)="loginInvalid = false; googleLoginInvalid = false"
-        />
+        <div class="input-wrapper">
+          <span class="input-icon input-icon--password"></span>
+          <input class="input-password input-blue-style" formControlName="password" type="password" name="password"
+            placeholder="Passwort" />
+        </div>
         <div class="error-space">
-          <div
-            *ngIf="
+          <div *ngIf="
               form.get('password')?.invalid && form.get('password')?.touched
-            "
-          >
-            <div
-              class="error-message"
-              *ngIf="form.get('password')?.errors?.['required']"
-            >
+            ">
+            <div class="error-message" *ngIf="form.get('password')?.errors?.['required']">
               Passwort ist erforderlich
             </div>
-            <div
-              class="error-message"
-              *ngIf="form.get('password')?.errors?.['minlength']"
-            >
+            <div class="error-message" *ngIf="form.get('password')?.errors?.['minlength']">
               Mindestens 6 Zeichen
             </div>
           </div>
@@ -80,32 +58,19 @@
         </div>
       </form>
 
-      <a
-        class="reset-password-link link-style mb32"
-        [routerLink]="'/reset-password'"
-        >Passwort vergessen?</a
-      >
+      <a class="reset-password-link link-style mb32" [routerLink]="'/reset-password'">Passwort vergessen?</a>
       <div class="seperator-div flex-row flex-center mb32">
         <div class="seperator-style"></div>
         <span>ODER</span>
         <div class="seperator-style"></div>
       </div>
-      <div
-        class="google-login flex-center mb32"
-        (click)="onGoogleLogin()"
-        role="button"
-        tabindex="0"
-      >
+      <div class="google-login flex-center mb32" (click)="onGoogleLogin()" role="button" tabindex="0">
         <img src="./assets/img/google-logo.png" alt="" />
         <a class="link-style">Anmelden mit Google</a>
       </div>
       <div class="login-buttons">
-        <button
-          type="submit"
-          class="button-primary-style"
-          [disabled]="form.invalid || loading"
-          (click)="$event.preventDefault(); onSubmit()"
-        >
+        <button type="submit" class="button-primary-style" [disabled]="form.invalid || loading"
+          (click)="$event.preventDefault(); onSubmit()">
           Anmelden
         </button>
         <button class="button-secondary-style" (click)="onGuestLogin()">
