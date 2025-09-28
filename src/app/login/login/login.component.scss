@@ -106,7 +106,7 @@
         &:-webkit-autofill:hover,
         &:-webkit-autofill:focus,
         &:-webkit-autofill:active {
-            -webkit-box-shadow: 0 0 0 1000px #fff inset !important;
+            -webkit-box-shadow: 0 0 0 1000px $input-bg-blue inset !important;
             -webkit-text-fill-color: $text-grey !important;
             font-family: 'Nunito' !important;
             font-size: 16px !important;
@@ -114,7 +114,6 @@
         }
     }
 }
-
 
 .reset-password-link {
     &:hover {
