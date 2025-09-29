@@ -73,9 +73,11 @@ export class ProfileComponent implements OnInit {
   }
 
   saveEdit(newName: string) {
-    this.firestore
-      .updateUserName(this.user.id, newName)
-      .catch((error) => console.error(error));
+    if (newName) {
+      this.firestore
+        .updateUserName(this.user.id, newName)
+        .catch((error) => console.error(error));
+    }
     this.isEditModeActive = false;
   }
 
