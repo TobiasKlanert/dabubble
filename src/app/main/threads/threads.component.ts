@@ -22,6 +22,7 @@ import { ChatService } from '../../shared/services/chat.service';
 import { SearchService } from '../../shared/services/search.service';
 import { ToggleService } from '../../shared/services/toggle.service';
 import { FirestoreService } from '../../shared/services/firestore.service';
+import { ClickOutsideDirective } from '../../shared/directives/click-outside.directive';
 
 @Component({
   selector: 'app-threads',
@@ -33,6 +34,7 @@ import { FirestoreService } from '../../shared/services/firestore.service';
     FormsModule,
     HoverOutsideDirective,
     SearchMenuComponent,
+    ClickOutsideDirective
   ],
   templateUrl: './threads.component.html',
   styleUrl: './threads.component.scss',
@@ -52,6 +54,8 @@ export class ThreadsComponent {
   currentSearchType: SearchType = SearchType.AddUser;
   searchResults: (User | Channel | ChatPartner)[] = [];
   isSearchMenuHidden: boolean = false;
+
+  trigger: string = '@';
 
   private destroy$ = new Subject<void>();
   public searchType = SearchType;
@@ -265,5 +269,11 @@ export class ThreadsComponent {
 
   closeThreads() {
     this.toggleService.toggle();
+  }
+
+  toggleTrigger(current: string): string {
+    const old = current;
+    this.trigger = current === '@' ? '#' : '@';
+    return old;
   }
 }

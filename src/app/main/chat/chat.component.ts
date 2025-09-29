@@ -76,6 +76,7 @@ export class ChatComponent {
   searchResults: (User | Channel | ChatPartner)[] = [];
   isSearchMenuHidden: boolean = false;
   areMessagesLoaded: boolean = false;
+  trigger: string = '@';
 
   private destroy$ = new Subject<void>();
   public chatType = ChatType;
@@ -297,6 +298,12 @@ export class ChatComponent {
 
   toggleEmojiPicker() {
     this.emojiService.toggleChannelPicker();
+  }
+
+  toggleTrigger(current: string): string {
+    const old = current;
+    this.trigger = current === '@' ? '#' : '@';
+    return old;
   }
 
   openOverlay(overlay: OverlayMenuType) {
