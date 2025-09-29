@@ -4,6 +4,7 @@
 
 article {
   @include dFlex($fd: column, $jc: flex-start, $ai: flex-start, $g: 25px);
+  height: 100%;
 
   > * {
     width: 100%;
@@ -24,7 +25,10 @@ header {
 
 main {
   @include dFlex($fd: column, $jc: flex-start, $ai: flex-start, $g: 25px);
-
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  
   > * {
     width: 100%;
   }
