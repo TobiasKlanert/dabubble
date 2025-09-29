@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Subject, switchMap, tap, takeUntil } from 'rxjs';
+import { Subject, switchMap, tap, takeUntil, filter } from 'rxjs';
 import { OverlayService } from '../../shared/services/overlay.service';
 import {
   UserChatPreview,
@@ -24,6 +24,7 @@ export class DevspaceComponent {
   private destroy$ = new Subject<void>();
 
   userId: string = '';
+  loggedInUser!: User;
 
   channelsOpen: boolean = true;
   messagesOpen: boolean = true;
@@ -41,22 +42,24 @@ export class DevspaceComponent {
   ngOnInit() {
     this.firestore.loggedInUserId$
       .pipe(
+        filter((id): id is string => !!id),
         takeUntil(this.destroy$),
-        tap((userId) => {
-          this.userId = userId;
-        }),
+        tap((userId) => (this.userId = userId)),
         switchMap((userId) =>
-          this.firestore.getChannels(userId).pipe(
-            tap((channels) => {
-              this.channels = channels;
-              if (channels.length > 0) {
-                this.onSelectChat(channels[0].id, ChatType.Channel);
-              }
-            }),
-            switchMap(() => this.firestore.getChats(userId)),
-            tap((chats) => {
-              this.chats = chats;
-            })
+          this.firestore.getUser(userId).pipe(
+            tap((user) => (this.loggedInUser = user)),
+            switchMap((user) =>
+              this.firestore.getChannels(user.id).pipe(
+                tap((channels) => {
+                  this.channels = channels;
+                  if (channels.length > 0) {
+                    this.onSelectChat(channels[0].id, ChatType.Channel);
+                  }
+                }),
+                switchMap(() => this.firestore.getChats(user.id)),
+                tap((chats) => (this.chats = chats))
+              )
+            )
           )
         )
       )

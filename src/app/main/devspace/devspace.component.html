@@ -112,7 +112,10 @@
       </div>
       <div class="channels-details-body" [class.open]="channelsOpen">
         @for (channel of channels; track channel.id) {
-        <button class="btn-channel" (click)="onSelectChat(channel.id, ChatType.Channel)">
+        <button
+          class="btn-channel"
+          (click)="onSelectChat(channel.id, ChatType.Channel)"
+        >
           <svg
             width="24"
             height="25"
@@ -239,8 +242,34 @@
         <!--
           TODO: implement chat for own messages
         -->
-         @for (chat of chats; track chat.chatId) {
-        <button class="profile-button" (click)="onSelectChat(chat.chatId, ChatType.DirectMessage, chat.partner)">
+        <button
+          class="profile-button"
+          *ngIf="loggedInUser"
+        >
+          <div class="profile-picture-container">
+            <img
+              class="profile-picture"
+              src="{{ loggedInUser.profilePictureUrl }}"
+              alt="Profilbild"
+            />
+            <span
+              class="online-marker"
+              [ngStyle]="{
+                'background-color': loggedInUser.onlineStatus
+                  ? '#92C83E'
+                  : '#686868'
+              }"
+            ></span>
+          </div>
+          <p>{{ loggedInUser.name }} (Du)</p>
+        </button>
+        @for (chat of chats; track chat.chatId) {
+        <button
+          class="profile-button"
+          (click)="
+            onSelectChat(chat.chatId, ChatType.DirectMessage, chat.partner)
+          "
+        >
           <div class="profile-picture-container">
             <img
               class="profile-picture"
@@ -250,7 +279,9 @@
             <span
               class="online-marker"
               [ngStyle]="{
-                'background-color': chat.partner.onlineStatus ? '#92C83E' : '#686868'
+                'background-color': chat.partner.onlineStatus
+                  ? '#92C83E'
+                  : '#686868'
               }"
             ></span>
           </div>
