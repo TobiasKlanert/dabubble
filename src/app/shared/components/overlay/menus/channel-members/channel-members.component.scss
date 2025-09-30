@@ -1,0 +1,102 @@
+@import "../../../../../base";
+@import "../../../../../fonts";
+@import "../../../../../variables";
+
+.ovl-wrapper {
+  position: relative;
+  max-width: 1920px;
+  width: 100vw;
+  height: 100vh;
+}
+
+.ovl-channel-members {
+  position: absolute;
+  top: 210px;
+  right: 33%;
+  width: 415px;
+  padding: 40px;
+  border-top-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+  border-bottom-left-radius: 30px;
+  background-color: #fff;
+  box-shadow: 0px 6px 10px 0px #00000033;
+  @include dFlex($fd: column, $jc: flex-start, $ai: flex-start, $g: 20px);
+
+  .ovl-header {
+    @include dFlex($jc: space-between);
+    width: 100%;
+  }
+
+  .btn-close-overlay {
+    @include icon-button();
+  }
+
+  main {
+    @include dFlex($fd: column, $jc: flex-start, $ai: flex-start, $g: 15px);
+  }
+
+  .profile-button {
+    background: none;
+    border: none;
+    width: 100%;
+    border-radius: 30px;
+    padding: 4px 20px;
+    @include dFlex($jc: flex-start, $g: 15px);
+    p {
+      font-size: 18px;
+      font-weight: 400;
+      margin: 0;
+    }
+
+    .profile-picture-container {
+      position: relative;
+    }
+
+    .profile-picture {
+      width: 50px;
+      height: 50px;
+      border-radius: 100%;
+    }
+
+    .online-marker {
+      width: 14px;
+      height: 14px;
+      border-style: solid;
+      border-width: 2px;
+      border-radius: 50%;
+      border-color: $background-color;
+      position: absolute;
+      bottom: 4px;
+      right: 0;
+      z-index: 2;
+    }
+
+    &:hover {
+      background: $background-color;
+    }
+  }
+
+  .btn-add-user {
+    width: 100%;
+    height: 56px;
+    border-radius: 100px;
+    border: none;
+    background: none;
+    padding: 12px 29px;
+    @include dFlex($jc: flex-start, $g: 15px);
+
+    svg path {
+      transition: fill 125ms ease-in-out;
+    }
+
+    &:hover {
+      background-color: $background-color;
+      color: $purple-3;
+      transition: all 125ms ease-in-out;
+
+      svg path {
+        fill: $purple-3;
+      }
+    }
+  }
+}

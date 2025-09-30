@@ -5,16 +5,16 @@ import { filter, Subject, takeUntil, switchMap } from 'rxjs';
 import { DevspaceComponent } from './devspace/devspace.component';
 import { ChatComponent } from './chat/chat.component';
 import { ThreadsComponent } from './threads/threads.component';
-import { SearchMenuComponent } from './overlay/search-menu/search-menu.component';
 import { OverlayService } from '../shared/services/overlay.service';
 import { UploadService } from '../shared/services/upload.service';
-import { OverlayComponent } from './overlay/overlay.component';
+import { OverlayComponent } from '../shared/components/overlay/overlay.component';
 import { User, Channel, Message } from '../shared/models/database.model';
 import { SearchType } from '../shared/models/chat.enums';
 import { FirestoreService } from '../shared/services/firestore.service';
 import { SearchService } from '../shared/services/search.service';
 import { ClickOutsideDirective } from '../shared/directives/click-outside.directive';
 import { ToggleService } from '../shared/services/toggle.service';
+import { SearchMenuComponent } from '../shared/components/search-menu/search-menu.component';
 
 @Component({
   selector: 'app-main',

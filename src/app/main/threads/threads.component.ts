@@ -1,8 +1,8 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Subject, switchMap, takeUntil } from 'rxjs';
-import { EmojiMenuComponent } from '../emoji-menu/emoji-menu.component';
-import { SingleMessageComponent } from '../single-message/single-message.component';
-import { SearchMenuComponent } from '../overlay/search-menu/search-menu.component';
+import { EmojiMenuComponent } from '../../shared/components/emoji-menu/emoji-menu.component';
+import { SingleMessageComponent } from '../../shared/components/single-message/single-message.component';
+import { SearchMenuComponent } from '../../shared/components/search-menu/search-menu.component';
 import { EmojiService } from '../../shared/services/emoji.service';
 import {
   OverlayMenuType,

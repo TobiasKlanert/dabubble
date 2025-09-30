@@ -17,9 +17,8 @@ import {
 } from 'rxjs';
 import { EmojiService } from '../../shared/services/emoji.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { EmojiMenuComponent } from '../emoji-menu/emoji-menu.component';
-import { SingleMessageComponent } from '../single-message/single-message.component';
-import { SearchMenuComponent } from '../overlay/search-menu/search-menu.component';
+
+import { SearchMenuComponent } from '../../shared/components/search-menu/search-menu.component';
 import { HoverOutsideDirective } from '../../shared/directives/hover-outside.directive';
 import {
   OverlayMenuType,
@@ -36,6 +35,8 @@ import { SearchService } from '../../shared/services/search.service';
 import { ChatService } from '../../shared/services/chat.service';
 import { ChatType, SearchType } from '../../shared/models/chat.enums';
 import { ClickOutsideDirective } from '../../shared/directives/click-outside.directive';
+import { SingleMessageComponent } from '../../shared/components/single-message/single-message.component';
+import { EmojiMenuComponent } from '../../shared/components/emoji-menu/emoji-menu.component';
 
 @Component({
   selector: 'app-chat',
