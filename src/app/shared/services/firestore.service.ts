@@ -140,7 +140,10 @@ export class FirestoreService {
     return { exists: false, id: docRef.id };
   }
 
-  async updateChannelName(channelId: string, newName: string): Promise<{ exists: boolean }> {
+  async updateChannelName(
+    channelId: string,
+    newName: string
+  ): Promise<{ exists: boolean }> {
     const check = await this.channelExists(newName);
     if (check.exists) {
       return check;
@@ -148,7 +151,7 @@ export class FirestoreService {
 
     const channelRef = doc(this.firestore, 'channels', channelId);
     await updateDoc(channelRef, { name: newName });
-    return {exists: false}
+    return { exists: false };
   }
 
   updateChannelDescription(
@@ -254,13 +257,13 @@ export class FirestoreService {
     return docRef.id;
   }
 
-  getChatMessages(chatType: ChatType, chatId: string): Observable<Message> {
+  getChatMessages(chatType: ChatType, chatId: string): Observable<Message[]> {
     const messagesRef = collection(
       this.firestore,
       `${chatType}/${chatId}/messages`
     );
     const q = query(messagesRef, orderBy('createdAt', 'asc'));
-    return collectionData(q, { idField: 'id' }) as Observable<any>;
+    return collectionData(q, { idField: 'id' }) as Observable<Message[]>;
   }
 
   getThread(
