@@ -173,6 +173,7 @@ export class ChatComponent {
     this.searchService
       .onSearch(
         value,
+        searchType,
         this.currentChatType,
         this.channelMembers,
         this.currentChatPartner

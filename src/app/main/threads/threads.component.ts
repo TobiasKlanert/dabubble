@@ -160,6 +160,7 @@ export class ThreadsComponent {
     this.searchService
       .onSearch(
         value,
+        searchType,
         this.currentChatType,
         this.channelMembers,
         this.currentChatPartner

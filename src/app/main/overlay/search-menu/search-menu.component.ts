@@ -19,7 +19,7 @@ import { ChatService } from '../../../shared/services/chat.service';
   styleUrl: './search-menu.component.scss',
 })
 export class SearchMenuComponent {
-  @Input() searchResults: (User | Channel | ChatPartner)[] = [];
+  @Input() searchResults: any[] = [];
   @Input() searchType!: SearchType;
 
   @Output() elementSelected = new EventEmitter<string>();

@@ -18,8 +18,8 @@ import {
   endAt,
 } from '@angular/fire/firestore';
 import { FirestoreService } from './firestore.service';
-import { User, Channel } from '../models/database.model';
-import { ChatType } from '../models/chat.enums';
+import { User, Channel, Message } from '../models/database.model';
+import { ChatType, SearchType } from '../models/chat.enums';
 
 @Injectable({
   providedIn: 'root',
@@ -137,10 +137,11 @@ export class SearchService {
 
   onSearch(
     value: string,
+    searchType: SearchType,
     chatType: ChatType = ChatType.None,
     channelMembers: User[] = [],
     currentChatPartner?: User
-  ): Observable<(User | Channel)[]> {
+  ): Observable<(any)[]> {
     // Suche nach letztem @ oder #
     const atIndex = value.lastIndexOf('@');
     const hashIndex = value.lastIndexOf('#');
@@ -155,8 +156,6 @@ export class SearchService {
       triggerIndex = hashIndex;
     }
 
-    // kein Trigger
-    if (triggerIndex === -1) return of([]);
     // prüfe, ob Leerzeichen oder Zeilenanfang
     if (triggerIndex > 0 && !/\s/.test(value[triggerIndex - 1])) return of([]);
 
@@ -171,6 +170,11 @@ export class SearchService {
         chatType,
         channelMembers,
         currentChatPartner
+      );
+    }
+    if (searchType === SearchType.Keyword) {
+      return this.firestoreService.loggedInUserId$.pipe(
+        switchMap((id) => this.searchMessages(id, query))
       );
     }
 
@@ -217,6 +221,51 @@ export class SearchService {
         )
       );
     }
+  }
+
+  searchMessages(userId: string, searchTerm: string): Observable<Message[]> {
+    const lowerTerm = searchTerm.toLowerCase();
+
+    // Channels + Chats für den User laden
+    return combineLatest([
+      this.firestoreService.getChannels(userId),
+      this.firestoreService.getChats(userId),
+    ]).pipe(
+      switchMap(([channels, chats]) => {
+        const messageStreams: Observable<Message[]>[] = [];
+
+        // Channels Messages
+        channels.forEach((channel) =>
+          messageStreams.push(
+            this.firestoreService.getChatMessages(ChatType.Channel, channel.id)
+          )
+        );
+
+        // Direct Chats Messages
+        chats.forEach((chat) =>
+          messageStreams.push(
+            this.firestoreService.getChatMessages(
+              ChatType.DirectMessage,
+              chat.partner.id
+            )
+          )
+        );
+
+        // Wenn keine Channels/Chats vorhanden, leeres Array zurückgeben
+        if (messageStreams.length === 0) {
+          return of([]);
+        }
+
+        // combineLatest erwartet ein Array von Observables<Message[]>
+        return combineLatest(messageStreams as Observable<Message[]>[]);
+      }),
+      // Alle Messages flatten und nach searchTerm filtern
+      map((allMessages: Message[][]) =>
+        allMessages
+          .flat()
+          .filter((msg) => msg.text?.toLowerCase().includes(lowerTerm))
+      )
+    );
   }
 
   insertMention(

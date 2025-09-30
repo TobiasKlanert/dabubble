@@ -9,7 +9,7 @@ import { SearchMenuComponent } from './overlay/search-menu/search-menu.component
 import { OverlayService } from '../shared/services/overlay.service';
 import { UploadService } from '../shared/services/upload.service';
 import { OverlayComponent } from './overlay/overlay.component';
-import { User, Channel } from '../shared/models/database.model';
+import { User, Channel, Message } from '../shared/models/database.model';
 import { SearchType } from '../shared/models/chat.enums';
 import { FirestoreService } from '../shared/services/firestore.service';
 import { SearchService } from '../shared/services/search.service';
@@ -33,9 +33,8 @@ import { ToggleService } from '../shared/services/toggle.service';
   styleUrl: './main.component.scss',
 })
 export class MainComponent {
-  userId: string = 'u1';
   user!: User;
-  searchResults: (User | Channel)[] = [];
+  searchResults: any[] = [];
   firstChannelId: string = '';
   isWorkspaceHidden: boolean = false;
   isThreadsHidden: boolean = true;
@@ -86,11 +85,12 @@ export class MainComponent {
     }
 
     this.searchService
-      .onSearch(value)
+      .onSearch(value, SearchType.Keyword)
       .pipe(takeUntil(this.destroy$))
       .subscribe((results) => {
         this.searchResults = results;
         this.isSearchMenuHidden = false;
+        console.log("Search Results: ", this.searchResults);
       });
 
     if (inputRef) {
