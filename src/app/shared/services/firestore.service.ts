@@ -286,7 +286,7 @@ export class FirestoreService {
       `${chatType}/${chatId}/messages`
     );
 
-    const senderId = this._loggedInUserId$.getValue() || 'u1'; // hier setzten wir Gast als Fallback
+    const senderId = this._loggedInUserId$.getValue();
 
     const newMessage: Omit<Message, 'id'> = {
       senderId,
