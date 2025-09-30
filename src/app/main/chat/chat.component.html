@@ -310,7 +310,7 @@
       <app-search-menu
         class="mention-menu"
         (clickOutside)="searchResults = []"
-        (elementSelected)="insertMention($event)"
+        (elementSelected)="onMention($event)"
         [searchResults]="searchResults"
         [searchType]="searchType.MentionUserOrChannel"
       >

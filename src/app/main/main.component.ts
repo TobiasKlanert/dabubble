@@ -85,71 +85,17 @@ export class MainComponent {
       event.preventDefault();
     }
 
-    this.searchResults = [];
-    this.isSearchMenuHidden = false;
-
-    // Suche nach letztem @ oder #
-    const atIndex = value.lastIndexOf('@');
-    const hashIndex = value.lastIndexOf('#');
-
-    // Prüfe, welches Zeichen zuletzt vorkommt
-    let trigger = '';
-    let triggerIndex = -1;
-    if (atIndex > hashIndex) {
-      trigger = '@';
-      triggerIndex = atIndex;
-    } else if (hashIndex > atIndex) {
-      trigger = '#';
-      triggerIndex = hashIndex;
-    }
-
-    // Wenn kein Trigger vorhanden oder nicht am Wortanfang, keine Suche
-    if (triggerIndex === -1) return;
-    // Prüfe, ob vor dem Trigger ein Leerzeichen oder Zeilenanfang ist
-    if (triggerIndex > 0 && !/\s/.test(value[triggerIndex - 1])) return;
-
-    // Hole den Suchbegriff nach dem Trigger
-    const query = value.substring(triggerIndex + 1).trim();
-
-    if (trigger === '#') {
-      this.searchChannel(query);
-    }
-
-    if (trigger === '@') {
-      this.searchMembers(query);
-    }
+    this.searchService
+      .onSearch(value)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((results) => {
+        this.searchResults = results;
+        this.isSearchMenuHidden = false;
+      });
 
     if (inputRef) {
       inputRef.value = '';
     }
-  }
-
-  searchChannel(query: string) {
-    this.firestore.loggedInUserId$
-      .pipe(
-        takeUntil(this.destroy$),
-        switchMap((userId) => this.firestore.getChannels(userId))
-      )
-      .subscribe((channels) => {
-        if (query) {
-          this.searchResults = channels.filter((channel) =>
-            channel.name.toLowerCase().includes(query.toLowerCase())
-          );
-        } else {
-          this.searchResults = channels;
-        }
-      });
-    return;
-  }
-
-  searchMembers(query: string) {
-    this.searchService
-      .searchUsers(query)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((users) => {
-        this.searchResults = users;
-      });
-    return;
   }
 
   onSearchMenuHidden(hidden: boolean, inputRef: HTMLInputElement) {

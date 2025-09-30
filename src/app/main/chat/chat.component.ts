@@ -61,12 +61,7 @@ export class ChatComponent {
   channelMembers: User[] = [];
 
   currentChat: any;
-  currentChatPartner: ChatPartner = {
-    id: '',
-    name: '',
-    profilePictureUrl: '',
-    onlineStatus: false,
-  };
+  currentChatPartner?: any;
   chatMessages: Message[] = [];
 
   inputText: string = '';
@@ -175,114 +170,34 @@ export class ChatComponent {
 
   onSearch(value: string, searchType: SearchType): void {
     this.currentSearchType = searchType;
-    this.searchResults = [];
-    this.isSearchMenuHidden = false;
-
-    // Suche nach letztem @ oder #
-    const atIndex = value.lastIndexOf('@');
-    const hashIndex = value.lastIndexOf('#');
-
-    // Prüfe, welches Zeichen zuletzt vorkommt
-    let trigger = '';
-    let triggerIndex = -1;
-    if (atIndex > hashIndex) {
-      trigger = '@';
-      triggerIndex = atIndex;
-    } else if (hashIndex > atIndex) {
-      trigger = '#';
-      triggerIndex = hashIndex;
-    }
-
-    // Wenn kein Trigger vorhanden oder nicht am Wortanfang, keine Suche
-    if (triggerIndex === -1) return;
-    // Prüfe, ob vor dem Trigger ein Leerzeichen oder Zeilenanfang ist
-    if (triggerIndex > 0 && !/\s/.test(value[triggerIndex - 1])) return;
-
-    // Hole den Suchbegriff nach dem Trigger
-    const query = value.substring(triggerIndex + 1).trim();
-
-    if (trigger === '#') {
-      this.searchChannel(query);
-    }
-
-    if (trigger === '@') {
-      this.searchMembers(query);
-    }
-  }
-
-  searchChannel(query: string) {
-    this.firestore.loggedInUserId$
-      .pipe(
-        takeUntil(this.destroy$),
-        switchMap((userId) => this.firestore.getChannels(userId))
+    this.searchService
+      .onSearch(
+        value,
+        this.currentChatType,
+        this.channelMembers,
+        this.currentChatPartner
       )
-      .subscribe((channels) => {
-        if (query) {
-          this.searchResults = channels.filter((channel) =>
-            channel.name.toLowerCase().includes(query.toLowerCase())
-          );
-        } else {
-          this.searchResults = channels;
-        }
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((results) => {
+        this.searchResults = results;
+        this.isSearchMenuHidden = false;
       });
-    return;
   }
 
-  searchMembers(query: string) {
-    if (this.currentChatType === ChatType.Channel) {
-      const members = this.channelMembers || [];
-      if (query) {
-        this.searchResults = members.filter((member) =>
-          member.name.toLowerCase().includes(query.toLowerCase())
-        );
-      } else {
-        this.searchResults = members;
-      }
-    } else if (this.currentChatType === ChatType.DirectMessage) {
-      this.searchResults = [this.currentChatPartner];
-    } else {
-      this.searchService
-        .searchUsers(query)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe((users) => {
-          this.searchResults = users;
-        });
-    }
-    return;
-  }
-
-  insertMention(mention: string) {
-    const textarea = this.inputMessage.nativeElement;
-    const cursor = textarea.selectionStart;
-
-    // Suche das letzte @ oder #
-    const triggerIndex = Math.max(
-      this.inputText.lastIndexOf('@', cursor - 1),
-      this.inputText.lastIndexOf('#', cursor - 1)
+  onMention(mention: string) {
+    const { newText, newCursor } = this.searchService.insertMention(
+      this.inputText,
+      mention,
+      this.inputMessage.nativeElement.selectionStart
     );
+    this.inputText = newText;
 
-    // Falls kein Trigger gefunden → normal einfügen
-    if (triggerIndex === -1) {
-      this.inputText =
-        this.inputText.substring(0, cursor) +
-        mention +
-        ' ' +
-        this.inputText.substring(cursor);
-    } else {
-      // Ersetze von Trigger bis Cursor mit der Mention
-      const before = this.inputText.substring(0, triggerIndex);
-      const after = this.inputText.substring(cursor);
-
-      this.inputText = before + mention + ' ' + after;
-
-      // Cursor neu setzen
-      setTimeout(() => {
-        textarea.selectionStart = textarea.selectionEnd =
-          before.length + mention.length + 1;
-        textarea.focus();
-        this.isSearchMenuHidden = true;
-      });
-    }
+    setTimeout(() => {
+      const textarea = this.inputMessage.nativeElement;
+      textarea.selectionStart = textarea.selectionEnd = newCursor;
+      textarea.focus();
+      this.isSearchMenuHidden = true;
+    });
   }
 
   private scrollToBottom(): void {
