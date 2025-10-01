@@ -246,7 +246,7 @@ export class SearchService {
           messageStreams.push(
             this.firestoreService.getChatMessages(
               ChatType.DirectMessage,
-              chat.partner.id
+              chat.chatId
             )
           )
         );
