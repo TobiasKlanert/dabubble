@@ -92,8 +92,8 @@
   .tooltip {
     position: absolute;
     right: 125px;
-    background: #333;
-    color: #fff;
+    background: $background-color;
+    color: $text-grey;
     padding: 6px 10px;
     border-radius: 42px;
     font-size: 0.8rem;
