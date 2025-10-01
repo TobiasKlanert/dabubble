@@ -1,6 +1,6 @@
 <article class="search-menu">
   @for (element of searchResults; track $index) {
-  <ng-container *ngIf="isUser(element); else channelTemplate">
+  <ng-container *ngIf="isUser(element)">
     <button
       class="result-button"
       (click)="clickOnUser(element.id); $event.stopPropagation()"
@@ -21,7 +21,9 @@
       <p>{{ element.name }}</p>
     </button>
   </ng-container>
-  <ng-template #channelTemplate>
+  <ng-container
+    *ngIf="!isUser(element) && currentSearchType != searchType.Keyword"
+  >
     <button class="result-button" (click)="clickOnChannel(element.id)">
       <svg
         width="24"
@@ -50,6 +52,14 @@
       </svg>
       <p>{{ element.name }}</p>
     </button>
-  </ng-template>
+  </ng-container>
+  <ng-container *ngIf="currentSearchType === searchType.Keyword">
+    <button class="result-button" (click)="clickOnMessage(element.id)">
+      <div class="result-row">
+        <h3 class="sender">{{ element.sender }}:</h3>
+        <p class="text">{{ element.text }}</p>
+      </div>
+    </button>
+  </ng-container>
   }
 </article>

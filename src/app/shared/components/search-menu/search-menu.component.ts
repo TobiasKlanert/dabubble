@@ -1,10 +1,14 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Subject, take } from 'rxjs';
 import {
-  User,
-  ChatPartner,
-} from '../../../shared/models/database.model';
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  SimpleChanges,
+} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Subject, forkJoin, of, take } from 'rxjs';
+import { takeUntil, map, catchError } from 'rxjs/operators';
+import { User, ChatPartner } from '../../../shared/models/database.model';
 import { ChatType, SearchType } from '../../../shared/models/chat.enums';
 import { OverlayService } from '../../../shared/services/overlay.service';
 import { FirestoreService } from '../../../shared/services/firestore.service';
@@ -19,12 +23,13 @@ import { ChatService } from '../../../shared/services/chat.service';
 })
 export class SearchMenuComponent {
   @Input() searchResults: any[] = [];
-  @Input() searchType!: SearchType;
+  @Input() currentSearchType!: SearchType;
 
   @Output() elementSelected = new EventEmitter<string>();
   @Output() isSearchMenuHidden = new EventEmitter<boolean>();
 
   private destroy$ = new Subject<void>();
+  public searchType = SearchType;
 
   loggedInUserId: string = '';
   selectedUsers: User[] = [];
@@ -35,22 +40,61 @@ export class SearchMenuComponent {
     private chatService: ChatService
   ) {}
 
-  ngOnInit() {
-    this.firestore.loggedInUserId$.subscribe((id) => {
-      this.loggedInUserId = id;
-    });
+  ngOnInit(): void {
+    this.firestore.loggedInUserId$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((id) => (this.loggedInUserId = id));
   }
 
-  ngOnDestroy() {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (
+      changes['searchResults'] &&
+      this.currentSearchType === SearchType.Keyword
+    ) {
+      const results = changes['searchResults'].currentValue as any[];
+      if (results?.length) {
+        this.attachSenderNames(results);
+      } else {
+        this.searchResults = [];
+      }
+    }
+  }
+
+  private attachSenderNames(results: any[]): void {
+    const uniqueIds = Array.from(
+      new Set(results.map((r) => r.senderId).filter(Boolean))
+    );
+    if (!uniqueIds.length) {
+      results.forEach((r) => (r.sender = r.sender ?? null));
+      return;
+    }
+
+    const observables = uniqueIds.map((id) =>
+      this.firestore.getUser(id).pipe(
+        map((user) => ({ id, name: user?.name ?? 'Unbekannt' })),
+        catchError(() => of({ id, name: 'Unbekannt' }))
+      )
+    );
+
+    forkJoin(observables)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((entries) => {
+        const idToName = new Map(entries.map((e) => [e.id, e.name]));
+        results.forEach(
+          (r) => (r.sender = idToName.get(r.senderId) ?? 'Unbekannt')
+        );
+      });
+  }
+
+  ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
 
   clickOnUser(id: string) {
-    const state: boolean = true;
-    this.isSearchMenuHidden.emit(state);
+    this.isSearchMenuHidden.emit(true);
 
-    switch (this.searchType) {
+    switch (this.currentSearchType) {
       case SearchType.ShowProfile:
         this.showUserProfile(id);
         break;
@@ -67,17 +111,24 @@ export class SearchMenuComponent {
   }
 
   clickOnChannel(id: string) {
-    const state: boolean = true;
-    this.isSearchMenuHidden.emit(state);
+    this.isSearchMenuHidden.emit(true);
     if (
-      this.searchType === SearchType.NewChat ||
-      this.searchType === SearchType.ShowProfile
+      this.currentSearchType === SearchType.NewChat ||
+      this.currentSearchType === SearchType.ShowProfile
     ) {
       this.chatService.selectChatId(id);
       this.chatService.selectChatType(ChatType.Channel);
-    } else if (this.searchType === SearchType.MentionUserOrChannel) {
+    } else if (this.currentSearchType === SearchType.MentionUserOrChannel) {
       this.selectChannel(id);
     }
+  }
+
+  clickOnMessage(id: string) {
+    console.log(
+      'Mit dieser Methode soll der Chat, in dem sich die angeklickte Nachricht befindet, geöffnet werden.',
+      id
+    );
+    this.isSearchMenuHidden.emit(true);
   }
 
   isUser(obj: any): obj is User | ChatPartner {

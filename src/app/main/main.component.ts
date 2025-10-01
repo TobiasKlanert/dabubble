@@ -44,7 +44,7 @@ export class MainComponent {
 
   private destroy$ = new Subject<void>();
   private isOnlineSet = false;
-  public searchType = SearchType;
+  public currentSearchType!: SearchType;
 
   constructor(
     public uploadService: UploadService,
@@ -90,7 +90,11 @@ export class MainComponent {
       .subscribe((results) => {
         this.searchResults = results;
         this.isSearchMenuHidden = false;
-        console.log("Search Results: ", this.searchResults);
+        if (this.searchResults.length > 0 && this.searchResults[0].text) {
+          this.currentSearchType = SearchType.Keyword;
+        } else {
+          this.currentSearchType = SearchType.ShowProfile;
+        }
       });
 
     if (inputRef) {
