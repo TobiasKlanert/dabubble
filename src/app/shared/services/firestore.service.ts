@@ -7,7 +7,6 @@ import {
   forkJoin,
   map,
   switchMap,
-  combineLatest,
 } from 'rxjs';
 
 import {
@@ -18,15 +17,13 @@ import {
   getDoc,
   getDocs,
   addDoc,
-  setDoc,
   docData,
   updateDoc,
   arrayRemove,
   query,
   where,
   orderBy,
-  startAt,
-  endAt,
+  collectionGroup,
 } from '@angular/fire/firestore';
 import {
   User,
@@ -51,8 +48,6 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
 } from '@angular/fire/auth';
-import { log } from 'console';
-import { channel } from 'diagnostics_channel';
 
 @Injectable({
   providedIn: 'root',
@@ -318,6 +313,30 @@ export class FirestoreService {
       text: newText,
       editedAt: new Date().toISOString(),
     });
+  }
+
+  async findParentByMessageId(
+    messageId: string
+  ): Promise<{ type: 'channel' | 'directMessage'; parentId: string } | null> {
+    const messagesGroup = collectionGroup(this.firestore, 'messages');
+    const messagesSnap = await getDocs(messagesGroup);
+
+    for (const docSnap of messagesSnap.docs) {
+      if (docSnap.id === messageId) {
+        const parentDoc = docSnap.ref.parent.parent;
+        const path = docSnap.ref.path;
+
+        if (path.startsWith('channels/')) {
+          return { type: 'channel', parentId: parentDoc?.id ?? '' };
+        } else if (
+          path.startsWith('chats/')
+        ) {
+          return { type: 'directMessage', parentId: parentDoc?.id ?? '' };
+        }
+      }
+    }
+    
+    return null;
   }
 
   /*##############

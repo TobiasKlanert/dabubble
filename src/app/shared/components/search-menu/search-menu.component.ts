@@ -34,6 +34,7 @@ export class SearchMenuComponent {
 
   loggedInUserId: string = '';
   selectedUsers: User[] = [];
+  parentChat: any;
 
   constructor(
     private overlayService: OverlayService,
@@ -125,11 +126,21 @@ export class SearchMenuComponent {
   }
 
   clickOnMessage(id: string) {
-    console.log(
-      'Mit dieser Methode soll der Chat, in dem sich die angeklickte Nachricht befindet, geöffnet werden.',
-      id
-    );
+    this.firestore.findParentByMessageId(id).then((result) => {
+      if (result) {
+        this.openChat(result);
+      } else {
+        return;
+      }
+    });
     this.isSearchMenuHidden.emit(true);
+  }
+
+  openChat(result: any) {
+    this.chatService.selectChatId(result.parentId);
+    this.chatService.selectChatType(
+      result.type === 'channel' ? ChatType.Channel : ChatType.DirectMessage
+    );
   }
 
   isUser(obj: any): obj is User | ChatPartner {
