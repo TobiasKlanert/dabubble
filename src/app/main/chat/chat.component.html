@@ -121,7 +121,7 @@
           class="search-menu"
           (clickOutside)="searchResults = []"
           [searchResults]="searchResults"
-          [searchType]="searchType.NewChat"
+          [currentSearchType]="searchType.NewChat"
         >
         </app-search-menu>
         }
@@ -312,7 +312,7 @@
         (clickOutside)="searchResults = []"
         (elementSelected)="onMention($event)"
         [searchResults]="searchResults"
-        [searchType]="searchType.MentionUserOrChannel"
+        [currentSearchType]="searchType.MentionUserOrChannel"
       >
       </app-search-menu>
       }

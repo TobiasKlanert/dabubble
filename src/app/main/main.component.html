@@ -35,7 +35,7 @@
             (clickOutside)="searchResults = []; searchInput.value = ''"
             (isSearchMenuHidden)="onSearchMenuHidden($event, searchInput)"
             [searchResults]="searchResults"
-            [searchType]="searchType.ShowProfile"
+            [currentSearchType]="currentSearchType"
           >
           </app-search-menu>
           }
