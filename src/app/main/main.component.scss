@@ -32,7 +32,7 @@
     .search-menu {
       position: absolute;
       top: 60px;
-      z-index: 99; 
+      z-index: 99;
     }
   }
 
@@ -56,6 +56,10 @@
     padding: 17.5px 45px;
     background: #fff;
     position: relative;
+
+    &:hover .tooltip {
+      opacity: 1;
+    }
   }
 
   .search-input {
@@ -83,6 +87,21 @@
       width: 35px;
       height: 35px;
     }
+  }
+
+  .tooltip {
+    position: absolute;
+    right: 125px;
+    background: #333;
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 42px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    z-index: 999;
   }
 
   .profile-button {
@@ -141,7 +160,7 @@
   height: calc(100% - 105px);
   max-width: 1920px;
   padding: 20px;
-  gap: 20px;    /*NEU*//*NEU*/
+  gap: 20px; /*NEU*/ /*NEU*/
 
   aside {
     height: 100%;
@@ -163,7 +182,7 @@
     background-color: #fff;
     border-radius: 30px;
     position: relative;
-    flex: 1;        /*NEU*//*NEU*/
+    flex: 1; /*NEU*/ /*NEU*/
   }
 }
 
