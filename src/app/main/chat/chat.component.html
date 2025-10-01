@@ -113,6 +113,7 @@
           type="text"
           class="form-input"
           placeholder="An: #channel, oder @jemand oder E-Mail Adresse"
+          autocomplete="off"
           (input)="onSearch(searchInput.value, searchType.NewChat)"
         />
         @if (searchResults.length > 0 && currentSearchType ===
@@ -122,6 +123,7 @@
           (clickOutside)="searchResults = []"
           [searchResults]="searchResults"
           [currentSearchType]="searchType.NewChat"
+          [query]="searchInput.value"
         >
         </app-search-menu>
         }
@@ -313,6 +315,7 @@
         (elementSelected)="onMention($event)"
         [searchResults]="searchResults"
         [currentSearchType]="searchType.MentionUserOrChannel"
+        [query]="inputMessage.value"
       >
       </app-search-menu>
       }

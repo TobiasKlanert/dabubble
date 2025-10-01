@@ -1,3 +1,4 @@
+@if (query.length > 0) {
 <article class="search-menu">
   @for (element of searchResults; track $index) {
   <ng-container *ngIf="isUser(element)">
@@ -53,7 +54,9 @@
       <p>{{ element.name }}</p>
     </button>
   </ng-container>
-  <ng-container *ngIf="currentSearchType === searchType.Keyword">
+  <ng-container
+    *ngIf="currentSearchType === searchType.Keyword && query.length > 0"
+  >
     <button class="result-button" (click)="clickOnMessage(element.id)">
       <div class="result-row">
         <h3 class="sender">{{ element.sender }}:</h3>
@@ -63,3 +66,4 @@
   </ng-container>
   }
 </article>
+}

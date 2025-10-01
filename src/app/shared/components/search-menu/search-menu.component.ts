@@ -24,6 +24,7 @@ import { ChatService } from '../../../shared/services/chat.service';
 export class SearchMenuComponent {
   @Input() searchResults: any[] = [];
   @Input() currentSearchType!: SearchType;
+  @Input() query: string = '';
 
   @Output() elementSelected = new EventEmitter<string>();
   @Output() isSearchMenuHidden = new EventEmitter<boolean>();
