@@ -67,6 +67,8 @@ export class FirestoreService {
     });
   }
 
+  // TODO: Split monolith into individual servicesW
+
   /*  ##########
     Channels 
     ##########  */
@@ -328,15 +330,23 @@ export class FirestoreService {
 
         if (path.startsWith('channels/')) {
           return { type: 'channel', parentId: parentDoc?.id ?? '' };
-        } else if (
-          path.startsWith('chats/')
-        ) {
+        } else if (path.startsWith('chats/')) {
           return { type: 'directMessage', parentId: parentDoc?.id ?? '' };
         }
       }
     }
-    
+
     return null;
+  }
+
+  getChatPartnerId(chatId: string): Observable<string> {
+    return this.loggedInUserId$.pipe(
+      switchMap((myId) =>
+        this.getChat(ChatType.DirectMessage, chatId).pipe(
+          map((chat) => chat.participants.find((id) => id !== myId) ?? '')
+        )
+      )
+    );
   }
 
   /*##############

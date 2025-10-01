@@ -6,7 +6,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Subject, forkJoin, of, take } from 'rxjs';
+import { Subject, forkJoin, of, take, switchMap } from 'rxjs';
 import { takeUntil, map, catchError } from 'rxjs/operators';
 import { User, ChatPartner } from '../../../shared/models/database.model';
 import { ChatType, SearchType } from '../../../shared/models/chat.enums';
@@ -138,9 +138,23 @@ export class SearchMenuComponent {
 
   openChat(result: any) {
     this.chatService.selectChatId(result.parentId);
-    this.chatService.selectChatType(
-      result.type === 'channel' ? ChatType.Channel : ChatType.DirectMessage
-    );
+    const chatType =
+      result.type === 'channel' ? ChatType.Channel : ChatType.DirectMessage;
+    this.chatService.selectChatType(chatType);
+
+    if (chatType === ChatType.DirectMessage) {
+      this.firestore
+        .getChatPartnerId(result.parentId)
+        .pipe(
+          take(1),
+          switchMap(
+            (partnerId) => this.firestore.getUser(partnerId).pipe(take(1)) // Observable<User>
+          )
+        )
+        .subscribe((user) => {
+          this.createNewChat(user.id, user);
+        });
+    }
   }
 
   isUser(obj: any): obj is User | ChatPartner {
@@ -169,18 +183,18 @@ export class SearchMenuComponent {
     }
   }
 
-  createNewChat(id: string) {
-    const user = this.searchResults.find((user) => user.id === id);
+  createNewChat(id: string, user?: User | ChatPartner) {
+    const userToGet = user ?? this.searchResults.find((u) => u.id === id);
 
-    if (user && this.isUser(user)) {
-      this.firestore
-        .getOrCreateDirectChatId(this.loggedInUserId, user.id)
-        .then((chatId) => {
-          this.chatService.selectChatId(chatId);
-          this.chatService.selectChatPartner(user);
-          this.chatService.selectChatType(ChatType.DirectMessage);
-        });
-    }
+    if (!userToGet || !this.isUser(userToGet)) return;
+
+    this.firestore
+      .getOrCreateDirectChatId(this.loggedInUserId, userToGet.id)
+      .then((chatId) => {
+        this.chatService.selectChatId(chatId);
+        this.chatService.selectChatPartner(userToGet);
+        this.chatService.selectChatType(ChatType.DirectMessage);
+      });
   }
 
   selectUser(id: string) {
