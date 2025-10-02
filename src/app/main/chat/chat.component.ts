@@ -57,6 +57,7 @@ import { EmojiMenuComponent } from '../../shared/components/emoji-menu/emoji-men
 export class ChatComponent {
   currentChatType: ChatType = ChatType.Channel;
   currentChatId: string = '';
+  currentQuery: string = '';
   chatName: string = '';
   chatToken: string = '';
   channelMembers: User[] = [];
@@ -171,6 +172,7 @@ export class ChatComponent {
 
   onSearch(value: string, searchType: SearchType): void {
     this.currentSearchType = searchType;
+    this.currentQuery = value;
     this.searchService
       .onSearch(
         value,
@@ -220,6 +222,7 @@ export class ChatComponent {
   toggleTrigger(current: string): string {
     const old = current;
     this.trigger = current === '@' ? '#' : '@';
+    this.currentQuery = old;
     return old;
   }
 
