@@ -167,7 +167,9 @@
     </div>
     <div class="welcome-msg">
       <p>
-        Du hast diesen Channel heute erstellt. Das ist der Anfang des Channels
+        Dieser Channel wurde am
+        {{ currentChat.createdAt | date : "dd.MM.yyyy" }} erstellt. Das ist der
+        Anfang des Channels
       </p>
       <button (click)="openOverlay('channelInfo')">
         {{ chatToken }}
@@ -177,6 +179,8 @@
   <div
     class="new-chat-container"
     *ngIf="
+      currentChatPartner &&
+      currentChatPartner.id != currentUserId &&
       chatMessages.length === 0 &&
       currentChatType === chatType.DirectMessage &&
       areMessagesLoaded
@@ -198,9 +202,33 @@
       <p class="text-grey">und dir statt.</p>
     </div>
   </div>
-  <!--
-    TODO: Implement a welcome message for own chat
-  -->
+  <div
+    class="new-chat-container"
+    *ngIf="
+      currentChatPartner &&
+      currentChatPartner.id === currentUserId &&
+      chatMessages.length === 0 &&
+      currentChatType === chatType.DirectMessage &&
+      areMessagesLoaded
+    "
+  >
+    <div class="new-chat-headline">
+      <img
+        class="new-chat-avatar"
+        src="{{ currentChatPartner.profilePictureUrl }}"
+        alt="Profilbild von {{ currentChatPartner.name }}"
+      />
+      <p class="headline">{{ chatName }} (Du)</p>
+    </div>
+    <div class="welcome-msg">
+      <p class="text-grey">
+        <span class="text-bold">Dieser Raum ist nur für dich da.</span> Mache
+        dir Notizen, liste deine To-dos auf oder bewahre Links und Dateien
+        griffbereit auf. Du kannst hier auch gerne Dinge mit dir selbst
+        besprechen.
+      </p>
+    </div>
+  </div>
   <div class="textarea-container">
     <app-emoji-menu
       [onTextEmojiSelected]="addTextEmoji"

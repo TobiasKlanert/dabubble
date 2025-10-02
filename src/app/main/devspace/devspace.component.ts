@@ -88,6 +88,26 @@ export class DevspaceComponent {
     }
   }
 
+  async onSelectSelfChat() {
+    await this.firestore.getOrCreateSelfChat(this.userId).then(() => {
+      const selfChatId = this.getSelfChatId();
+
+      if (selfChatId) {
+        this.onSelectChat(
+          selfChatId,
+          ChatType.DirectMessage,
+          this.loggedInUser
+        );
+      }
+    });
+  }
+
+  getSelfChatId(): string | null {
+    const selfChat = this.chats.find((chat) => chat.partner.id === this.userId);
+
+    return selfChat ? selfChat.chatId : null;
+  }
+
   toggleChannels() {
     this.channelsOpen = !this.channelsOpen;
   }

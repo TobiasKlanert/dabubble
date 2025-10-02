@@ -1,9 +1,7 @@
 import {
   Component,
   ElementRef,
-  Output,
   ViewChild,
-  EventEmitter,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -58,6 +56,7 @@ export class ChatComponent {
   currentChatType: ChatType = ChatType.Channel;
   currentChatId: string = '';
   currentQuery: string = '';
+  currentUserId: string = '';
   chatName: string = '';
   chatToken: string = '';
   channelMembers: User[] = [];
@@ -95,13 +94,15 @@ export class ChatComponent {
       this.chatService.selectedChatId$.pipe(filter((chatId) => !!chatId)),
       this.chatService.selectedChatType$,
       this.chatService.selectedChatPartner$,
+      this.firestore.loggedInUserId$
     ])
       .pipe(
         takeUntil(this.destroy$),
-        tap(([chatId, chatType, ChatPartner]) => {
+        tap(([chatId, chatType, ChatPartner, userId]) => {
           this.currentChatId = chatId;
           this.currentChatType = chatType;
           this.currentChatPartner = ChatPartner;
+          this.currentUserId = userId;
         }),
         switchMap(([chatId, chatType]) =>
           this.firestore.getChat(chatType, chatId).pipe(

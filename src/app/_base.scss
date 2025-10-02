@@ -172,6 +172,11 @@
 
 .text-grey {
   color: $text-grey;
+  font-size: 20px;
+}
+
+.text-bold {
+  font-weight: 700;
 }
 
 ::-webkit-scrollbar {

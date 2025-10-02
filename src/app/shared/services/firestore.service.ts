@@ -196,9 +196,13 @@ export class FirestoreService {
     return collectionData(q, { idField: 'id' }).pipe(
       switchMap((chats: any[]) => {
         const chatPreviews$ = chats.map(async (chat) => {
-          const partnerId = chat.participants.find(
-            (id: string) => id !== userId
-          );
+          let partnerId = chat.participants.find((id: string) => id !== userId);
+
+          // Self-Chat erkennen
+          if (!partnerId) {
+            partnerId = userId;
+          }
+
           const userDoc = doc(this.firestore, 'users', partnerId);
           const userSnap = await getDoc(userDoc);
           const partner = userSnap.data() as User;
@@ -261,6 +265,30 @@ export class FirestoreService {
     );
     const q = query(messagesRef, orderBy('createdAt', 'asc'));
     return collectionData(q, { idField: 'id' }) as Observable<Message[]>;
+  }
+
+  async getOrCreateSelfChat(userId: string): Promise<string> {
+    const chatsRef = collection(this.firestore, 'chats');
+    const q = query(chatsRef, where('participants', '==', [userId, userId]));
+
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      // Chat existiert bereits
+      return querySnapshot.docs[0].id;
+    }
+
+    // Chat existiert nicht -> neuen erstellen
+    const newChat = {
+      participants: [userId, userId],
+      createdAt: new Date().toISOString(),
+    };
+
+    const docRef = await addDoc(chatsRef, newChat);
+
+    // messages Subcollection muss nicht explizit angelegt werden,
+    // die kannst du einfach beim ersten Message-Insert verwenden.
+    return docRef.id;
   }
 
   getThread(

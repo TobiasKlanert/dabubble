@@ -239,12 +239,10 @@
         </div>
       </div>
       <div class="messages-details-body" [class.open]="messagesOpen">
-        <!--
-          TODO: implement chat for own messages
-        -->
         <button
           class="profile-button"
           *ngIf="loggedInUser"
+          (click)="onSelectSelfChat()"
         >
           <div class="profile-picture-container">
             <img
@@ -266,6 +264,7 @@
         @for (chat of chats; track chat.chatId) {
         <button
           class="profile-button"
+          *ngIf="chat.partner.id != userId"
           (click)="
             onSelectChat(chat.chatId, ChatType.DirectMessage, chat.partner)
           "
