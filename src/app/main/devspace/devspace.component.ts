@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subject, switchMap, tap, takeUntil, filter } from 'rxjs';
 import { OverlayService } from '../../shared/services/overlay.service';
@@ -20,6 +20,8 @@ import { ChatType } from '../../shared/models/chat.enums';
   styleUrl: './devspace.component.scss',
 })
 export class DevspaceComponent {
+  @Output() chatSelected = new EventEmitter<void>();
+
   public ChatType = ChatType;
   private destroy$ = new Subject<void>();
 
@@ -53,7 +55,8 @@ export class DevspaceComponent {
                 tap((channels) => {
                   this.channels = channels;
                   if (channels.length > 0) {
-                    this.onSelectChat(channels[0].id, ChatType.Channel);
+                    this.chatService.selectChatId(channels[0].id);
+                    this.chatService.selectChatType(ChatType.Channel);
                   }
                 }),
                 switchMap(() => this.firestore.getChats(user.id)),
@@ -82,6 +85,7 @@ export class DevspaceComponent {
   onSelectChat(chatId: string, chatType: ChatType, chatPartner?: ChatPartner) {
     this.chatService.selectChatId(chatId);
     this.chatService.selectChatType(chatType);
+    this.chatSelected.emit();
 
     if (chatPartner) {
       this.chatService.selectChatPartner(chatPartner);

@@ -154,7 +154,7 @@
   }
 }
 
-.main-main {
+.desktop-layout {
   @include dFlex($jc: space-between, $ai: flex-start);
   width: 100%;
   height: calc(100% - 105px);
@@ -222,4 +222,18 @@
 
 app-overlay {
   position: absolute;
+}
+
+.mobile-layout {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .desktop-layout {
+    display: none;
+  }
+
+  .mobile-layout {
+    display: block;
+  }
 }

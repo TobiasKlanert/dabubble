@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, input, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { combineLatest } from 'rxjs';
 import { EmojiMenuComponent } from '../emoji-menu/emoji-menu.component';
 import {
@@ -32,6 +32,8 @@ export class SingleMessageComponent {
   @Input() message!: Message;
   @Input() chatId!: string;
   @Input() showButtons = false;
+
+  @Output() threadSelected = new EventEmitter<void>();
 
   userId: string = '';
   editText = '';
@@ -97,6 +99,7 @@ export class SingleMessageComponent {
 
     this.chatService.selectThread(fullThread);
     this.toggleService.setFalse();
+    this.threadSelected.emit();
   }
 
 

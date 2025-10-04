@@ -1,7 +1,9 @@
 import {
   Component,
   ElementRef,
+  Output,
   ViewChild,
+  EventEmitter
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -53,6 +55,8 @@ import { EmojiMenuComponent } from '../../shared/components/emoji-menu/emoji-men
   styleUrl: './chat.component.scss',
 })
 export class ChatComponent {
+  @Output() threadSelected = new EventEmitter<void>()
+
   currentChatType: ChatType = ChatType.Channel;
   currentChatId: string = '';
   currentQuery: string = '';
@@ -234,5 +238,9 @@ export class ChatComponent {
   openProfile(userId: string) {
     this.firestore.setSelectedUserId(userId);
     this.overlayService.open('profile');
+  }
+
+  onThreadSelect() {
+    this.threadSelected.emit();
   }
 }

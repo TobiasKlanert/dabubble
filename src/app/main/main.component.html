@@ -22,7 +22,9 @@
             autocomplete="off"
             (input)="onSearch(searchInput.value)"
           />
-          <span class="tooltip">Suche mit &commat; nach Usern und mit # nach Channels</span>
+          <span class="tooltip"
+            >Suche mit &commat; nach Usern und mit # nach Channels</span
+          >
           <button
             type="button"
             class="search-button"
@@ -83,7 +85,7 @@
         </button>
       </div>
     </header>
-    <main class="main-main">
+    <main class="desktop-layout">
       @if (!isWorkspaceHidden) {
       <aside class="devspace">
         <app-devspace></app-devspace>
@@ -154,6 +156,17 @@
         <app-threads></app-threads>
       </aside>
       <app-overlay></app-overlay>
+    </main>
+    <main class="mobile-layout">
+      <app-devspace
+        *ngIf="currentView === 'workspace'"
+        (chatSelected)="showChat()"
+      ></app-devspace>
+      <app-chat
+        *ngIf="currentView === 'chat'"
+        (threadSelected)="showThread()"
+      ></app-chat>
+      <app-threads *ngIf="currentView === 'thread'"></app-threads>
     </main>
   </div>
 </div>
