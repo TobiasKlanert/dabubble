@@ -85,7 +85,7 @@
         </button>
       </div>
     </header>
-    <main class="main-main">
+    <main>
       @if (!isWorkspaceHidden) {
       <aside class="devspace">
         <app-devspace></app-devspace>
@@ -210,7 +210,7 @@
           </g>
         </svg>
         <img src="../../assets/img/logo-workspace.svg" alt="Workspace Logo" />
-        <p class="headline">Devspace</p>
+        <p class="headline mobile-visibility">Devspace</p>
       </button>
 
       <button class="profile-button" *ngIf="user" (click)="openProfileMenu()">

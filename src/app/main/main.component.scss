@@ -235,6 +235,11 @@ app-overlay {
 .btn-return {
   @include icon-button($w: unset, $h: 50px);
   gap: 10px;
+
+  img {
+    width: 70px;
+    height: 70px;
+  }
 }
 
 @media (max-width: $breakpoint-large) {
@@ -265,6 +270,10 @@ app-overlay {
     border-radius: 0;
   }
 
+  .mobile-visibility {
+    display: flex;
+  }
+
   main {
     display: block;
     padding: 0;
@@ -277,4 +286,7 @@ app-overlay {
 }
 
 @media (max-width: $breakpoint-small) {
+  .mobile-visibility {
+    display: none;
+  }
 }
