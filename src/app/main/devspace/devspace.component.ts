@@ -10,12 +10,14 @@ import {
 } from '../../shared/models/database.model';
 import { FirestoreService } from '../../shared/services/firestore.service';
 import { ChatService } from '../../shared/services/chat.service';
-import { ChatType } from '../../shared/models/chat.enums';
+import { ChatType, SearchType } from '../../shared/models/chat.enums';
+import { SearchMenuComponent } from '../../shared/components/search-menu/search-menu.component';
+import { SearchService } from '../../shared/services/search.service';
 
 @Component({
   selector: 'app-devspace',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, SearchMenuComponent],
   templateUrl: './devspace.component.html',
   styleUrl: './devspace.component.scss',
 })
@@ -23,6 +25,7 @@ export class DevspaceComponent {
   @Output() chatSelected = new EventEmitter<void>();
 
   public ChatType = ChatType;
+  public currentSearchType!: SearchType;
   private destroy$ = new Subject<void>();
 
   userId: string = '';
@@ -30,15 +33,20 @@ export class DevspaceComponent {
 
   channelsOpen: boolean = true;
   messagesOpen: boolean = true;
+  inputFocused: boolean = false;
 
   channels: Channel[] = [];
   chats: UserChatPreview[] = [];
   members: User[] = [];
 
+  searchResults: any[] = [];
+  isSearchMenuHidden: boolean = false;
+
   constructor(
     private overlayService: OverlayService,
     private firestore: FirestoreService,
-    private chatService: ChatService
+    private chatService: ChatService,
+    private searchService: SearchService
   ) {}
 
   ngOnInit() {
@@ -118,5 +126,34 @@ export class DevspaceComponent {
 
   toggleMessages() {
     this.messagesOpen = !this.messagesOpen;
+  }
+
+  onSearch(value: string, inputRef?: HTMLInputElement, event?: Event): void {
+    if (event) {
+      event.preventDefault();
+    }
+
+    this.searchService
+      .onSearch(value, SearchType.Keyword)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((results) => {
+        this.searchResults = results;
+        this.isSearchMenuHidden = false;
+        
+        if (this.searchResults.length > 0 && this.searchResults[0].text) {
+          this.currentSearchType = SearchType.Keyword;
+        } else {
+          this.currentSearchType = SearchType.ShowProfile;
+        }
+      });
+
+    if (inputRef) {
+      inputRef.value = '';
+    }
+  }
+
+  onSearchMenuHidden(hidden: boolean, inputRef: HTMLInputElement) {
+    this.isSearchMenuHidden = hidden;
+    inputRef.value = '';
   }
 }

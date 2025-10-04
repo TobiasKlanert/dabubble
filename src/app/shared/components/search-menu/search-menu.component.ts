@@ -26,6 +26,10 @@ export class SearchMenuComponent {
   @Input() currentSearchType!: SearchType;
   @Input() query: string = '';
 
+  @Input() maxHeight: string = '346px';
+  @Input() border: string = '1px solid #adb0d9';
+  @Input() boxShadow: string = '0px 2px 10px 0px #00000014';
+
   @Output() elementSelected = new EventEmitter<string>();
   @Output() isSearchMenuHidden = new EventEmitter<boolean>();
 
