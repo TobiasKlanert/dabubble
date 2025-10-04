@@ -27,3 +27,13 @@ $online-green: #92C83E;
 $error-red: #ED1E79;
 $text-grey: #686868;
 $text-white: #FFFFFF;
+
+$breakpoint-small: 576px;
+$breakpoint-medium: 768px;
+$breakpoint-large: 992px;
+$breakpoint-xl: 1200px;
+
+/* Small (sm)	576px and up	576	Designed for mobile phones and small devices
+Medium (md)	768px and up	768	Targets tablets and smaller laptops
+Large (lg)	992px and up	992	Used for laptops and small desktop screens
+Extra large (xl)	1200px and up	1200	Intended for large desktop monitors and TVs */
