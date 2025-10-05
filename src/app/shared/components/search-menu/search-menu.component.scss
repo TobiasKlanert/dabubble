@@ -78,7 +78,8 @@
 
 @media (max-width: $breakpoint-small) {
   .search-menu {
-    min-width: 232px;
+    min-width: unset;
+    width: 288px;
   }
 
   .sender {

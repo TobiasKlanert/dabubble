@@ -267,6 +267,11 @@ app-emoji-menu {
 }
 
 @media (max-width: $breakpoint-large) {
+  .header-container {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
   .user-container {
     display: none !important;
   }
@@ -276,10 +281,20 @@ app-emoji-menu {
       padding-left: 31px;
       padding-right: 31px;
     }
-    
+
     textarea {
       margin-left: 16px;
       margin-right: 16px;
     }
+  }
+}
+
+@media (max-width: $breakpoint-small) {
+  .header-container {
+    padding: 10px 16px;
+  }
+
+  .mention-menu {
+    left: 16px;
   }
 }

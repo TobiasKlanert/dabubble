@@ -180,7 +180,7 @@
 }
 
 ::-webkit-scrollbar {
-  width: 16px; /* Breite der Scrollbar */
+  width: 8px; /* Breite der Scrollbar */
   height: 8px; /* Höhe bei horizontalen Scrollbars */
 }
 
@@ -197,10 +197,4 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: $purple-3; /* Farbe beim Hover */
-}
-
-@media (max-width: $breakpoint-medium) {
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
 }

@@ -119,6 +119,8 @@ p {
 }
 
 .threads-link-wrapper {
+  @include dFlex($g: 20px);
+
   &.outgoing {
     justify-content: flex-end;
   }
@@ -302,5 +304,15 @@ p {
       width: 50px;
       height: 50px;
     }
+  }
+}
+
+@media (max-width: $breakpoint-small) {
+  .threads-link-wrapper {
+    @include dFlex($fd: column, $ai: flex-start, $g: 0);
+  }
+
+  .btn-open-thread {
+    padding: unset; 
   }
 }

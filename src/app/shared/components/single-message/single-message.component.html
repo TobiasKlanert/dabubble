@@ -140,7 +140,7 @@
           </g>
         </svg>
       </div>
-      <div class="threads-link-wrapper flex-center flex-row gap20"
+      <div class="threads-link-wrapper"
         [ngClass]="{ outgoing: message.outgoing, incoming: !message.outgoing }">
         <ng-container *ngIf="thread.length > 0">
           <button (click)="openThread()" class="btn-open-thread">{{ thread.length }} Antworten</button>
