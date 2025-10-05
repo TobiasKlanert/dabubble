@@ -232,7 +232,7 @@
         <app-chat (threadSelected)="showThread()"></app-chat>
       </section>
       <aside *ngIf="currentView === 'thread'">
-        <app-threads></app-threads>
+        <app-threads (threadClosed)="showChat()"></app-threads>
       </aside>
     </main>
   </div>
