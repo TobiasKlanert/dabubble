@@ -265,3 +265,21 @@ app-emoji-menu {
     }
   }
 }
+
+@media (max-width: $breakpoint-large) {
+  .user-container {
+    display: none !important;
+  }
+
+  .textarea-container {
+    .button-wrapper {
+      padding-left: 31px;
+      padding-right: 31px;
+    }
+    
+    textarea {
+      margin-left: 16px;
+      margin-right: 16px;
+    }
+  }
+}

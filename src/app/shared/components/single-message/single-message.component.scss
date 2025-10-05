@@ -291,3 +291,16 @@ p {
     left: 20px;
   }
 }
+
+@media (max-width: $breakpoint-large) {
+  .message-wrapper {
+    padding: 10px 16px;
+    margin-bottom: 16px;
+    gap: 16px;
+
+    img {
+      width: 50px;
+      height: 50px;
+    }
+  }
+}
