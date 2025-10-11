@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { OverlayService } from '../../../../services/overlay.service';
 import { TextareaResizeService } from '../../../../services/textarea-resize.service';
 import { FirestoreService } from '../../../../services/firestore.service';
 import { SearchService } from '../../../../services/search.service';
+import { ScreenService } from '../../../../services/screen.service';
 import { User } from '../../../../models/database.model';
-import { SearchType } from '../../../../models/chat.enums';
+import { OverlayType, SearchType } from '../../../../models/chat.enums';
 import { UserSelectComponent } from '../../../../components/user-select/user-select.component';
 
 @Component({
@@ -17,6 +18,8 @@ import { UserSelectComponent } from '../../../../components/user-select/user-sel
   styleUrl: './add-channel-menu.component.scss',
 })
 export class AddChannelMenuComponent {
+  overlayType: OverlayType = OverlayType.Normal;
+
   userId: string = '';
   memberIds: string[] = [];
   showFirstMenu: boolean = true;
@@ -36,18 +39,30 @@ export class AddChannelMenuComponent {
     private overlayService: OverlayService,
     private firestore: FirestoreService,
     private searchService: SearchService,
+    private screenService: ScreenService,
     public textareaResizeService: TextareaResizeService
   ) {}
 
-  ngOnInit() {
-    this.setUserId();
-    this.searchService.selectedUsers$.subscribe((users) => {
+ngOnInit() {
+  this.setUserId();
+
+  this.searchService.selectedUsers$
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((users) => {
       this.searchResults = users;
-      if (this.searchResults.length > 0) {
-        this.isFormInvalid = false;
+      this.isFormInvalid = this.searchResults.length === 0;
+    });
+
+  this.screenService.isMobile$
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((value) => {
+      if (value) {
+        this.overlayType = OverlayType.FullSize;
+      } else {
+        this.overlayType = OverlayType.Normal;
       }
     });
-  }
+}
 
   ngOnDestroy() {
     this.destroy$.next();
