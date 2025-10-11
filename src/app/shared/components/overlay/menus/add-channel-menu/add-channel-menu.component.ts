@@ -156,4 +156,9 @@ ngOnInit() {
     this.isFormInvalid = true;
     this.showFirstMenu = true;
   }
+
+  closeDialog() {
+    this.showFirstMenu=true;
+    this.isFormInvalid = false;
+  }
 }
