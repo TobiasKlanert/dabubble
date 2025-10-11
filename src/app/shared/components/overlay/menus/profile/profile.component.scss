@@ -59,6 +59,7 @@
     button {
       border: none;
       background: none;
+      padding: 0; 
       color: $purple-3;
       font-size: 18px;
       font-weight: 600;
@@ -140,5 +141,30 @@
       @include dFlex($g: 32px);
       width: 100%;
     }
+  }
+}
+
+@media (max-width: $breakpoint-small) {
+  .ovl-profile {
+    height: unset;
+    width: unset;
+    max-width: 100%;
+    max-height: 100%;
+    padding: 40px 20px;
+
+    .user-details {
+      flex-direction: column-reverse;
+      align-items: flex-start;
+      gap: 15px;
+    }
+
+    .a-mail {
+      margin-left: 0;
+    }
+  }
+
+  .btn-wrapper {
+    @include dFlex($jc: flex-end);
+    width: 100%;
   }
 }
