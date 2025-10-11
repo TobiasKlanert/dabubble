@@ -166,16 +166,14 @@
       </svg>
       <p class="headline">{{ chatName }}</p>
     </div>
-    <div class="welcome-msg">
-      <p>
-        Dieser Channel wurde am
-        {{ currentChat.createdAt | date : "dd.MM.yyyy" }} erstellt. Das ist der
-        Anfang des Channels
-      </p>
+    <p class="welcome-msg">
+      Dieser Channel wurde am
+      {{ currentChat.createdAt | date : "dd.MM.yyyy" }} erstellt. Das ist der
+      Anfang des Channels
       <button (click)="openOverlay('channelInfo')">
         {{ chatToken }}
       </button>
-    </div>
+    </p>
   </div>
   <div
     class="new-chat-container"
@@ -195,13 +193,13 @@
       />
       <p class="headline">{{ chatName }}</p>
     </div>
-    <div class="welcome-msg">
-      <p class="text-grey">Diese Unterhaltung findet nur zwischen</p>
+    <p class="welcome-msg text-grey">
+      Diese Unterhaltung findet nur zwischen
       <button (click)="openProfile(currentChatPartner.id)">
         {{ chatToken }}
       </button>
-      <p class="text-grey">und dir statt.</p>
-    </div>
+      und dir statt
+    </p>
   </div>
   <div
     class="new-chat-container"

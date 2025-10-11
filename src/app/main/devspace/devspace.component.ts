@@ -84,6 +84,7 @@ export class DevspaceComponent {
 
   newChat() {
     this.chatService.selectChatType(ChatType.NewChat);
+    this.chatSelected.emit();
   }
 
   onAddChannel() {

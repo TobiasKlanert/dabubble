@@ -256,12 +256,11 @@ app-emoji-menu {
   }
 
   .welcome-msg {
-    @include dFlex($jc: flex-start);
-
     button {
       background: none;
       border: none;
       color: $purple-3;
+      padding: 0;
     }
   }
 }
@@ -287,6 +286,17 @@ app-emoji-menu {
       margin-right: 16px;
     }
   }
+
+  .new-chat-container {
+    left: 0;
+    bottom: 200px;
+    padding: 16px;
+
+    .new-chat-avatar {
+      width: 88px;
+      height: 88px;
+    }
+  }
 }
 
 @media (max-width: $breakpoint-small) {
@@ -296,5 +306,9 @@ app-emoji-menu {
 
   .mention-menu {
     left: 16px;
+  }
+
+  .header-container > .search-container > .search-menu {
+    left: 0;
   }
 }
