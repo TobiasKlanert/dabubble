@@ -19,6 +19,7 @@ import { UserSelectComponent } from '../../../../components/user-select/user-sel
 })
 export class AddChannelMenuComponent {
   overlayType: OverlayType = OverlayType.Normal;
+  OverlayType = OverlayType;
 
   userId: string = '';
   memberIds: string[] = [];

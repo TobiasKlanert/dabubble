@@ -7,19 +7,26 @@ import { BehaviorSubject, fromEvent, map, startWith } from 'rxjs';
 export class ScreenService {
   private readonly mobileBreakpoint = 1200;
 
-  private isMobileSubject = new BehaviorSubject<boolean>(
-    window.innerWidth < this.mobileBreakpoint
-  );
-
+  private isMobileSubject = new BehaviorSubject<boolean>(this.checkIsMobile());
   isMobile$ = this.isMobileSubject.asObservable();
 
   constructor() {
     fromEvent(window, 'resize')
       .pipe(
-        map(() => window.innerWidth < this.mobileBreakpoint),
-        startWith(window.innerWidth < this.mobileBreakpoint)
+        map(() => this.checkIsMobile()),
+        startWith(this.checkIsMobile())
       )
-      .subscribe((isMobile) => this.isMobileSubject.next(isMobile));
+      .subscribe((isMobile) => {
+        this.isMobileSubject.next(isMobile);
+      });
+  }
+
+  private checkIsMobile(): boolean {
+    return window.innerWidth < this.mobileBreakpoint;
+  }
+
+  updateIsMobile() {
+    this.isMobileSubject.next(this.checkIsMobile());
   }
 
   get isMobile(): boolean {

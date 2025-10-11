@@ -1,6 +1,10 @@
 <div
+  [ngClass]="{
+    'fullsize-overlay': overlayType === OverlayType.FullSize,
+    'normal-overlay': overlayType === OverlayType.Normal,
+    hidden: !showFirstMenu
+  }"
   class="ovl-add-channel"
-  [ngClass]="{ hidden: !showFirstMenu }"
   (click)="$event.stopPropagation()"
 >
   <header class="ovl-header">
