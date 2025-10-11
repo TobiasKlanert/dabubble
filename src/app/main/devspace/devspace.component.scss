@@ -29,10 +29,10 @@ main {
   overflow-y: auto;
   overflow-x: hidden;
 
-  > * {
+  /* > * {
     width: 100%;
   }
-
+ */
   .channels-details,
   .messages-details {
     @include dFlex($fd: column, $ai: flex-start);
@@ -244,6 +244,19 @@ main {
   }
 }
 
+.mobile-btn-new-chat {
+  display: none;
+  position: absolute;
+  bottom: 48px;
+  right: 16px;
+  width: 60px;
+  height: 60px;
+  border-radius: 100px;
+  border: none;
+  background-color: $purple-1;
+  box-shadow: 0px 6px 10px 0px #00000033;
+}
+
 @media (max-width: $breakpoint-large) {
   .desktop-view {
     display: none; 
@@ -255,6 +268,10 @@ main {
 
   main {
     padding: 0 44px;
+  }
+
+  .mobile-btn-new-chat {
+    display: block;
   }
 }
 
