@@ -265,13 +265,21 @@ app-emoji-menu {
   }
 }
 
+.mobile-visibility {
+  display: none !important;
+}
+
 @media (max-width: $breakpoint-large) {
+  .mobile-visibility {
+    display: flex !important;
+  }
+
   .header-container {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
   }
 
-  .user-container {
+  .user-wrapper {
     display: none !important;
   }
 
