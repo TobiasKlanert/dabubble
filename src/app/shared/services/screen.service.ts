@@ -11,22 +11,29 @@ export class ScreenService {
   isMobile$ = this.isMobileSubject.asObservable();
 
   constructor() {
-    fromEvent(window, 'resize')
-      .pipe(
-        map(() => this.checkIsMobile()),
-        startWith(this.checkIsMobile())
-      )
-      .subscribe((isMobile) => {
-        this.isMobileSubject.next(isMobile);
-      });
+    if (typeof window !== 'undefined') {
+      fromEvent(window, 'resize')
+        .pipe(
+          map(() => this.checkIsMobile()),
+          startWith(this.checkIsMobile())
+        )
+        .subscribe((isMobile) => {
+          this.isMobileSubject.next(isMobile);
+        });
+    }
   }
 
   private checkIsMobile(): boolean {
+    if (typeof window === 'undefined') {
+      return false;
+    }
     return window.innerWidth < this.mobileBreakpoint;
   }
 
   updateIsMobile() {
-    this.isMobileSubject.next(this.checkIsMobile());
+    if (typeof window !== 'undefined') {
+      this.isMobileSubject.next(this.checkIsMobile());
+    }
   }
 
   get isMobile(): boolean {
