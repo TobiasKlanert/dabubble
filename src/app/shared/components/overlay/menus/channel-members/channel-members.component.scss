@@ -9,7 +9,7 @@
   height: 100vh;
 }
 
-.ovl-channel-members {
+.normal-overlay {
   position: absolute;
   top: 210px;
   right: 60px;
@@ -19,8 +19,11 @@
   border-top-left-radius: 30px;
   border-bottom-right-radius: 30px;
   border-bottom-left-radius: 30px;
-  background-color: #fff;
   box-shadow: 0px 6px 10px 0px #00000033;
+}
+
+.ovl-channel-members {
+  background-color: #fff;
   overflow-y: auto;
   @include dFlex($fd: column, $jc: flex-start, $ai: flex-start, $g: 20px);
 
@@ -104,7 +107,7 @@
 }
 
 @media (max-width: $breakpoint-large) {
-  .ovl-channel-members {
+  .normal-overlay {
     top: 200px;
     right: 40px;
     max-height: calc(100% - 225px);
@@ -112,7 +115,7 @@
 }
 
 @media (max-width: $breakpoint-small) {
-  .ovl-channel-members {
+  .normal-overlay {
     top: 145px;
     right: 16px;
     width: unset;
