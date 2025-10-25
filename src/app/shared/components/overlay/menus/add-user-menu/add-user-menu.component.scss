@@ -12,7 +12,7 @@
 .ovl-add-user {
   position: absolute;
   top: 210px;
-  right: 30%;
+  right: 60px;
   width: 514px;
   min-height: 294px;
   padding: 40px;
@@ -76,6 +76,27 @@
     .btn-container {
       width: 100%;
       @include dFlex($jc: flex-end);
+    }
+  }
+}
+
+@media (max-width: $breakpoint-large) {
+  .ovl-add-user {
+    top: 200px;
+    right: 40px;
+  }
+}
+
+@media (max-width: $breakpoint-small) {
+  .ovl-add-user {
+    top: 145px;
+    right: 16px;
+    width: calc(100% - 24px);
+    min-height: unset;
+    padding: 30px 16px;
+
+    .channel-container {
+      display: none;
     }
   }
 }

@@ -12,3 +12,9 @@ export enum SearchType {
   NewChat,
   Keyword
 }
+
+export enum OverlayType {
+  FullSize = 'fullsize',
+  Normal = 'normal',
+  Flap = 'flap'
+}

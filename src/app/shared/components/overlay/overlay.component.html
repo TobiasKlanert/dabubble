@@ -1,5 +1,5 @@
-<article class="overlay-container" *ngIf="overlayOpen" (click)="closeOverlay()">
-  <div class="overlay-content" [ngSwitch]="overlayService.activeMenu$ | async">
+<dialog class="overlay-container" *ngIf="overlayOpen" (click)="closeOverlay()">
+  <ng-container [ngSwitch]="overlayService.activeMenu$ | async">
     <app-add-channel-menu *ngSwitchCase="'addChannel'"></app-add-channel-menu>
     <app-profile-menu *ngSwitchCase="'profileMenu'"></app-profile-menu>
     <app-profile *ngSwitchCase="'profile'"></app-profile>
@@ -7,5 +7,5 @@
     <app-channel-members *ngSwitchCase="'channelMembers'"></app-channel-members>
     <app-channel-info *ngSwitchCase="'channelInfo'"></app-channel-info>
     <app-avatar-editor *ngSwitchCase="'avatarEditor'"></app-avatar-editor>
-  </div>
-</article>
+  </ng-container>
+</dialog>

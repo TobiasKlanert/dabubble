@@ -154,36 +154,40 @@
   }
 }
 
-.main-main {
+.desktop-layout {
+  display: flex;
+}
+
+main {
   @include dFlex($jc: space-between, $ai: flex-start);
   width: 100%;
   height: calc(100% - 105px);
   max-width: 1920px;
   padding: 20px;
   gap: 20px; /*NEU*/ /*NEU*/
+}
 
-  aside {
-    height: 100%;
-    background-color: #fff;
-    border-radius: 30px;
-  }
+.devspace {
+  width: 19%;
+  padding: 32px 30px;
+}
 
-  .devspace {
-    width: 19%;
-    padding: 32px 30px;
-  }
+.threads {
+  width: 25%;
+}
 
-  .threads {
-    width: 25%;
-  }
+.chat {
+  height: 100%;
+  background-color: #fff;
+  border-radius: 30px;
+  position: relative;
+  flex: 1; /*NEU*/ /*NEU*/
+}
 
-  .chat {
-    height: 100%;
-    background-color: #fff;
-    border-radius: 30px;
-    position: relative;
-    flex: 1; /*NEU*/ /*NEU*/
-  }
+aside {
+  height: 100%;
+  background-color: #fff;
+  border-radius: 30px;
 }
 
 .btn-toggle-workspace {
@@ -222,4 +226,84 @@
 
 app-overlay {
   position: absolute;
+}
+
+.mobile-layout {
+  display: none;
+}
+
+.btn-return {
+  @include icon-button($w: unset, $h: 50px);
+  gap: 10px;
+
+  img {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+@media (max-width: $breakpoint-large) {
+  .desktop-layout {
+    display: none;
+  }
+
+  .mobile-layout {
+    display: block;
+    width: 100%;
+    padding: 0;
+  }
+
+  .main-wrapper {
+    height: unset;
+  }
+
+  .main-header {
+    padding: 15px 16px;
+  }
+
+  .logo {
+    margin-left: 0;
+    height: 70px;
+  }
+
+  .chat {
+    border-radius: 0;
+  }
+
+  .mobile-visibility {
+    display: flex;
+  }
+
+  main {
+    display: block;
+    padding: 0;
+  }
+
+  aside {
+    padding: 0;
+    border-radius: 0;
+  }
+}
+
+@media (max-width: $breakpoint-small) {
+  main {
+    height: calc(100% - 80px);
+  }
+  
+  .mobile-visibility {
+    display: none;
+  }
+
+  .main-header {
+    height: 80px;
+
+    .logo {
+      height: 50px;
+    }
+    
+    .profile-picture {
+      width: 50px;
+      height: 50px;
+    }
+  }
 }

@@ -1,5 +1,10 @@
 @if (query.length > 0) {
-<article class="search-menu">
+<article
+  class="search-menu"
+  [style.max-height]="maxHeight"
+  [style.border]="border"
+  [style.box-shadow]="boxShadow"
+>
   @for (element of searchResults; track $index) {
   <ng-container *ngIf="isUser(element)">
     <button

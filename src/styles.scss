@@ -1,6 +1,6 @@
-@import 'app/_fonts';
-@import 'app/_base';
-@import 'app/_variables';
+@import "app/_fonts";
+@import "app/_base";
+@import "app/_variables";
 
 * {
   box-sizing: border-box;
@@ -13,6 +13,10 @@ body {
   margin: 0;
   background-color: $background-color;
   height: 100vh;
+}
+
+p {
+  text-align: left;
 }
 
 button,

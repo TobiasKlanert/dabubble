@@ -79,14 +79,12 @@
 
 /// responsive Design ///
 
-@media (max-width: 690px) {
+@media (max-width: $breakpoint-large) {
   .avatar-image {
     height: 64px;
     width: 64px;
   }
-}
 
-@media (max-width: 640px) {
   .choose-avatar-dialog {
     padding: 26px 21px;
     margin-top: 32px;
@@ -102,14 +100,9 @@
   .avatar-list {
     gap: 4px;
   }
-
-  .avatar-image {
-    height: 56px;
-    width: 56px;
-  }
 }
 
-@media (max-width: 460px) {
+@media (max-width: $breakpoint-small) {
   .avatar-list {
     flex-direction: column;
     gap: 16px;

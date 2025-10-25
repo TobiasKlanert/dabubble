@@ -91,3 +91,9 @@ input {
 .suggestions li:hover {
   background: $background-color;
 }
+
+@media (max-width: $breakpoint-small) {
+  .suggestions {
+    width: unset;
+  }
+}

@@ -20,7 +20,11 @@
   <div class="profile-picture-container">
     <div class="profile-picture-wrapper">
       <img src="{{ user.profilePictureUrl }}" alt="Profilbild" />
-      <button *ngIf="isEditModeActive" (click)="showAvatarEditor(); $event.stopPropagation()" class="btn-edit-avatar">
+      <button
+        *ngIf="isEditModeActive"
+        (click)="showAvatarEditor(); $event.stopPropagation()"
+        class="btn-edit-avatar"
+      >
         <svg
           width="24"
           height="24"
@@ -52,9 +56,11 @@
   <div *ngIf="!isEditModeActive" class="user-info">
     <div class="user-details">
       <p>{{ user.name }}</p>
-      <button *ngIf="isOwnProfile" (click)="isEditModeActive = true">
-        Bearbeiten
-      </button>
+      <div class="btn-wrapper">
+        <button *ngIf="isOwnProfile" (click)="isEditModeActive = true">
+          Bearbeiten
+        </button>
+      </div>
     </div>
     <div class="user-status">
       <span

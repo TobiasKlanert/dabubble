@@ -43,6 +43,22 @@
   }
 }
 
+.fullsize-overlay {
+  width: 100vw;
+  height: 100vh;
+  border-radius: 0;
+  overflow-y: auto;
+}
+
+.flap-overlay {
+  position: absolute;
+  bottom: 0;
+  width: 100vw;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  box-shadow: 0px -3px 10px 0px #00000033;
+}
+
 .link-style {
   text-decoration: none;
   color: #797ef3;
@@ -180,7 +196,7 @@
 }
 
 ::-webkit-scrollbar {
-  width: 16px; /* Breite der Scrollbar */
+  width: 8px; /* Breite der Scrollbar */
   height: 8px; /* Höhe bei horizontalen Scrollbars */
 }
 

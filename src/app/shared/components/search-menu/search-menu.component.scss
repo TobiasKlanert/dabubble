@@ -75,3 +75,19 @@
 .text {
   flex: 1;
 }
+
+@media (max-width: $breakpoint-small) {
+  .search-menu {
+    min-width: unset;
+    width: 288px;
+  }
+
+  .sender {
+    flex: unset;
+    white-space: unset;
+  }
+
+  .result-row {
+    flex-direction: column;
+  }
+}

@@ -1,16 +1,19 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subject, takeUntil, switchMap, tap } from 'rxjs';
+import { ChannelMembersComponent } from '../channel-members/channel-members.component';
 import { OverlayService } from '../../../../services/overlay.service';
 import { TextareaResizeService } from '../../../../services/textarea-resize.service';
 import { FirestoreService } from '../../../../services/firestore.service';
 import { ChatService } from '../../../../services/chat.service';
+import { ScreenService } from '../../../../services/screen.service';
 import { Channel } from '../../../../models/database.model';
+import { OverlayType } from '../../../../models/chat.enums';
 
 @Component({
   selector: 'app-channel-info',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ChannelMembersComponent],
   templateUrl: './channel-info.component.html',
   styleUrl: './channel-info.component.scss',
 })
@@ -29,12 +32,16 @@ export class ChannelInfoComponent {
   isChannelNameAssigned: boolean = false;
   isErrorMessageVisible: boolean = false;
 
+  overlayType: OverlayType = OverlayType.Normal;
+  OverlayType = OverlayType;
+
   private destroy$ = new Subject<void>();
 
   constructor(
     private overlayService: OverlayService,
     private firestore: FirestoreService,
     private chatService: ChatService,
+    private screenService: ScreenService,
     public textareaResizeService: TextareaResizeService
   ) {}
 
@@ -42,11 +49,21 @@ export class ChannelInfoComponent {
     this.chatService.selectedChatId$
       .pipe(
         takeUntil(this.destroy$),
-        tap((chatId) => (this.channelId = chatId)),
-        switchMap((chatId) => this.firestore.getChannel(chatId)),
+        switchMap((chatId) => {
+          this.channelId = chatId;
+          return this.firestore.getChannel(chatId);
+        }),
         tap((channel) => (this.channel = channel)),
-        switchMap((channel) => this.firestore.getUser(channel.creatorId)),
-        tap((user) => (this.channelCreator = user.name))
+        switchMap((channel) =>
+          this.firestore.getUser(channel.creatorId).pipe(
+            tap((user) => (this.channelCreator = user.name)),
+            // Kombiniere mit ScreenService
+            switchMap(() => this.screenService.isMobile$)
+          )
+        ),
+        tap((isMobile) => {
+          this.overlayType = isMobile ? OverlayType.FullSize : OverlayType.Normal;
+        })
       )
       .subscribe();
   }

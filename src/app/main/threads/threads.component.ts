@@ -1,5 +1,5 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { Subject, switchMap, takeUntil } from 'rxjs';
+import { Component, ElementRef, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
 import { EmojiMenuComponent } from '../../shared/components/emoji-menu/emoji-menu.component';
 import { SingleMessageComponent } from '../../shared/components/single-message/single-message.component';
 import { SearchMenuComponent } from '../../shared/components/search-menu/search-menu.component';
@@ -40,6 +40,8 @@ import { ClickOutsideDirective } from '../../shared/directives/click-outside.dir
   styleUrl: './threads.component.scss',
 })
 export class ThreadsComponent {
+  @Output() threadClosed = new EventEmitter<void>()
+
   threadMessages: ThreadMessage[] = [];
 
   inputText: string = '';
@@ -190,6 +192,7 @@ export class ThreadsComponent {
 
   closeThreads() {
     this.toggleService.toggle();
+    this.threadClosed.emit();
   }
 
   toggleTrigger(current: string): string {

@@ -15,6 +15,7 @@ import { SearchService } from '../shared/services/search.service';
 import { ClickOutsideDirective } from '../shared/directives/click-outside.directive';
 import { ToggleService } from '../shared/services/toggle.service';
 import { SearchMenuComponent } from '../shared/components/search-menu/search-menu.component';
+export type MainView = 'workspace' | 'chat' | 'thread';
 
 @Component({
   selector: 'app-main',
@@ -41,6 +42,8 @@ export class MainComponent {
   isSearchMenuHidden: boolean = false;
 
   searchControl = new FormControl('');
+
+  currentView: MainView = 'workspace';
 
   private destroy$ = new Subject<void>();
   private isOnlineSet = false;
@@ -113,5 +116,17 @@ export class MainComponent {
 
   toggleWorkspaceMenu() {
     this.isWorkspaceHidden = !this.isWorkspaceHidden;
+  }
+
+  showWorkspace() {
+    this.currentView = 'workspace';
+  }
+
+  showChat() {
+    this.currentView = 'chat';
+  }
+
+  showThread() {
+    this.currentView = 'thread';
   }
 }

@@ -1,6 +1,10 @@
 <div
+  [ngClass]="{
+    'fullsize-overlay': overlayType === OverlayType.FullSize,
+    'normal-channel-overlay': overlayType === OverlayType.Normal,
+    hidden: !showFirstMenu && overlayType === OverlayType.Normal
+  }"
   class="ovl-add-channel"
-  [ngClass]="{ hidden: !showFirstMenu }"
   (click)="$event.stopPropagation()"
 >
   <header class="ovl-header">
@@ -77,69 +81,75 @@
   </form>
 </div>
 
-<div
-  class="ovl-add-members"
-  [ngClass]="{ hidden: showFirstMenu }"
-  (click)="$event.stopPropagation()"
->
-  <header>
-    <h2 class="headline">Leute hinzufügen</h2>
-    <button class="btn-close-overlay" (click)="closeOverlay()">
-      <svg
-        width="14"
-        height="14"
-        viewBox="0 0 14 14"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M7.00005 8.39999L2.10005 13.3C1.91672 13.4833 1.68338 13.575 1.40005 13.575C1.11672 13.575 0.883382 13.4833 0.700049 13.3C0.516715 13.1167 0.425049 12.8833 0.425049 12.6C0.425049 12.3167 0.516715 12.0833 0.700049 11.9L5.60005 6.99999L0.700049 2.09999C0.516715 1.91665 0.425049 1.68332 0.425049 1.39999C0.425049 1.11665 0.516715 0.883321 0.700049 0.699988C0.883382 0.516654 1.11672 0.424988 1.40005 0.424988C1.68338 0.424988 1.91672 0.516654 2.10005 0.699988L7.00005 5.59999L11.9 0.699988C12.0834 0.516654 12.3167 0.424988 12.6 0.424988C12.8834 0.424988 13.1167 0.516654 13.3 0.699988C13.4834 0.883321 13.575 1.11665 13.575 1.39999C13.575 1.68332 13.4834 1.91665 13.3 2.09999L8.40005 6.99999L13.3 11.9C13.4834 12.0833 13.575 12.3167 13.575 12.6C13.575 12.8833 13.4834 13.1167 13.3 13.3C13.1167 13.4833 12.8834 13.575 12.6 13.575C12.3167 13.575 12.0834 13.4833 11.9 13.3L7.00005 8.39999Z"
-          fill="black"
-        />
-      </svg>
-    </button>
-  </header>
-  <form (submit)="$event.preventDefault()">
-    <div class="input-container-row">
-      <input
-        #radioAddAll
-        type="radio"
-        id="radioUsersAddAll"
-        name="add_members"
-        value="radio_add_all"
-        [checked]="selectedOption === 'addAll'"
-        (click)="onRadioClick('addAll', $event)"
-      />
-      <label for="radioUsersAddAll"
-        >Alle Mitglieder von
-        <span class="highlight">OfficeTeam</span> hinzufügen</label
-      >
-    </div>
-    <div class="input-container-row">
-      <input
-        #radioAddUser
-        type="radio"
-        id="radioUsersAddUser"
-        name="add_members"
-        value="radio_add_user"
-        [checked]="selectedOption === 'addUser'"
-        (click)="onRadioClick('addUser', $event)"
-      />
-      <label for="radioUsersAddUser">Bestimmte Leute hinzufügen</label>
-    </div>
-    <app-user-select
-      [ngStyle]="{ width: '100%' }"
-      *ngIf="!isInputUserInvisible"
-    ></app-user-select>
-    <div class="btn-container">
-      <button
-        type="button"
-        class="button-primary-style btn-font-style"
-        [disabled]="isFormInvalid"
-        (click)="createChannel(inputName.value, inputDescription.value)"
-      >
-        Erstellen
+<div (click)="closeDialog(); $event.stopPropagation()" [ngClass]="{ hidden: showFirstMenu }" class="ovl-container">
+  <div
+    [ngClass]="{
+      'flap-overlay': overlayType === OverlayType.FullSize,
+      'normal-members-overlay': overlayType === OverlayType.Normal,
+      hidden: showFirstMenu
+    }"
+    class="ovl-add-members"
+    (click)="$event.stopPropagation()"
+  >
+    <header>
+      <h2 class="headline">Leute hinzufügen</h2>
+      <button class="btn-close-overlay" (click)="closeDialog()">
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 14 14"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M7.00005 8.39999L2.10005 13.3C1.91672 13.4833 1.68338 13.575 1.40005 13.575C1.11672 13.575 0.883382 13.4833 0.700049 13.3C0.516715 13.1167 0.425049 12.8833 0.425049 12.6C0.425049 12.3167 0.516715 12.0833 0.700049 11.9L5.60005 6.99999L0.700049 2.09999C0.516715 1.91665 0.425049 1.68332 0.425049 1.39999C0.425049 1.11665 0.516715 0.883321 0.700049 0.699988C0.883382 0.516654 1.11672 0.424988 1.40005 0.424988C1.68338 0.424988 1.91672 0.516654 2.10005 0.699988L7.00005 5.59999L11.9 0.699988C12.0834 0.516654 12.3167 0.424988 12.6 0.424988C12.8834 0.424988 13.1167 0.516654 13.3 0.699988C13.4834 0.883321 13.575 1.11665 13.575 1.39999C13.575 1.68332 13.4834 1.91665 13.3 2.09999L8.40005 6.99999L13.3 11.9C13.4834 12.0833 13.575 12.3167 13.575 12.6C13.575 12.8833 13.4834 13.1167 13.3 13.3C13.1167 13.4833 12.8834 13.575 12.6 13.575C12.3167 13.575 12.0834 13.4833 11.9 13.3L7.00005 8.39999Z"
+            fill="black"
+          />
+        </svg>
       </button>
-    </div>
-  </form>
+    </header>
+    <form (submit)="$event.preventDefault()">
+      <div class="input-container-row">
+        <input
+          #radioAddAll
+          type="radio"
+          id="radioUsersAddAll"
+          name="add_members"
+          value="radio_add_all"
+          [checked]="selectedOption === 'addAll'"
+          (click)="onRadioClick('addAll', $event)"
+        />
+        <label for="radioUsersAddAll"
+          >Alle Mitglieder von
+          <span class="highlight">OfficeTeam</span> hinzufügen</label
+        >
+      </div>
+      <div class="input-container-row">
+        <input
+          #radioAddUser
+          type="radio"
+          id="radioUsersAddUser"
+          name="add_members"
+          value="radio_add_user"
+          [checked]="selectedOption === 'addUser'"
+          (click)="onRadioClick('addUser', $event)"
+        />
+        <label for="radioUsersAddUser">Bestimmte Leute hinzufügen</label>
+      </div>
+      <app-user-select
+        [ngStyle]="{ width: '100%' }"
+        *ngIf="!isInputUserInvisible"
+      ></app-user-select>
+      <div class="btn-container">
+        <button
+          type="button"
+          class="button-primary-style btn-font-style"
+          [disabled]="isFormInvalid"
+          (click)="createChannel(inputName.value, inputDescription.value)"
+        >
+          Erstellen
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
