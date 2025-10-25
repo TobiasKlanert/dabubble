@@ -1,14 +1,15 @@
 import { Injectable, inject } from '@angular/core';
-import { 
-    Auth, 
-    createUserWithEmailAndPassword, 
-    signInWithEmailAndPassword, 
-    updateProfile, 
-    user, 
-    signOut, 
-    signInWithPopup, 
+import {
+    Auth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    updateProfile,
+    user,
+    signOut,
+    signInWithPopup,
     GoogleAuthProvider,
-    sendEmailVerification
+    sendEmailVerification,
+    sendPasswordResetEmail,
 } from '@angular/fire/auth';
 import { Firestore, doc, setDoc, serverTimestamp } from '@angular/fire/firestore';
 import { FirestoreService } from './firestore.service';
@@ -19,16 +20,16 @@ export class AuthService {
     private auth = inject(Auth);
     private db = inject(Firestore);
 
-    constructor(private firestore: FirestoreService, private searchService: SearchService) {}
+    constructor(private firestore: FirestoreService, private searchService: SearchService) { }
 
     user$ = user(this.auth);
 
     async register(
-        name: string, 
-        email: string, 
-        password: string, 
-        nameSearch: string, 
-        nameSearchTokens: [], 
+        name: string,
+        email: string,
+        password: string,
+        nameSearch: string,
+        nameSearchTokens: [],
         profilePictureUrl: string
     ) {
         const cred = await createUserWithEmailAndPassword(this.auth, email, password);
@@ -90,6 +91,10 @@ export class AuthService {
             doc(this.db, 'users', this.auth.currentUser.uid),
             { name, profilePictureUrl, onlineStatus: true },
             { merge: true }
-        ); 
+        );
+    }
+
+    resetPassword(email: string) {
+        return sendPasswordResetEmail(this.auth, email);
     }
 }
