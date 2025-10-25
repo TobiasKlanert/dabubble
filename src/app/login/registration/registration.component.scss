@@ -56,16 +56,53 @@ form {
     font-size: 14px;
 }
 
-.input-name {
-    @include input-background('/assets/img/input-user.png', '/assets/img/input-user-hover.png');
-}
+.input-wrapper {
+    position: relative;
+    width: 100%;
 
-.input-email {
-    @include input-background('/assets/img/input-mail.png', '/assets/img/input-mail-hover.png');
-}
+    .input-icon {
+        position: absolute;
+        left: 24px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 20px;
+        height: 20px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        pointer-events: none;
+    }
 
-.input-password {
-    @include input-background('/assets/img/input-password.png', '/assets/img/input-password-hover.png');
+    .input-icon--name {
+        background-image: url('/assets/img/input-user.png');
+    }
+
+    .input-icon--email {
+        background-image: url('/assets/img/input-mail.png');
+    }
+
+    .input-icon--password {
+        background-image: url('/assets/img/input-password.png');
+    }
+
+    input {
+        padding-left: 56px;
+        font-family: 'Nunito';
+        font-size: 16px;
+        font-weight: 400;
+        color: $text-grey;
+
+        &:-webkit-autofill,
+        &:-webkit-autofill:hover,
+        &:-webkit-autofill:focus,
+        &:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 1000px $input-bg-blue inset !important;
+            -webkit-text-fill-color: $text-grey !important;
+            font-family: 'Nunito' !important;
+            font-size: 16px !important;
+            font-weight: 400 !important;
+        }
+    }
 }
 
 .arrow-back {

@@ -9,8 +9,13 @@
 
             <form [formGroup]="form">
 
-                <input class="input-name input-blue-style" formControlName="name" type="text" name="name"
-                    placeholder="Name und Nachname">
+                <!-- <input class="input-name input-blue-style" formControlName="name" type="text" name="name"
+                    placeholder="Name und Nachname"> -->
+                <div class="input-wrapper">
+                    <span class="input-icon input-icon--name"></span>
+                    <input class="input-name input-blue-style" formControlName="name" type="text" name="text"
+                        placeholder="Name und Nachname" />
+                </div>
                 <div class="error-space">
                     <div *ngIf="form.get('name')?.invalid && form.get('name')?.touched">
                         <div class="error-message" *ngIf="form.get('name')?.errors?.['required']">Name ist
@@ -20,8 +25,13 @@
                     </div>
                 </div>
 
-                <input class="input-email input-blue-style" formControlName="email" type="email" name="email"
-                    placeholder="beispiel@email.com">
+                <!-- <input class="input-email input-blue-style" formControlName="email" type="email" name="email"
+                    placeholder="beispiel@email.com"> -->
+                <div class="input-wrapper">
+                    <span class="input-icon input-icon--email"></span>
+                    <input class="input-email input-blue-style" formControlName="email" type="email" name="email"
+                        placeholder="beispiel@email.com" />
+                </div>
                 <div class="error-space">
                     <div *ngIf="form.get('email')?.invalid && form.get('email')?.touched">
                         <div class="error-message" *ngIf="form.get('email')?.errors?.['required']">E-Mail ist
@@ -30,9 +40,14 @@
                         </div>
                     </div>
                 </div>
+                <!-- <input class="input-password input-blue-style" formControlName="password" type="password"
+                    name="password" placeholder="Passwort"> -->
+                <div class="input-wrapper">
+                    <span class="input-icon input-icon--password"></span>
+                    <input class="input-password input-blue-style" formControlName="password" type="password"
+                        name="password" placeholder="Passwort" />
+                </div>
 
-                <input class="input-password input-blue-style" formControlName="password" type="password"
-                    name="password" placeholder="Passwort">
                 <div class="error-space">
                     <div *ngIf="form.get('password')?.invalid && form.get('password')?.touched">
                         <div class="error-message" *ngIf="form.get('password')?.errors?.['required']">Passwort ist
@@ -49,7 +64,8 @@
                 </div>
 
                 <div class="button-wrapper flex-end">
-                    <button (click)="addUser()" [routerLink]="'/choose-avatar'" [disabled]="form.invalid" class="button-primary-style">Weiter</button>
+                    <button (click)="addUser()" [routerLink]="'/choose-avatar'" [disabled]="form.invalid"
+                        class="button-primary-style">Weiter</button>
                 </div>
 
             </form>
