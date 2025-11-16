@@ -408,21 +408,21 @@ export class FirestoreService {
 
 
   async updateThreadMessageText(
-  chatId: string,
-  rootMessageId: string,
-  threadMessageId: string,
-  newText: string
-): Promise<void> {
-  const msgRef = doc(
-    this.firestore,
-    `channels/${chatId}/messages/${rootMessageId}/thread/${threadMessageId}`
-  );
+    chatId: string,
+    rootMessageId: string,
+    threadMessageId: string,
+    newText: string
+  ): Promise<void> {
+    const msgRef = doc(
+      this.firestore,
+      `channels/${chatId}/messages/${rootMessageId}/thread/${threadMessageId}`
+    );
 
-  await updateDoc(msgRef, {
-    text: newText,
-    editedAt: new Date().toISOString(),
-  });
-}
+    await updateDoc(msgRef, {
+      text: newText,
+      editedAt: new Date().toISOString(),
+    });
+  }
 
   /*  ##########
    Emojies 
@@ -476,6 +476,58 @@ export class FirestoreService {
 
     await updateDoc(messageRef, { reactions });
   }
+
+
+  getThreadMessage(
+    chatId: string,
+    rootMessageId: string,
+    threadMessageId: string
+  ): Observable<ThreadMessage> {
+    const msgRef = doc(
+      this.firestore,
+      `channels/${chatId}/messages/${rootMessageId}/thread/${threadMessageId}`
+    );
+
+    return docData(msgRef, { idField: 'id' }) as Observable<ThreadMessage>;
+  }
+
+  async updateThreadMessageReaction(
+    chatId: string,
+    rootMessageId: string,
+    threadMessageId: string,
+    emoji: string,
+    userId: string
+  ) {
+    const messageRef = doc(
+      this.firestore,
+      `channels/${chatId}/messages/${rootMessageId}/thread/${threadMessageId}`
+    );
+
+    const snap = await getDoc(messageRef);
+    if (!snap.exists()) return;
+
+    const data = snap.data() as ThreadMessage;
+    const reactions = data.reactions || {};
+
+    if (!reactions[emoji]) {
+      reactions[emoji] = { count: 1, userIds: [userId] };
+    } else {
+      if (!reactions[emoji].userIds.includes(userId)) {
+        reactions[emoji].userIds.push(userId);
+        reactions[emoji].count++;
+      } else {
+        reactions[emoji].userIds = reactions[emoji].userIds.filter(
+          (id) => id !== userId
+        );
+        reactions[emoji].count = Math.max(0, reactions[emoji].count - 1);
+        if (reactions[emoji].count === 0) delete reactions[emoji];
+      }
+    }
+
+    await updateDoc(messageRef, { reactions });
+  }
+
+
 
   /*  ##########
     Users 

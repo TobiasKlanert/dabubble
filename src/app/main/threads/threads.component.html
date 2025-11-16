@@ -24,7 +24,6 @@
   }" [message]="msg" [chatId]="currentChatId" [isThreadMessage]="i !== 0"
         [rootMessageId]="threadMessages[0].id"></app-single-message>
 
-
       <!--Seperator erscheint jetzt nach der Rootmessage -> muss noch gestyled werden-->
       <div *ngIf="i === 0 && threadMessages.length > 1" class="thread-separator">
         <span class="label">{{ threadMessages.length - 1 }} Antworten</span>

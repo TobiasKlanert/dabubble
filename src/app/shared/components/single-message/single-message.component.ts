@@ -65,18 +65,31 @@ export class SingleMessageComponent {
       this.sender = sender;
     });
 
-    // Hier Live-Update für Reactions
-    this.firestore
-      .getMessage('channels', this.chatId, this.message.id)
-      .subscribe((msg) => {
-        this.reactions = Object.entries(msg?.reactions ?? {}).map(
-          ([emoji, data]: any) => ({
-            emoji,
-            amount: data?.count ?? 0,
-            userName: data?.userIds ?? [],
-          })
-        );
-      });
+    if (this.isThreadMessage && this.rootMessageId) {
+      this.firestore
+        .getThreadMessage(this.chatId, this.rootMessageId, this.message.id)
+        .subscribe((msg) => {
+          this.reactions = Object.entries(msg?.reactions ?? {}).map(
+            ([emoji, data]: any) => ({
+              emoji,
+              amount: data?.count ?? 0,
+              userName: data?.userIds ?? [],
+            })
+          );
+        });
+    } else {
+      this.firestore
+        .getMessage('channels', this.chatId, this.message.id)
+        .subscribe((msg) => {
+          this.reactions = Object.entries(msg?.reactions ?? {}).map(
+            ([emoji, data]: any) => ({
+              emoji,
+              amount: data?.count ?? 0,
+              userName: data?.userIds ?? [],
+            })
+          );
+        });
+    }
   }
 
   openProfile(userId: string) {
@@ -85,7 +98,6 @@ export class SingleMessageComponent {
   }
 
   openThread() {
-    // Ursprüngliche Nachricht am Angfang
     const rootMessage: ThreadMessage = {
       id: this.message.id,
       senderId: this.message.senderId,
@@ -115,38 +127,38 @@ export class SingleMessageComponent {
   }
 
   async saveEditedMessage() {
-  const trimmed = this.editText.trim();
-  if (!trimmed) {
-    this.closeEditMode();
-    return;
-  }
-
-  try {
-    if (this.isThreadMessage && this.rootMessageId) {
-      // Fall: wir bearbeiten eine Thread-Antwort
-      await this.firestore.updateThreadMessageText(
-        this.chatId,          // Channel-ID
-        this.rootMessageId,   // Root-Message-ID
-        this.message.id,      // Thread-Message-ID
-        trimmed
-      );
-    } else {
-      // Fall: normale Message im Hauptchat (oder Root im Thread-Panel)
-      await this.firestore.updateMessageText(
-        'channels',           // bei dir liegen Threads aktuell nur unter channels
-        this.chatId,
-        this.message.id,
-        trimmed
-      );
+    const trimmed = this.editText.trim();
+    if (!trimmed) {
+      this.closeEditMode();
+      return;
     }
 
-    console.log('Message erfolgreich aktualisiert');
-  } catch (error) {
-    console.error('Fehler beim Aktualisieren der Message:', error);
-  }
+    try {
+      if (this.isThreadMessage && this.rootMessageId) {
+        // Fall: wir bearbeiten eine Thread-Antwort
+        await this.firestore.updateThreadMessageText(
+          this.chatId,          // Channel-ID
+          this.rootMessageId,   // Root-Message-ID
+          this.message.id,      // Thread-Message-ID
+          trimmed
+        );
+      } else {
+        // Fall: normale Message im Hauptchat (oder Root im Thread-Panel)
+        await this.firestore.updateMessageText(
+          'channels',           // bei dir liegen Threads aktuell nur unter channels
+          this.chatId,
+          this.message.id,
+          trimmed
+        );
+      }
 
-  this.closeEditMode();
-}
+      console.log('Message erfolgreich aktualisiert');
+    } catch (error) {
+      console.error('Fehler beim Aktualisieren der Message:', error);
+    }
+
+    this.closeEditMode();
+  }
 
 
   toggleEmojiPicker() {
@@ -161,16 +173,26 @@ export class SingleMessageComponent {
     const userId = this.firestore.loggedInUserId;
     if (!userId) return;
 
-    await this.firestore.updateMessageReaction(
-      'channels', // oder 'chats', je nach Kontext
-      this.chatId,
-      this.message.id,
-      emoji,
-      userId
-    );
-
+    if (this.isThreadMessage && this.rootMessageId) {
+      await this.firestore.updateThreadMessageReaction(
+        this.chatId,
+        this.rootMessageId,
+        this.message.id,
+        emoji,
+        userId
+      );
+    } else {
+      await this.firestore.updateMessageReaction(
+        'channels',
+        this.chatId,
+        this.message.id,
+        emoji,
+        userId
+      );
+    }
     this.showEmojiPicker = false;
   };
+
 
   addTextEmoji = (emoji: string) => {
     this.editText += emoji;
