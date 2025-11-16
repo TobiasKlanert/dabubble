@@ -33,6 +33,9 @@ export class SingleMessageComponent {
   @Input() chatId!: string;
   @Input() showButtons = false;
 
+  @Input() isThreadMessage: boolean = false;
+  @Input() rootMessageId?: string;
+
   @Output() threadSelected = new EventEmitter<void>();
 
   userId: string = '';
@@ -112,21 +115,39 @@ export class SingleMessageComponent {
   }
 
   async saveEditedMessage() {
-    if (this.editText.trim()) {
-      try {
-        await this.firestore.updateMessageText(
-          'channels',          // Anpassen je nach dem wo die MEssages liegen
-          this.chatId,
-          this.message.id,
-          this.editText.trim()
-        );
-        console.log('Message erfolgreich aktualisiert');
-      } catch (error) {
-        console.error('Fehler beim Aktualisieren der Message:', error);
-      }
-    }
+  const trimmed = this.editText.trim();
+  if (!trimmed) {
     this.closeEditMode();
+    return;
   }
+
+  try {
+    if (this.isThreadMessage && this.rootMessageId) {
+      // Fall: wir bearbeiten eine Thread-Antwort
+      await this.firestore.updateThreadMessageText(
+        this.chatId,          // Channel-ID
+        this.rootMessageId,   // Root-Message-ID
+        this.message.id,      // Thread-Message-ID
+        trimmed
+      );
+    } else {
+      // Fall: normale Message im Hauptchat (oder Root im Thread-Panel)
+      await this.firestore.updateMessageText(
+        'channels',           // bei dir liegen Threads aktuell nur unter channels
+        this.chatId,
+        this.message.id,
+        trimmed
+      );
+    }
+
+    console.log('Message erfolgreich aktualisiert');
+  } catch (error) {
+    console.error('Fehler beim Aktualisieren der Message:', error);
+  }
+
+  this.closeEditMode();
+}
+
 
   toggleEmojiPicker() {
     this.showEmojiPicker = !this.showEmojiPicker;

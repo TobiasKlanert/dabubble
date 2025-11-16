@@ -406,6 +406,24 @@ export class FirestoreService {
     return { id: docRef.id, ...newThreadMessage };
   }
 
+
+  async updateThreadMessageText(
+  chatId: string,
+  rootMessageId: string,
+  threadMessageId: string,
+  newText: string
+): Promise<void> {
+  const msgRef = doc(
+    this.firestore,
+    `channels/${chatId}/messages/${rootMessageId}/thread/${threadMessageId}`
+  );
+
+  await updateDoc(msgRef, {
+    text: newText,
+    editedAt: new Date().toISOString(),
+  });
+}
+
   /*  ##########
    Emojies 
    ##########  */

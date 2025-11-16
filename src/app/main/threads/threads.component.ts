@@ -57,6 +57,8 @@ export class ThreadsComponent {
   private destroy$ = new Subject<void>();
   public searchType = SearchType;
 
+  currentChatId: string = '';
+
   constructor(
     public emojiService: EmojiService,
     private chatService: ChatService,
@@ -71,33 +73,36 @@ export class ThreadsComponent {
 
   ngOnInit(): void {
     this.chatService.selectedThread$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((thread) => {
-        this.threadMessages = thread; // Root-Message
+  .pipe(takeUntil(this.destroy$))
+  .subscribe((thread) => {
+    this.threadMessages = thread;
 
-        if (thread.length > 0) {
-          const rootMessageId = thread[0].id!;
+    if (thread.length > 0) {
+      const rootMessageId = thread[0].id!;
 
-          this.chatService.selectedChatId$
+      this.chatService.selectedChatId$
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((id) => {
+          this.currentChatId = id;
+
+          this.firestore
+            .getChannelMembers(id, ChatType.Channel)
             .pipe(takeUntil(this.destroy$))
-            .subscribe((id) => {
-              this.firestore
-                .getChannelMembers(id, ChatType.Channel)
-                .pipe(takeUntil(this.destroy$))
-                .subscribe((members) => {
-                  this.channelMembers = members;
-                });
-
-              this.firestore
-                .getThread(id, rootMessageId)
-                .pipe(takeUntil(this.destroy$))
-                .subscribe((messages) => {
-                  this.threadMessages = [thread[0], ...messages];
-                  setTimeout(() => this.scrollToBottom(), 0);
-                });
+            .subscribe((members) => {
+              this.channelMembers = members;
             });
-        }
-      });
+
+          this.firestore
+            .getThread(id, rootMessageId)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((messages) => {
+              this.threadMessages = [thread[0], ...messages];
+              setTimeout(() => this.scrollToBottom(), 0);
+            });
+        });
+    }
+  });
+
   }
 
   ngOnDestroy() {
