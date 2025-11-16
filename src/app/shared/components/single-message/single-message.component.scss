@@ -294,6 +294,21 @@ p {
   }
 }
 
+//style für threads.component
+:host-context(.threads-container) .edit-message {
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  border-radius: 16px;
+  padding: 16px;
+}
+
+:host-context(.threads-container) .edit-message .edit-message-buttons {
+  gap: 16px;
+}
+
+
+
 @media (max-width: $breakpoint-large) {
   .message-wrapper {
     padding: 10px 16px;

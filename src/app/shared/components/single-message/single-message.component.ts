@@ -82,7 +82,6 @@ export class SingleMessageComponent {
   }
 
   openThread() {
-    
     // Ursprüngliche Nachricht am Angfang
     const rootMessage: ThreadMessage = {
       id: this.message.id,
