@@ -1,7 +1,5 @@
 import { Routes } from '@angular/router';
-
 import { MainComponent } from './main/main.component';
-
 import { PrivacyPolicyComponent } from './legal/privacy-policy/privacy-policy.component';
 import { RegistrationComponent } from './login/registration/registration.component';
 import { RequestPasswordComponent } from './login/request-password/request-password.component';
