@@ -5,6 +5,7 @@ import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../shared/services/auth.service';
 import { FirestoreService } from '../../shared/services/firestore.service';
 import { RegistrationDataService } from '../../shared/services/registration-data.service';
+import { ChatService } from '../../shared/services/chat.service';
 
 @Component({
   selector: 'app-login',
@@ -26,6 +27,7 @@ export class LoginComponent {
     private router: Router,
     private firestoreService: FirestoreService,
     private regData: RegistrationDataService,
+    private chatService: ChatService
   ) { }
 
   form = this.fb.group({
@@ -40,6 +42,7 @@ export class LoginComponent {
   async onSubmit() {
     if (this.form.invalid || this.loading) return;
     this.loading = true;
+    this.chatService.selectChatId('');
 
     const { email, password } = this.form.value;
     try {
@@ -59,6 +62,7 @@ export class LoginComponent {
   async onGoogleLogin() {
     if (this.loading) return;
     this.loading = true;
+    this.chatService.selectChatId('');
     try {
       const user = await this.auth.signInWithGoogle();
       this.firestoreService.setLoggedInUserId(user.uid);
@@ -83,6 +87,7 @@ export class LoginComponent {
   async onGuestLogin() {
     if (this.loading) return;
     this.loading = true;
+    this.chatService.selectChatId('');
     try {
       await this.firestoreService.loginAsGuest();
       this.router.navigate(['/main']);
