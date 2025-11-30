@@ -105,33 +105,48 @@ export class ChatComponent {
         tap(([chatId, chatType, ChatPartner, userId]) => {
           this.currentChatId = chatId;
           this.currentChatType = chatType;
-          this.currentChatPartner = ChatPartner;
           this.currentUserId = userId;
         }),
-        switchMap(([chatId, chatType]) =>
-          this.firestore.getChat(chatType, chatId).pipe(
-            tap((chat) => {
-              this.currentChat = chat;
-            }),
-            switchMap(() => {
-              if (chatType === ChatType.Channel) {
-                return this.firestore.getChannelMembers(chatId, chatType).pipe(
-                  tap((members) => {
-                    this.channelMembers = members;
-                    this.members = members.length;
-                  }),
-                  switchMap(() =>
-                    this.firestore.getChatMessages(chatType, chatId)
-                  )
+        switchMap(([chatId, chatType, ChatPartner]) => {
+          const partnerStream = 
+            chatType === ChatType.DirectMessage && ChatPartner?.id
+              ? this.firestore.getUserLive(ChatPartner.id).pipe(
+                  tap(updatedPartner => {
+                    this.currentChatPartner = updatedPartner;
+                  })
+                )
+              : of(null).pipe(
+                  tap(() => {
+                    this.currentChatPartner = ChatPartner;
+                  })
                 );
-              } else if (chatType === ChatType.DirectMessage) {
-                return this.firestore.getChatMessages(chatType, chatId);
-              } else {
-                return of([]);
-              }
-            })
-          )
-        )
+
+          return combineLatest([
+            partnerStream,
+            this.firestore.getChat(chatType, chatId).pipe(
+              tap((chat) => {
+                this.currentChat = chat;
+              })
+            )
+          ]);
+        }),
+        switchMap(() => {
+          if (this.currentChatType === ChatType.Channel) {
+            return this.firestore.getChannelMembers(this.currentChatId, this.currentChatType).pipe(
+              tap((members) => {
+                this.channelMembers = members;
+                this.members = members.length;
+              }),
+              switchMap(() =>
+                this.firestore.getChatMessages(this.currentChatType, this.currentChatId)
+              )
+            );
+          } else if (this.currentChatType === ChatType.DirectMessage) {
+            return this.firestore.getChatMessages(this.currentChatType, this.currentChatId);
+          } else {
+            return of([]);
+          }
+        })
       )
       .subscribe((messages) => {
         this.chatMessages = Array.isArray(messages) ? messages : [messages];
