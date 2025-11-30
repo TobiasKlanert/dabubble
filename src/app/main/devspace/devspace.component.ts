@@ -1,6 +1,13 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Subject, switchMap, tap, takeUntil, filter, combineLatest } from 'rxjs';
+import {
+  Subject,
+  switchMap,
+  tap,
+  takeUntil,
+  filter,
+  combineLatest,
+} from 'rxjs';
 import { OverlayService } from '../../shared/services/overlay.service';
 import {
   UserChatPreview,
@@ -14,6 +21,7 @@ import { ChatType, SearchType } from '../../shared/models/chat.enums';
 import { SearchMenuComponent } from '../../shared/components/search-menu/search-menu.component';
 import { SearchService } from '../../shared/services/search.service';
 import { ScreenService } from '../../shared/services/screen.service';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-devspace',
@@ -52,36 +60,37 @@ export class DevspaceComponent {
     private screenService: ScreenService
   ) {}
 
-      ngOnInit() {
-  combineLatest([
-    this.firestore.loggedInUserId$.pipe(filter((id): id is string => !!id)),
-    this.screenService.isMobile$,
-  ])
-    .pipe(
-      takeUntil(this.destroy$),
-      switchMap(([userId, isMobile]) => {
-        this.userId = userId;
-        this.isMobile = isMobile;
-        return this.firestore.getUserLive(userId);
-      }),
-      switchMap((user) => {
-        this.loggedInUser = user;
-        return combineLatest([
-          this.firestore.getChannels(user.id),
-          this.firestore.getChats(user.id),
-        ]);
-      }),
-      tap(([channels, chats]) => {
-        this.channels = channels;
-        this.chats = chats;
-        if (channels.length > 0) {
-          this.chatService.selectChatId(channels[0].id);
-          this.chatService.selectChatType(ChatType.Channel);
-        }
-      })
-    )
-    .subscribe();
-}
+  ngOnInit() {
+    combineLatest([
+      this.firestore.loggedInUserId$.pipe(filter((id): id is string => !!id)),
+      this.screenService.isMobile$,
+    ])
+      .pipe(
+        takeUntil(this.destroy$),
+        switchMap(([userId, isMobile]) => {
+          this.userId = userId;
+          this.isMobile = isMobile;
+          return this.firestore.getUserLive(userId);
+        }),
+        switchMap((user) => {
+          this.loggedInUser = user;
+          return combineLatest([
+            this.firestore.getChannels(user.id),
+            this.firestore.getChats(user.id),
+            this.chatService.selectedChatId$.pipe(take(1)),
+          ]);
+        }),
+        tap(([channels, chats, selectedChatId]) => {
+          this.channels = channels;
+          this.chats = chats;
+          if (!selectedChatId && channels.length > 0) {
+            this.chatService.selectChatId(channels[0].id);
+            this.chatService.selectChatType(ChatType.Channel);
+          }
+        })
+      )
+      .subscribe();
+  }
 
   ngOnDestroy() {
     this.destroy$.next();
@@ -146,7 +155,7 @@ export class DevspaceComponent {
       .subscribe((results) => {
         this.searchResults = results;
         this.isSearchMenuHidden = false;
-        
+
         if (this.searchResults.length > 0 && this.searchResults[0].text) {
           this.currentSearchType = SearchType.Keyword;
         } else {
