@@ -1,17 +1,19 @@
-<div class="intro-animation flex-center" *ngIf="showIntro">
+<!-- <div class="intro-animation flex-center" *ngIf="showIntro">
   <div class="logo-wrapper">
     <img class="intro-logo-img" src="/assets/img/logo.png" alt="" />
     <span class="intro-logo-text">DABubble</span>
   </div>
+</div> -->
+
+<img class="logo" src="/assets/img/logo-with-text.png" alt="" />
+<div class="create-account flex-column">
+  <span>Neu bei DABubble?</span>
+  <a class="link-style" [routerLink]="'/registration'">Konto erstellen</a>
 </div>
 
-<div class="login-wrapper flex-center">
+<div class="login-wrapper flex-center flex-column">
+  <img class="mobile-logo" src="/assets/img/logo-with-text.png" alt="" />
   <div class="login-content flex-center flex-column">
-    <img class="logo" src="/assets/img/logo-with-text.png" alt="" />
-    <div class="create-account flex-column">
-      <span>Neu bei DABubble?</span>
-      <a class="link-style" [routerLink]="'/registration'">Konto erstellen</a>
-    </div>
     <div class="login-dialog flex-column flex-center text-center">
       <h2 class="headline-style mb32">Anmeldung</h2>
       <span class="fs20 mb32">Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit

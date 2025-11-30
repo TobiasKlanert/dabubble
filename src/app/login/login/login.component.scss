@@ -3,7 +3,6 @@
 @import './../../_fonts';
 
 .login-wrapper {
-    height: 100%;
     width: 100%;
     padding: 75px;
 }
@@ -17,16 +16,16 @@
 
 .logo {
     position: absolute;
-    left: 0;
-    top: 0;
+    left: 75px;
+    top: 75px;
     width: 242px;
     height: 70px;
 }
 
 .create-account {
     position: absolute;
-    right: 0;
-    top: 0;
+    right: 75px;
+    top: 75px;
     text-align: center;
 
     span {
@@ -39,7 +38,7 @@
 }
 
 .login-dialog {
-    margin-top: 81px;
+    margin-top: 120px;
     background-color: #ffffff;
     max-width: 606px;
     width: 100%;
@@ -166,6 +165,10 @@
     width: 270px;
     display: flex;
     justify-content: space-between;
+}
+
+.mobile-logo {
+    display: none;
 }
 
 .intro-animation {
@@ -309,13 +312,18 @@
     }
 
     .logo {
+        display: none;
         position: unset;
+    }
+
+    .mobile-logo {
+        display: block;
         height: 56px;
         width: 204px;
+        margin-top: 48px;
     }
 
     .login-content {
-        margin-top: 32px;
         margin-bottom: 32px;
     }
 
