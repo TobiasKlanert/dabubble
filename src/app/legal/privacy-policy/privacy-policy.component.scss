@@ -6,12 +6,11 @@
     height: 100%;
     width: 100%;
     padding: 75px;
-
+    display: flex;
+    flex-direction: column;
     .logo {
-        position: absolute;
-        top: 25px;
-        left: 75px;
         height: 70px;
+        width: 242px
     }
 }
 
@@ -19,15 +18,16 @@
     max-width: 1920px;
     width: 100%;
     margin-top: 72px;
-
-     svg {
+    padding-bottom: 72px;
+    svg {
         cursor: pointer;
         color: #000000;
         border-radius: 100px;
+
         &:hover {
             color: $purple-1;
             background-color: $background-color;
-        }  
+        }
     }
 
     h1 {
@@ -44,6 +44,7 @@
 @media (max-width: 768px) {
     .privacy-policy-wrapper {
         padding: 16px;
+
         .logo {
             left: 16px;
         }
@@ -57,7 +58,7 @@
 @media (max-width: 528px) {
     .privacy-policy-content {
 
-        
+
         h1 {
             font-size: 32px;
         }
