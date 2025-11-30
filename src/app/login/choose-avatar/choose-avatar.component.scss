@@ -3,7 +3,6 @@
 @import './../../fonts';
 
 .choose-avatar-wrapper {
-    height: 100%;
     width: 100%;
     padding: 75px;
 }
@@ -13,7 +12,6 @@
     width: 100%;
     height: 100%;
     position: relative;
-    margin-bottom: 99px;
 }
 
 .logo {
@@ -26,7 +24,7 @@
 
 .choose-avatar-dialog {
     position: relative;
-    margin-top: 174px;
+    margin-top: 120px;
     background-color: #ffffff;
     max-width: 606px;
     width: 100%;
