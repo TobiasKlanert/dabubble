@@ -56,10 +56,14 @@ export class ProfileMenuComponent {
   }
 
   async onLogout() {
-    this.overlayService.close();
-    this.firestore.setOnlineStatus(this.firestore.loggedInUserId, false);
-    await this.firestore.logout();
-    this.router.navigate(['']);
+    try {
+      this.overlayService.close();
+      this.firestore.setOnlineStatus(this.firestore.loggedInUserId, false);
+      await this.firestore.logout();
+      this.router.navigate([''], { replaceUrl: true });
+    } catch (error) {
+      console.error('Logout fehlgeschlagen:', error);
+    }
   }
 
   closeOverlay() {
