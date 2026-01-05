@@ -58,6 +58,7 @@ export class ThreadsComponent {
   public searchType = SearchType;
 
   currentChatId: string = '';
+  currentChannelName: string = '';
 
   constructor(
     public emojiService: EmojiService,
@@ -90,6 +91,13 @@ export class ThreadsComponent {
             .pipe(takeUntil(this.destroy$))
             .subscribe((members) => {
               this.channelMembers = members;
+            });
+
+          this.firestore
+            .getChannel(id)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((channel) => {
+              this.currentChannelName = channel?.name ?? '';
             });
 
           this.firestore
