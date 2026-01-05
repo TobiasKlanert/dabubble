@@ -5,88 +5,132 @@
   </div>
 </div>
 
-<img class="logo" src="/assets/img/logo-with-text.png" alt="" />
-<div class="create-account flex-column">
-  <span>Neu bei DABubble?</span>
-  <a class="link-style" [routerLink]="'/registration'">Konto erstellen</a>
-</div>
-
-<div class="login-wrapper flex-center flex-column">
-  <img class="mobile-logo" src="/assets/img/logo-with-text.png" alt="" />
-  <div class="login-content flex-center flex-column">
-    <div class="login-dialog flex-column flex-center text-center">
-      <h2 class="headline-style mb32">Anmeldung</h2>
-      <span class="fs20 mb32">Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit
-        verwendest.</span>
-
-      <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <div class="input-wrapper">
-          <span class="input-icon input-icon--email"></span>
-          <input class="input-email input-blue-style" formControlName="email" type="email" name="email"
-            placeholder="beispiel@email.com" />
-        </div>
-        <div class="error-space">
-          <div *ngIf="form.get('email')?.invalid && form.get('email')?.touched">
-            <div class="error-message" *ngIf="form.get('email')?.errors?.['required']">
-              Bitte geben Sie eine Email-Adresse ein
-            </div>
-            <div class="error-message" *ngIf="form.get('email')?.errors?.['email']">
-              Ihre Emailadresse ist leider ungültig
-            </div>
-          </div>
-        </div>
-        <div class="input-wrapper">
-          <span class="input-icon input-icon--password"></span>
-          <input class="input-password input-blue-style" formControlName="password" type="password" name="password"
-            placeholder="Passwort" />
-        </div>
-        <div class="error-space">
-          <div *ngIf="
-              form.get('password')?.invalid && form.get('password')?.touched
-            ">
-            <div class="error-message" *ngIf="form.get('password')?.errors?.['required']">
-              Passwort ist erforderlich
-            </div>
-            <div class="error-message" *ngIf="form.get('password')?.errors?.['minlength']">
-              Mindestens 6 Zeichen
-            </div>
-          </div>
-          <div *ngIf="loginInvalid" class="error-message">
-            Login fehlgeschlagen! E-Mail oder Passwort falsch.
-          </div>
-          <div *ngIf="googleLoginInvalid" class="error-message">
-            Hoppla! Da hat etwas nicht geklappt.
-          </div>
-        </div>
-      </form>
-
-      <a class="reset-password-link link-style mb32" [routerLink]="'/reset-password'">Passwort vergessen?</a>
-      <div class="seperator-div flex-row flex-center mb32">
-        <div class="seperator-style"></div>
-        <span>ODER</span>
-        <div class="seperator-style"></div>
+<section class="login-wrapper">
+  <div class="login-container flex-center flex-column">
+    <header class="login-header">
+      <img class="logo" src="/assets/img/logo-with-text.png" alt="" />
+      <div class="create-account flex-column">
+        <span>Neu bei DABubble?</span>
+        <a class="link-style" [routerLink]="'/registration'">Konto erstellen</a>
       </div>
-      <div class="google-login flex-center mb32" (click)="onGoogleLogin()" role="button" tabindex="0">
-        <img src="/assets/img/google-logo.png" alt="" />
-        <a class="link-style">Anmelden mit Google</a>
+    </header>
+    <img class="mobile-logo" src="/assets/img/logo-with-text.png" alt="" />
+    <main class="login-content flex-center flex-column">
+      <div class="login-dialog flex-column flex-center text-center">
+        <h2 class="headline-style mb32">Anmeldung</h2>
+        <span class="fs20 mb32"
+          >Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der
+          Arbeit verwendest.</span
+        >
+
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div class="input-wrapper">
+            <span class="input-icon input-icon--email"></span>
+            <input
+              class="input-email input-blue-style"
+              formControlName="email"
+              type="email"
+              name="email"
+              placeholder="beispiel@email.com"
+            />
+          </div>
+          <div class="error-space">
+            <div
+              *ngIf="form.get('email')?.invalid && form.get('email')?.touched"
+            >
+              <div
+                class="error-message"
+                *ngIf="form.get('email')?.errors?.['required']"
+              >
+                Bitte geben Sie eine Email-Adresse ein
+              </div>
+              <div
+                class="error-message"
+                *ngIf="form.get('email')?.errors?.['email']"
+              >
+                Ihre Emailadresse ist leider ungültig
+              </div>
+            </div>
+          </div>
+          <div class="input-wrapper">
+            <span class="input-icon input-icon--password"></span>
+            <input
+              class="input-password input-blue-style"
+              formControlName="password"
+              type="password"
+              name="password"
+              placeholder="Passwort"
+            />
+          </div>
+          <div class="error-space">
+            <div
+              *ngIf="
+                form.get('password')?.invalid && form.get('password')?.touched
+              "
+            >
+              <div
+                class="error-message"
+                *ngIf="form.get('password')?.errors?.['required']"
+              >
+                Passwort ist erforderlich
+              </div>
+              <div
+                class="error-message"
+                *ngIf="form.get('password')?.errors?.['minlength']"
+              >
+                Mindestens 6 Zeichen
+              </div>
+            </div>
+            <div *ngIf="loginInvalid" class="error-message">
+              Login fehlgeschlagen! E-Mail oder Passwort falsch.
+            </div>
+            <div *ngIf="googleLoginInvalid" class="error-message">
+              Hoppla! Da hat etwas nicht geklappt.
+            </div>
+          </div>
+        </form>
+
+        <a
+          class="reset-password-link link-style mb32"
+          [routerLink]="'/reset-password'"
+          >Passwort vergessen?</a
+        >
+        <div class="seperator-div flex-row flex-center mb32">
+          <div class="seperator-style"></div>
+          <span>ODER</span>
+          <div class="seperator-style"></div>
+        </div>
+        <div
+          class="google-login flex-center mb32"
+          (click)="onGoogleLogin()"
+          role="button"
+          tabindex="0"
+        >
+          <img src="/assets/img/google-logo.png" alt="" />
+          <a class="link-style">Anmelden mit Google</a>
+        </div>
+        <div class="login-buttons">
+          <button
+            type="submit"
+            class="button-primary-style"
+            [disabled]="form.invalid || loading"
+            (click)="$event.preventDefault(); onSubmit()"
+          >
+            Anmelden
+          </button>
+          <button class="button-secondary-style" (click)="onGuestLogin()">
+            Gäste-Login
+          </button>
+        </div>
       </div>
-      <div class="login-buttons">
-        <button type="submit" class="button-primary-style" [disabled]="form.invalid || loading"
-          (click)="$event.preventDefault(); onSubmit()">
-          Anmelden
-        </button>
-        <button class="button-secondary-style" (click)="onGuestLogin()">
-          Gäste-Login
-        </button>
+      <div class="create-account-responsive flex-column">
+        <span>Neu bei DABubble?</span>
+        <a class="link-style" [routerLink]="'/registration'">Konto erstellen</a>
       </div>
-    </div>
-    <div class="create-account-responsive flex-column">
-      <span>Neu bei DABubble?</span>
-      <a class="link-style" [routerLink]="'/registration'">Konto erstellen</a>
-    </div>
-    <div class="legal flex-sb">
-      <a class="link-style" [routerLink]="'/imprint'">Impressum</a>
-      <a class="link-style" [routerLink]="'/privacy-policy'">Datenschutz</a>
-    </div>
+      <div class="legal flex-sb">
+        <a class="link-style" [routerLink]="'/imprint'">Impressum</a>
+        <a class="link-style" [routerLink]="'/privacy-policy'">Datenschutz</a>
+      </div>
+    </main>
   </div>
-</div>
+</section>

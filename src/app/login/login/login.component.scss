@@ -3,8 +3,18 @@
 @import './../../_fonts';
 
 .login-wrapper {
+  @include dFlex($fd: column);
+}
+
+.login-container {
     width: 100%;
+    max-width: 1920px;
     padding: 75px;
+}
+
+.login-header {
+  @include dFlex($jc: space-between);
+  width: 100%;
 }
 
 .login-content {
@@ -15,17 +25,17 @@
 }
 
 .logo {
-    position: absolute;
+    /* position: absolute;
     left: 75px;
-    top: 75px;
+    top: 75px; */
     width: 242px;
     height: 70px;
 }
 
 .create-account {
-    position: absolute;
+    /* position: absolute;
     right: 75px;
-    top: 75px;
+    top: 75px; */
     text-align: center;
     z-index: 1000;
 
