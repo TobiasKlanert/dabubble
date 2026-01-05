@@ -25,17 +25,11 @@
 }
 
 .logo {
-    /* position: absolute;
-    left: 75px;
-    top: 75px; */
     width: 242px;
     height: 70px;
 }
 
 .create-account {
-    /* position: absolute;
-    right: 75px;
-    top: 75px; */
     text-align: center;
     z-index: 1000;
 
@@ -365,8 +359,6 @@
     font-size: clamp(16px, 9vw, 30px);
   }
 }
-
-/* AB HIER: DEINE URSPRÜNGLICHEN RESPONSIVE LOGIN-STYLES */
 
 /* max-width: 640px – Originalzustand */
 @media (max-width: 640px) {
