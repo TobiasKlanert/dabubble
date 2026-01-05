@@ -193,16 +193,21 @@
 
   /* Desktop Basiswerte */
   --logo-slide-distance: 240px;
-  --text-offset: 250px;
-  --wrapper-target-x: -45vw;
-  --wrapper-target-y: -55vh;
+  --text-offset: 240px;
+  --typing-steps: 8;
+  --typing-width: calc(8ch + 0.6ch);
+  --wrapper-target-left: 50px;
+  --wrapper-target-top: 25px;
   --wrapper-scale: 0.4;
 
   .logo-wrapper {
-    position: relative;
+    position: absolute;
+    top: 50%;
+    left: 50%;
     width: fit-content;
     padding: 8px 12px;
     border-radius: 12px;
+    transform: translate(-50%, -50%);
     animation: wrapper-fly-up-left 1s ease-in-out 3.2s forwards;
     will-change: transform, opacity;
   }
@@ -231,9 +236,11 @@
     overflow: hidden;
     white-space: nowrap;
     width: 0;
+    padding-right: 0.4ch;
+    opacity: 0;
 
     animation:
-      typing 1.2s steps(8, end) 1.5s forwards,
+      typing 1.2s steps(var(--typing-steps), end) 1.5s forwards,
       cursor-blink 0.7s step-end infinite 2s;
     will-change: width, opacity, border-right;
   }
@@ -246,8 +253,8 @@
 }
 
 @keyframes typing {
-  from { width: 0; }
-  to { width: 8ch; }
+  from { width: 0; opacity: 0; }
+  to { width: var(--typing-width); opacity: 1; }
 }
 
 @keyframes cursor-blink {
@@ -259,11 +266,15 @@
 
 @keyframes wrapper-fly-up-left {
   from {
-    transform: translate(0, 0) scale(1);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
     opacity: 1;
   }
   to {
-    transform: translate(var(--wrapper-target-x), var(--wrapper-target-y)) scale(var(--wrapper-scale));
+    top: var(--wrapper-target-top);
+    left: var(--wrapper-target-left);
+    transform: translate(0, 0) scale(var(--wrapper-scale));
     opacity: 0;
   }
 }
@@ -300,8 +311,8 @@
   .intro-animation {
     --logo-slide-distance: 190px;
     --text-offset: 200px;
-    --wrapper-target-x: -42vw;
-    --wrapper-target-y: -50vh;
+    --wrapper-target-left: 40px;
+    --wrapper-target-top: 20px;
     --wrapper-scale: 0.35;
   }
   .intro-animation .intro-logo-text {
@@ -314,8 +325,8 @@
   .intro-animation {
     --logo-slide-distance: 150px;
     --text-offset: 160px;
-    --wrapper-target-x: -40vw;
-    --wrapper-target-y: -45vh;
+    --wrapper-target-left: 32px;
+    --wrapper-target-top: 18px;
     --wrapper-scale: 0.32;
   }
   .intro-animation .logo-wrapper {
@@ -331,8 +342,8 @@
   .intro-animation {
     --logo-slide-distance: 120px;
     --text-offset: 130px;
-    --wrapper-target-x: -38vw;
-    --wrapper-target-y: -40vh;
+    --wrapper-target-left: 28px;
+    --wrapper-target-top: 16px;
     --wrapper-scale: 0.3;
   }
   .intro-animation .logo-wrapper {
@@ -348,8 +359,8 @@
   .intro-animation {
     --logo-slide-distance: 100px;
     --text-offset: 110px;
-    --wrapper-target-x: -36vw;
-    --wrapper-target-y: -38vh;
+    --wrapper-target-left: 24px;
+    --wrapper-target-top: 14px;
     --wrapper-scale: 0.28;
   }
   .intro-animation .logo-wrapper {

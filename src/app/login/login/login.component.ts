@@ -20,6 +20,7 @@ export class LoginComponent {
   loginInvalid: boolean = false;
   googleLoginInvalid: boolean = false;
   authError: string | null = null;
+  private readonly introStorageKey = 'dabubble_intro_seen';
 
   constructor(
     private fb: FormBuilder,
@@ -36,7 +37,21 @@ export class LoginComponent {
   });
 
   ngOnInit(): void {
-    setTimeout(() => (this.showIntro = false), 4000);
+    const hasSessionStorage =
+      typeof window !== 'undefined' && 'sessionStorage' in window;
+    const introSeen = hasSessionStorage
+      ? window.sessionStorage.getItem(this.introStorageKey) === 'true'
+      : true;
+    this.showIntro = !introSeen;
+
+    if (this.showIntro) {
+      setTimeout(() => {
+        this.showIntro = false;
+        if (hasSessionStorage) {
+          window.sessionStorage.setItem(this.introStorageKey, 'true');
+        }
+      }, 4000);
+    }
   }
 
   async onSubmit() {
