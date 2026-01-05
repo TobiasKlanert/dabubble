@@ -1,70 +1,72 @@
-@import './../../_variables';
-@import './../../_base';
-@import './../../_fonts';
+@import "./../../_variables";
+@import "./../../_base";
+@import "./../../_fonts";
 
 .privacy-policy-wrapper {
-    height: 100%;
-    width: 100%;
-    padding: 75px;
-    display: flex;
-    flex-direction: column;
-    .logo {
-        height: 70px;
-        width: 242px
-    }
+  width: 100%;
+  padding: 25px 50px;
+  @include dFlex($fd: column, $jc: flex-start);
+}
+
+.privacy-policy-container {
+  width: 100%;
+  max-width: 1920px;
+  @include dFlex($fd: column, $ai: flex-start, $g: 72px);
+  .logo {
+    height: 70px;
+    width: 242px;
+  }
 }
 
 .privacy-policy-content {
-    max-width: 1920px;
-    width: 100%;
-    margin-top: 72px;
-    padding-bottom: 72px;
-    svg {
-        cursor: pointer;
-        color: #000000;
-        border-radius: 100px;
+  width: 100%;
+  padding: 48px 56px;
+  background-color: white;
+  border-radius: 30px;
+  svg {
+    cursor: pointer;
+    color: #000000;
+    border-radius: 100px;
 
-        &:hover {
-            color: $purple-1;
-            background-color: $background-color;
-        }
+    &:hover {
+      color: $purple-1;
+      background-color: $background-color;
     }
+  }
 
-    h1 {
-        margin-bottom: 32px;
-    }
+  h1 {
+    margin-bottom: 32px;
+  }
 
-    h2 {
-        color: $purple-1;
-        font-size: 32px;
-        margin-bottom: 16px;
-    }
+  h2 {
+    color: $purple-1;
+    font-size: 32px;
+    margin-bottom: 16px;
+  }
 }
 
 @media (max-width: 768px) {
-    .privacy-policy-wrapper {
-        padding: 16px;
+  .privacy-policy-wrapper {
+    padding: 16px;
 
-        .logo {
-            left: 16px;
-        }
+    .logo {
+      left: 16px;
     }
+  }
 
-    .privacy-policy-content {
-        margin-top: 112px;
-    }
+  .privacy-policy-content {
+    margin-top: 112px;
+  }
 }
 
 @media (max-width: 528px) {
-    .privacy-policy-content {
-
-
-        h1 {
-            font-size: 32px;
-        }
-
-        h2 {
-            font-size: 24px;
-        }
+  .privacy-policy-content {
+    h1 {
+      font-size: 32px;
     }
+
+    h2 {
+      font-size: 24px;
+    }
+  }
 }
