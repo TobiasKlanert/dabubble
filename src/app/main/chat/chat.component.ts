@@ -239,12 +239,6 @@ export class ChatComponent {
     this.emojiService.toggleChannelPicker();
   }
 
-  toggleTrigger(current: string): string {
-    const old = current;
-    this.trigger = current === '@' ? '#' : '@';
-    this.currentQuery = old;
-    return old;
-  }
 
   openOverlay(overlay: OverlayMenuType) {
     this.overlayService.open(overlay);
