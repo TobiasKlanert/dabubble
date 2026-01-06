@@ -166,9 +166,11 @@ export class ChatComponent {
 
   getChatName() {
     if (this.currentChatType === ChatType.Channel) {
+      if (!this.currentChat?.name) return;
       this.chatName = this.currentChat.name;
       this.chatToken = '#' + this.chatName;
     } else {
+      if (!this.currentChatPartner?.name) return;
       this.chatName = this.currentChatPartner.name;
       this.chatToken = '@' + this.chatName;
     }

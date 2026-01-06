@@ -7,6 +7,7 @@ import {
   takeUntil,
   filter,
   combineLatest,
+  withLatestFrom,
 } from 'rxjs';
 import { OverlayService } from '../../shared/services/overlay.service';
 import {
@@ -21,7 +22,6 @@ import { ChatType, SearchType } from '../../shared/models/chat.enums';
 import { SearchMenuComponent } from '../../shared/components/search-menu/search-menu.component';
 import { SearchService } from '../../shared/services/search.service';
 import { ScreenService } from '../../shared/services/screen.service';
-import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-devspace',
@@ -38,6 +38,7 @@ export class DevspaceComponent {
   private destroy$ = new Subject<void>();
 
   userId: string = '';
+  private lastUserId: string = '';
   loggedInUser!: User;
 
   channelsOpen: boolean = true;
@@ -68,6 +69,10 @@ export class DevspaceComponent {
       .pipe(
         takeUntil(this.destroy$),
         switchMap(([userId, isMobile]) => {
+          if (this.lastUserId && this.lastUserId !== userId) {
+            this.chatService.resetState();
+          }
+          this.lastUserId = userId;
           this.userId = userId;
           this.isMobile = isMobile;
           return this.firestore.getUserLive(userId);
@@ -77,10 +82,21 @@ export class DevspaceComponent {
           return combineLatest([
             this.firestore.getChannels(user.id),
             this.firestore.getChats(user.id),
-            this.chatService.selectedChatId$.pipe(take(1)),
-          ]);
+          ]).pipe(
+            withLatestFrom(
+              this.chatService.selectedChatId$,
+              this.chatService.selectedChatType$,
+              this.chatService.selectedChatPartner$
+            )
+          );
         }),
-        tap(([channels, chats, selectedChatId]) => {
+        tap(
+          ([
+            [channels, chats],
+            selectedChatId,
+            selectedChatType,
+            selectedChatPartner,
+          ]) => {
           this.channels = channels;
           this.chats = chats;
           const channelMatch = selectedChatId
@@ -90,18 +106,37 @@ export class DevspaceComponent {
             ? chats.find((chat) => chat.chatId === selectedChatId)
             : undefined;
 
-          if (selectedChatId && !channelMatch && !chatMatch) {
-            this.chatService.selectChatId('');
+          if (selectedChatId) {
+            if (selectedChatType === ChatType.Channel) {
+              if (channelMatch) {
+                this.chatService.selectChatType(ChatType.Channel);
+                return;
+              }
+              this.chatService.selectChatId('');
+            } else if (selectedChatType === ChatType.DirectMessage) {
+              if (chatMatch) {
+                this.chatService.selectChatPartner(chatMatch.partner);
+              } else if (selectedChatPartner?.id) {
+                this.chatService.selectChatPartner(selectedChatPartner);
+              }
+              return;
+            } else if (selectedChatType === ChatType.NewChat) {
+              return;
+            }
           }
 
           if (channelMatch) {
             this.chatService.selectChatType(ChatType.Channel);
-          } else if (chatMatch) {
-            this.chatService.selectChatType(ChatType.DirectMessage);
-            this.chatService.selectChatPartner(chatMatch.partner);
+            return;
           }
 
-          if (!channelMatch && !chatMatch) {
+          if (chatMatch) {
+            this.chatService.selectChatType(ChatType.DirectMessage);
+            this.chatService.selectChatPartner(chatMatch.partner);
+            return;
+          }
+
+          if (!selectedChatId) {
             if (channels.length > 0) {
               this.chatService.selectChatId(channels[0].id);
               this.chatService.selectChatType(ChatType.Channel);

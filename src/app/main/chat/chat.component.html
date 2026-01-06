@@ -196,7 +196,7 @@
     </div>
     <p class="welcome-msg">
       Dieser Channel wurde am
-      {{ currentChat.createdAt | date : "dd.MM.yyyy" }} erstellt. Das ist der
+      {{ currentChat?.createdAt | date : "dd.MM.yyyy" }} erstellt. Das ist der
       Anfang des Channels
       <button (click)="openOverlay('channelInfo')">
         {{ chatToken }}
