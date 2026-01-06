@@ -204,27 +204,13 @@ export class SearchService {
     channelMembers: User[] = [],
     currentChatPartner?: User
   ): Observable<User[]> {
-    if (chatType === ChatType.Channel) {
-      const members = query
-        ? channelMembers.filter((m) =>
-            m.name.toLowerCase().includes(query.toLowerCase())
-          )
-        : channelMembers;
-      return of(members);
-    } else if (chatType === ChatType.DirectMessage && currentChatPartner) {
-      return of([currentChatPartner]);
-    } else {
-      // Fallback: Alle User aus Firestore holen
-      return this.searchUsers(query).pipe(
-        map((users) =>
-          query
-            ? users.filter((u) =>
-                u.name.toLowerCase().includes(query.toLowerCase())
-              )
-            : users
-        )
-      );
-    }
+    return this.searchUsers(query).pipe(
+      map((users) =>
+        query
+          ? users.filter((u) => u.name.toLowerCase().includes(query.toLowerCase()))
+          : users
+      )
+    );
   }
 
   searchMessages(userId: string, searchTerm: string): Observable<Message[]> {
