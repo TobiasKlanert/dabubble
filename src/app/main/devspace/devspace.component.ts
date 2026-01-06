@@ -83,9 +83,33 @@ export class DevspaceComponent {
         tap(([channels, chats, selectedChatId]) => {
           this.channels = channels;
           this.chats = chats;
-          if (!selectedChatId && channels.length > 0) {
-            this.chatService.selectChatId(channels[0].id);
+          const channelMatch = selectedChatId
+            ? channels.find((channel) => channel.id === selectedChatId)
+            : undefined;
+          const chatMatch = selectedChatId
+            ? chats.find((chat) => chat.chatId === selectedChatId)
+            : undefined;
+
+          if (selectedChatId && !channelMatch && !chatMatch) {
+            this.chatService.selectChatId('');
+          }
+
+          if (channelMatch) {
             this.chatService.selectChatType(ChatType.Channel);
+          } else if (chatMatch) {
+            this.chatService.selectChatType(ChatType.DirectMessage);
+            this.chatService.selectChatPartner(chatMatch.partner);
+          }
+
+          if (!channelMatch && !chatMatch) {
+            if (channels.length > 0) {
+              this.chatService.selectChatId(channels[0].id);
+              this.chatService.selectChatType(ChatType.Channel);
+            } else if (chats.length > 0) {
+              this.chatService.selectChatId(chats[0].chatId);
+              this.chatService.selectChatType(ChatType.DirectMessage);
+              this.chatService.selectChatPartner(chats[0].partner);
+            }
           }
         })
       )
