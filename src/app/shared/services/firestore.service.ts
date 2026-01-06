@@ -635,6 +635,11 @@ export class FirestoreService {
     this._loggedInUserId$.next('');
   }
 
+  resetSessionState() {
+    this._loggedInUserId$.next('');
+    this._selectedUserId$.next('');
+  }
+
   setOnlineStatus(userId: string, newOnlineStatus: boolean) {
     const userRef = doc(this.firestore, 'users', userId);
 

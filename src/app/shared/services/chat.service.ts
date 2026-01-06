@@ -13,12 +13,9 @@ export class ChatService {
   private selectedChatType = new BehaviorSubject<ChatType>(ChatType.Channel);
   selectedChatType$ = this.selectedChatType.asObservable();
 
-  private selectedChatPartner = new BehaviorSubject<ChatPartner>({
-    id: '',
-    name: '',
-    profilePictureUrl: '',
-    onlineStatus: false,
-  });
+  private selectedChatPartner = new BehaviorSubject<ChatPartner>(
+    this.getDefaultChatPartner()
+  );
   selectedChatPartner$ = this.selectedChatPartner.asObservable();
 
   private selectedThread = new BehaviorSubject<ThreadMessage[]>([]);
@@ -44,5 +41,21 @@ export class ChatService {
 
   selectThread(thread: ThreadMessage[]) {
     this.selectedThread.next(thread);
+  }
+
+  resetState() {
+    this.selectedChatId.next('');
+    this.selectedChatType.next(ChatType.Channel);
+    this.selectedChatPartner.next(this.getDefaultChatPartner());
+    this.selectedThread.next([]);
+  }
+
+  private getDefaultChatPartner(): ChatPartner {
+    return {
+      id: '',
+      name: '',
+      profilePictureUrl: '',
+      onlineStatus: false,
+    };
   }
 }

@@ -6,6 +6,7 @@ import { OverlayService } from '../../../../services/overlay.service';
 import { FirestoreService } from '../../../../services/firestore.service';
 import { ScreenService } from '../../../../services/screen.service';
 import { OverlayType } from '../../../../models/chat.enums';
+import { SessionCleanupService } from '../../../../services/session-cleanup.service';
 
 @Component({
   selector: 'app-profile-menu',
@@ -24,7 +25,8 @@ export class ProfileMenuComponent {
     private firestore: FirestoreService,
     private overlayService: OverlayService,
     private router: Router,
-    private screenService: ScreenService
+    private screenService: ScreenService,
+    private sessionCleanup: SessionCleanupService
   ) {}
 
   ngOnInit() {
@@ -60,6 +62,7 @@ export class ProfileMenuComponent {
       this.overlayService.close();
       this.firestore.setOnlineStatus(this.firestore.loggedInUserId, false);
       await this.firestore.logout();
+      this.sessionCleanup.cleanupSession();
       this.router.navigate([''], { replaceUrl: true });
     } catch (error) {
       console.error('Logout fehlgeschlagen:', error);

@@ -27,4 +27,8 @@ export class ToggleService {
   get value() {
     return this.stateSource.value;
   }
+
+  resetState() {
+    this.stateSource.next(false);
+  }
 }

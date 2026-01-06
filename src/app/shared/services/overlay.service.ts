@@ -31,6 +31,10 @@ export class OverlayService {
     this._activeMenu$.next(null);
   }
 
+  resetState() {
+    this.close();
+  }
+
   toggle(menu: OverlayMenuType) {
     const isOpen = this._overlayOpen$.value;
     const currentMenu = this._activeMenu$.value;

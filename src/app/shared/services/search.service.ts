@@ -37,6 +37,10 @@ export class SearchService {
     this.selectedUsers.next(users);
   }
 
+  resetState() {
+    this.selectedUsers.next([]);
+  }
+
   normalizeName(name: string): string {
     return name
       .toLowerCase()

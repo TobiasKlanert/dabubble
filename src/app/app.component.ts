@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { UploadService } from '../app/shared/services/upload.service';
+import { SessionCleanupService } from './shared/services/session-cleanup.service';
 
 @Component({
   selector: 'app-root',
@@ -13,9 +14,17 @@ import { UploadService } from '../app/shared/services/upload.service';
 export class AppComponent {
   title = 'dabubble';
 
-  constructor(public uploadService: UploadService) {}
+  constructor(
+    public uploadService: UploadService,
+    private sessionCleanup: SessionCleanupService
+  ) {}
   
   uploadJson() {
       this.uploadService.uploadJson();
     }
+
+  @HostListener('window:beforeunload')
+  handleBeforeUnload() {
+    this.sessionCleanup.cleanupSession();
+  }
 }
